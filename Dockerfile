@@ -1,8 +1,4 @@
-FROM python:3.12-slim
-
-# ---------------------------------------------------------
-# Dependências do sistema
-# ---------------------------------------------------------
+FROM python:3.13-slim
 
 RUN apt-get update && apt-get install -y \
     libreoffice \
@@ -13,36 +9,16 @@ RUN apt-get update && apt-get install -y \
     fonts-noto-cjk \
     && rm -rf /var/lib/apt/lists/*
 
-# ---------------------------------------------------------
-# Diretório da aplicação
-# ---------------------------------------------------------
-
 WORKDIR /app
-
-# ---------------------------------------------------------
-# Dependências Python
-# ---------------------------------------------------------
 
 COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-# ---------------------------------------------------------
-# Código
-# ---------------------------------------------------------
-
 COPY . .
 
-# ---------------------------------------------------------
-# Porta
-# ---------------------------------------------------------
-
-ENV PORT=10000
+ENV PYTHONUNBUFFERED=1
 
 EXPOSE 10000
 
-# ---------------------------------------------------------
-# Inicialização
-# ---------------------------------------------------------
-
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT} --workers 2 --timeout 120 wsgi:application"]
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-10000} --workers 2 --timeout 120 wsgi:application"]
