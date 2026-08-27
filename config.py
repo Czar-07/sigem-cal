@@ -63,11 +63,10 @@ def build_database_uri(value: str | None) -> str:
     # --------------------------------------------------------
 
     if raw.startswith("postgres://"):
-        # Compatibilidade com URLs antigas
-        raw = "postgresql://" + raw[len("postgres://"):]
+        return "postgresql+psycopg://" + raw[len("postgres://"):]
 
     if raw.startswith("postgresql://"):
-        return raw
+        return "postgresql+psycopg://" + raw[len("postgresql://"):]
 
     # --------------------------------------------------------
     # SQLite
