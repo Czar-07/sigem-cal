@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}{{ numeroDispositivo }} | SIGEM CAL{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/device.css') }}">
+<style>
+.public-device-shell{min-height:100vh;padding:26px}.public-device-header{width:min(1080px,100%);margin:0 auto 18px;display:flex;justify-content:space-between;align-items:center;gap:18px}.public-device-brand{display:flex;align-items:center;gap:10px;color:#0f172a;font-weight:800;text-decoration:none}.public-device-brand i{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;color:#2563eb;background:#eff6ff}.public-device-admin{display:inline-flex;align-items:center;gap:7px;color:#64748b;text-decoration:none;font-size:11px;font-weight:700}.public-device-admin:hover{color:#2563eb}.public-device-page{width:min(1080px,100%);margin:0 auto}.public-device-intro{margin:0 0 18px;color:#64748b;font-size:12px}.public-device-intro strong{color:#334155}.public-device-footer{width:min(1080px,100%);margin:22px auto 0;display:flex;justify-content:center;gap:7px;color:#94a3b8;font-size:10px}
+.public-certificates-list{display:grid;gap:12px}.public-certificate-card{display:flex;gap:14px;align-items:center;padding:14px 16px;border:1px solid #e2e8f0;border-radius:14px;background:#fff}.public-certificate-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:#eff6ff;color:#2563eb;font-size:20px;flex:0 0 auto}.public-certificate-main{min-width:0;flex:1}.public-certificate-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.public-certificate-title strong{font-size:13px;color:#0f172a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.public-certificate-meta{display:flex;flex-wrap:wrap;gap:5px 16px;margin-top:7px;color:#64748b;font-size:11px}.public-certificate-actions{display:flex;gap:7px;flex:0 0 auto}.public-certificate-actions a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;border-radius:9px;padding:8px 11px;font-size:11px;font-weight:800}.public-certificate-view{color:#2563eb;background:#eff6ff}.public-certificate-download{color:#fff;background:#2563eb}.public-certificate-status{font-size:10px;font-weight:800;padding:4px 7px;border-radius:999px;white-space:nowrap;background:#f1f5f9;color:#64748b}.public-certificate-status.valid{background:#ecfdf5;color:#047857}.public-certificate-status.warning{background:#fffbeb;color:#b45309}.public-certificate-status.expired{background:#fef2f2;color:#b91c1c}.public-certificates-empty{padding:28px;text-align:center;color:#64748b}.public-certificates-empty i{font-size:30px;display:block;margin-bottom:8px;color:#94a3b8}@media(max-width:700px){.public-certificate-card{align-items:flex-start;flex-wrap:wrap}.public-certificate-actions{width:100%;padding-left:58px}.public-certificate-title{align-items:flex-start;flex-direction:column;gap:6px}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="public-device-shell">
+  <header class="public-device-header">
+    <a href="{{ url_for('device_page', numero=numeroDispositivo) }}" class="public-device-brand"><i class="bi bi-shield-check"></i><span>SIGEM CAL</span></a>
+    <a href="{{ url_for('auth.admin_login') }}" class="public-device-admin"><i class="bi bi-lock"></i>Acesso administrativo</a>
+  </header>
+  <main class="public-device-page">
+    <p class="public-device-intro"><strong>Consulta pública</strong> · informações do instrumento disponibilizadas através do QR Code.</p>
+    <section class="device-hero">
+      <div class="device-hero-main"><span class="device-overline">INSTRUMENTO</span><div class="device-hero-title"><h1 id="deviceNumberLarge">{{ numeroDispositivo }}</h1></div><p id="deviceDescriptionLarge" class="device-hero-description">Carregando descrição...</p></div>
+      <div id="deviceStatus" class="device-hero-status"><span class="status-badge status-desconhecido">Carregando...</span></div>
+    </section>
+    <section class="device-card">
+      <div class="device-section-header"><div class="device-card-icon blue"><i class="bi bi-card-text"></i></div><div><h2>Identificação</h2><p>Dados cadastrais do instrumento</p></div></div>
+      <div class="device-data-grid">
+        <div class="device-data-item"><span>Número</span><strong id="fieldNumero">-</strong></div>
+        <div class="device-data-item device-data-wide"><span>Descrição</span><strong id="fieldDescricao">-</strong></div>
+        <div class="device-data-item"><span>Cliente</span><strong id="fieldCliente">-</strong></div>
+        <div class="device-data-item"><span>Part Number</span><strong id="fieldPartNumber">-</strong></div>
+      </div>
+    </section>
+    <section class="device-card calibration-card">
+      <div class="device-card-header"><div class="device-card-icon green"><i class="bi bi-rulers"></i></div><div><h3>Calibração</h3><span>Controle metrológico do instrumento</span></div></div>
+      <div class="calibration-summary">
+        <div class="calibration-date"><span>Última calibração</span><strong id="fieldUltimaCalibracao">-</strong></div>
+        <div class="calibration-arrow"><i class="bi bi-arrow-right"></i></div>
+        <div class="calibration-date"><span>Próxima calibração</span><strong id="fieldProximaCalibracao">-</strong></div>
+        <div class="calibration-validity"><span>Validade</span><strong id="fieldDiasRestantes">-</strong></div>
+      </div>
+      <div class="calibration-details">
+        <div class="calibration-detail"><span>Condição</span><strong id="fieldCondicao">-</strong></div>
+        <div class="calibration-detail"><span>Status</span><strong id="fieldStatus">-</strong></div>
+        <div class="calibration-detail calibration-situation"><span>Situação da calibração</span><strong id="fieldSituacaoCalibracao">-</strong></div>
+      </div>
+    </section>
+    <section class="device-card certificates-card">
+      <div class="device-section-header"><div class="device-card-icon blue"><i class="bi bi-file-earmark-pdf"></i></div><div><h2>Certificados</h2><p>Certificados de calibração vinculados a este dispositivo</p></div></div>
+      <div id="publicCertificatesLoading" class="public-certificates-empty"><i class="bi bi-arrow-repeat"></i><strong>Carregando certificados...</strong></div>
+      <div id="publicCertificatesEmpty" class="public-certificates-empty" style="display:none"><i class="bi bi-file-earmark-x"></i><strong>Nenhum certificado disponível</strong><div>Não há certificados cadastrados para este dispositivo.</div></div>
+      <div id="publicCertificatesError" class="public-certificates-empty" style="display:none"><i class="bi bi-exclamation-circle"></i><strong>Não foi possível carregar os certificados</strong><div>Tente atualizar a página.</div></div>
+      <div id="publicCertificatesList" class="public-certificates-list" style="display:none"></div>
+    </section>
+
+    <section class="device-card history-card">
+      <div class="device-section-header"><div class="device-card-icon purple"><i class="bi bi-clock-history"></i></div><div><h2>Histórico de calibrações</h2><p>Registro das calibrações realizadas</p></div></div>
+      <div class="history-empty"><div class="history-empty-icon"><i class="bi bi-clock-history"></i></div><div><strong>Histórico ainda não disponível</strong><span>Os registros de calibração aparecerão nesta área.</span></div></div>
+    </section>
+  </main>
+  <footer class="public-device-footer"><i class="bi bi-shield-check"></i><span>Consulta pública • SIGEM CAL</span></footer>
+</div>
+{% endblock %}
+{% block page_js %}
+<script>const numeroDispositivo={{ numeroDispositivo | tojson }};</script>
+<script src="{{ url_for('static', filename='js/sync.js') }}"></script>
+<script src="{{ url_for('static', filename='js/device.js') }}"></script>
+{% endblock %}

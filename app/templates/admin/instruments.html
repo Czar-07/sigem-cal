@@ -1,0 +1,451 @@
+{% extends "base.html" %}
+
+
+{# ============================================================
+   TÍTULO DA PÁGINA
+============================================================ #}
+
+{% block title %}
+    Instrumentos | SIGEM CAL
+{% endblock %}
+
+
+{# ============================================================
+   CSS ESPECÍFICO DA PÁGINA
+============================================================ #}
+
+{% block page_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for(
+        'static',
+        filename='css/instruments.css'
+    ) }}"
+>
+
+{% endblock %}
+
+
+{# ============================================================
+   CONTEÚDO PRINCIPAL
+============================================================ #}
+
+{% block content %}
+
+<div class="app">
+
+
+    {# ========================================================
+       SIDEBAR
+    ======================================================== #}
+
+    {% include 'layouts/sidebar.html' %}
+
+
+    <main class="content">
+
+
+        {# ====================================================
+           NAVBAR
+        ==================================================== #}
+
+        {% include 'layouts/navbar.html' %}
+
+
+        <div class="page-content">
+
+
+            {# =================================================
+               CABEÇALHO DA PÁGINA
+            ================================================== #}
+
+            <header class="page-header">
+
+                <div>
+
+                    <span class="page-eyebrow">
+                        INVENTÁRIO
+                    </span>
+
+
+                    <h1>
+                        Instrumentos
+                    </h1>
+
+
+                    <p>
+                        Gestão e consulta dos instrumentos
+                        de medição cadastrados no SIGEM CAL.
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            {# =================================================
+               FILTROS DE STATUS
+            ================================================== #}
+
+            <section
+                class="instrument-filters"
+                aria-label="Filtros de instrumentos"
+            >
+
+
+                {# ---------------------------------------------
+                   TODOS
+                --------------------------------------------- #}
+
+                <button
+                    type="button"
+                    class="filter-button active"
+                    data-status="TODOS"
+                    aria-pressed="true"
+                >
+
+                    <span class="filter-label">
+                        Todos
+                    </span>
+
+                    <span
+                        id="countAll"
+                        aria-label="Quantidade total"
+                    >
+                        0
+                    </span>
+
+                </button>
+
+
+                {# ---------------------------------------------
+                   CALIBRADOS
+                --------------------------------------------- #}
+
+                <button
+                    type="button"
+                    class="filter-button"
+                    data-status="CALIBRADO"
+                    aria-pressed="false"
+                >
+
+                    <span class="filter-label">
+                        Calibrados
+                    </span>
+
+                    <span
+                        id="countCalibrated"
+                        aria-label="Instrumentos calibrados"
+                    >
+                        0
+                    </span>
+
+                </button>
+
+
+                {# ---------------------------------------------
+                   DESENVOLVIMENTO
+                --------------------------------------------- #}
+
+                <button
+                    type="button"
+                    class="filter-button"
+                    data-status="DESENVOLVIMENTO"
+                    aria-pressed="false"
+                >
+
+                    <span class="filter-label">
+                        Desenvolvimento
+                    </span>
+
+                    <span
+                        id="countDevelopment"
+                        aria-label="Instrumentos em desenvolvimento"
+                    >
+                        0
+                    </span>
+
+                </button>
+
+
+                {# ---------------------------------------------
+                   ATRASADOS
+                --------------------------------------------- #}
+
+                <button
+                    type="button"
+                    class="filter-button"
+                    data-status="ATRASADO"
+                    aria-pressed="false"
+                >
+
+                    <span class="filter-label">
+                        Atrasados
+                    </span>
+
+                    <span
+                        id="countLate"
+                        aria-label="Instrumentos atrasados"
+                    >
+                        0
+                    </span>
+
+                </button>
+
+
+                {# ---------------------------------------------
+                   INATIVOS
+                --------------------------------------------- #}
+
+                <button
+                    type="button"
+                    class="filter-button"
+                    data-status="INATIVO"
+                    aria-pressed="false"
+                >
+
+                    <span class="filter-label">
+                        Inativos
+                    </span>
+
+                    <span
+                        id="countInactive"
+                        aria-label="Instrumentos inativos"
+                    >
+                        0
+                    </span>
+
+                </button>
+
+            </section>
+
+
+            {# =================================================
+               CARD DE INSTRUMENTOS
+            ================================================== #}
+
+            <section
+                class="instrument-card"
+                aria-labelledby="instrumentos-title"
+            >
+
+
+                {# =============================================
+                   CABEÇALHO DO CARD
+                ============================================== #}
+
+                <header class="instrument-card-header">
+
+                    <div>
+
+                        <span class="page-eyebrow">
+                            INVENTÁRIO
+                        </span>
+
+
+                        <h2 id="instrumentos-title">
+                            Instrumentos cadastrados
+                        </h2>
+
+
+                        <p>
+                            Inventário operacional, situação metrológica e identificação QR de cada dispositivo.
+                        </p>
+
+                    </div>
+
+                    <div class="instrument-toolbar">
+                        <button type="button" class="toolbar-button" id="refreshDevices" title="Atualizar lista">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            Atualizar
+                        </button>
+                        <span class="inventory-live"><span></span> Dados sincronizados\</span>
+                    </div>
+
+                </header>
+
+
+                {# =============================================
+                   TABELA
+                ============================================== #}
+
+                <div class="table-container">
+
+
+                    <table
+                        id="devicesTable"
+                        class="display"
+                        style="width:100%"
+                    >
+
+
+                        {# =====================================
+                           CABEÇALHO
+                        ====================================== #}
+
+                        <thead>
+
+                            <tr>
+
+                                <th scope="col">
+                                    Número
+                                </th>
+
+
+                                <th scope="col">
+                                    Instrumento
+                                </th>
+
+
+                                <th scope="col">
+                                    Cliente
+                                </th>
+
+
+                                <th scope="col">
+                                    Part Number
+                                </th>
+
+
+                                <th scope="col">
+                                    Próxima calibração
+                                </th>
+
+
+                                <th scope="col">
+                                    Status
+                                </th>
+
+                                <th scope="col" class="certificate-column">
+                                    Certificados
+                                </th>
+
+                                <th scope="col" class="qr-column">
+                                    QR
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        {# =====================================
+                           CORPO
+
+                           O JavaScript preencherá
+                           dinamicamente esta área.
+                        ====================================== #}
+
+                        <tbody>
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+<!-- CERTIFICADOS — POR DISPOSITIVO / DC -->
+<div class="modal fade" id="deviceCertificatesModal" tabindex="-1" aria-labelledby="deviceCertificatesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content certificates-device-modal">
+            <div class="modal-header">
+                <div>
+                    <span class="page-eyebrow">RASTREABILIDADE METROLÓGICA</span>
+                    <h2 class="modal-title" id="deviceCertificatesModalLabel">Certificados do dispositivo</h2>
+                    <p id="deviceCertificatesSubtitle">Certificados vinculados ao DC.</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div id="deviceCertificatesLoading" class="certificates-device-state">
+                    <div class="spinner-border spinner-border-sm" role="status"></div>
+                    <span>Consultando certificados pelo DC...</span>
+                </div>
+                <div id="deviceCertificatesEmpty" class="certificates-device-state d-none">
+                    <i class="bi bi-file-earmark-x"></i>
+                    <strong>Nenhum certificado encontrado</strong>
+                    <span>Não há certificado sincronizado para este dispositivo/DC.</span>
+                </div>
+                <div id="deviceCertificatesError" class="certificates-device-state d-none">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <strong>Não foi possível consultar os certificados</strong>
+                    <span id="deviceCertificatesErrorText">Tente novamente.</span>
+                </div>
+                <div id="deviceCertificatesList" class="device-certificates-list d-none"></div>
+            </div>
+            <div class="modal-footer">
+                <span id="deviceCertificatesCount" class="text-muted small me-auto"></span>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- QR CODE — VISUALIZAÇÃO ADMINISTRATIVA -->
+<div class="modal fade" id="qrDeviceModal" tabindex="-1" aria-labelledby="qrDeviceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content qr-modal">
+            <div class="modal-header">
+                <div>
+                    <span class="page-eyebrow">IDENTIFICAÇÃO DIGITAL</span>
+                    <h2 class="modal-title" id="qrDeviceModalLabel">QR Code do dispositivo</h2>
+                    <p id="qrDeviceSubtitle">Aponte a câmera para abrir a ficha pública.</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="qr-hero">
+                    <div class="qr-frame">
+                        <img id="qrDeviceImage" src="" alt="QR Code do dispositivo">
+                    </div>
+                    <div class="qr-device-number" id="qrDeviceNumber">—</div>
+                    <div class="qr-device-desc" id="qrDeviceDescription">—</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="qrOpenDevice" class="btn btn-primary" href="#" target="_blank" rel="noopener">
+                    <i class="bi bi-box-arrow-up-right"></i> Abrir ficha
+                </a>
+                <a id="qrDownload" class="btn btn-light" href="#" download>
+                    <i class="bi bi-download"></i> Baixar QR
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{# ============================================================
+   JAVASCRIPT ESPECÍFICO DA PÁGINA
+============================================================ #}
+
+{% block page_js %}
+
+<script
+    src="{{ url_for('static', filename='js/sync.js') }}">
+</script>
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/instruments.js',
+        v='20260824-3'
+    ) }}"
+></script>
+
+{% endblock %}

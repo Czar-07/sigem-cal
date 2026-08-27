@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Acesso administrativo | SIGEM CAL{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">{% endblock %}
+{% block content %}
+<main class="login-page">
+    <section class="login-brand-panel">
+        <div class="login-brand">
+            <div class="brand-mark"><i class="bi bi-shield-check"></i></div>
+            <div><strong>SIGEM <span>CAL</span></strong><small>Sistema de Gestão de Calibração</small></div>
+        </div>
+        <div class="login-hero">
+            <span>CONTROLE • CONFORMIDADE • PRECISÃO</span>
+            <h1>Gestão de calibração com visão operacional.</h1>
+            <p>Centralize instrumentos, prazos, certificados e indicadores em uma única plataforma.</p>
+        </div>
+        <div class="login-footer"><i class="bi bi-lock-fill"></i> Ambiente administrativo protegido</div>
+    </section>
+    <section class="login-form-panel">
+        <div class="login-card">
+            <span class="login-eyebrow">ACESSO ADMINISTRATIVO</span>
+            <h2>Bem-vindo de volta</h2>
+            <p>Entre com suas credenciais para acessar o painel.</p>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                <div class="login-alert {{ category }}"><i class="bi bi-exclamation-circle"></i>{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+            <form method="post" novalidate>
+                <input type="hidden" name="next" value="{{ request.args.get('next', '') }}">
+                <label>Usuário
+                    <div class="login-input"><i class="bi bi-person"></i><input name="username" autocomplete="username" required autofocus placeholder="Digite seu usuário"></div>
+                </label>
+                <label>Senha
+                    <div class="login-input"><i class="bi bi-key"></i><input id="password" type="password" name="password" autocomplete="current-password" required placeholder="Digite sua senha"><button type="button" id="togglePassword" aria-label="Mostrar senha"><i class="bi bi-eye"></i></button></div>
+                </label>
+                <button class="login-submit" type="submit"><span>Entrar no SIGEM CAL</span><i class="bi bi-arrow-right"></i></button>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock %}
+{% block page_js %}
+<script>
+document.getElementById('togglePassword')?.addEventListener('click',function(){const p=document.getElementById('password');const i=this.querySelector('i');p.type=p.type==='password'?'text':'password';i.className=p.type==='password'?'bi bi-eye':'bi bi-eye-slash';});
+</script>
+{% endblock %}

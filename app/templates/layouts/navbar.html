@@ -1,0 +1,30 @@
+<header class="navbar-custom">
+    <button class="mobile-menu-button" type="button" data-sidebar-toggle aria-label="Abrir menu">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input id="globalSearch" type="search" placeholder="Pesquisar instrumento, cliente ou número..." autocomplete="off">
+        <kbd>Ctrl K</kbd>
+    </div>
+
+    <div class="navbar-actions">
+        <button class="icon-button" id="uploadExcelButton" type="button" title="Atualizar por Excel">
+            <i class="bi bi-cloud-arrow-up"></i><span>Importar Excel</span>
+        </button>
+        <button class="icon-button" id="syncNowButton" type="button" title="Sincronizar Excel">
+            <i class="bi bi-arrow-repeat"></i><span>Sincronizar</span>
+        </button>
+        <a class="icon-button notification-button text-decoration-none" href="{{ url_for('notifications_page') }}" aria-label="Notificações">
+            <i class="bi bi-bell"></i><span class="notification-dot"></span>
+        </a>
+        <div class="profile">
+            <div class="avatar">{{ (session.get('admin_username', 'AD')[:2]).upper() }}</div>
+            <div class="profile-copy">
+                <strong>{{ session.get('admin_username', 'Administrador') }}</strong>
+                <small>Administrador</small>
+            </div>
+        </div>
+    </div>
+</header>

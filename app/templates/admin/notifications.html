@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Central de Notificações | SIGEM CAL{% endblock %}
+{% block page_css %}
+<style>
+.notification-page{max-width:1600px;margin:auto;padding:28px 32px 48px}
+.notification-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0}
+.notification-kpi{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px}.notification-kpi span{font-size:10px;font-weight:800;color:#94a3b8;letter-spacing:.08em}.notification-kpi strong{display:block;font-size:28px;margin-top:6px}
+.notification-panel{background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden}.notification-row{display:grid;grid-template-columns:130px 1fr 150px 120px;gap:16px;padding:16px 20px;border-bottom:1px solid #f1f5f9;align-items:center}.notification-row:last-child{border-bottom:0}.notification-badge{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:10px;font-weight:700}.notification-badge.overdue{background:#fef2f2;color:#dc2626}.notification-badge.expiring{background:#fffbeb;color:#b45309}.notification-badge.sent{background:#f0fdf4;color:#15803d}.notification-badge.error{background:#fef2f2;color:#b91c1c}.notification-empty{padding:50px;text-align:center;color:#94a3b8}
+@media(max-width:900px){.notification-grid{grid-template-columns:1fr}.notification-row{grid-template-columns:1fr}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="app">
+{% include 'layouts/sidebar.html' %}
+<main class="content">
+{% include 'layouts/navbar.html' %}
+<div class="notification-page">
+<header class="page-header">
+  <div><span class="page-eyebrow">CENTRAL OPERACIONAL</span><h1>Notificações</h1><p>Rastreabilidade dos alertas de calibração enviados e pendentes.</p></div>
+  <button class="btn btn-primary" id="checkNotifications"><i class="bi bi-arrow-repeat me-1"></i>Verificar agora</button>
+</header>
+<div class="notification-grid">
+  <div class="notification-kpi"><span>TOTAL DE ALERTAS</span><strong id="notificationTotal">0</strong></div>
+  <div class="notification-kpi"><span>PENDENTES / ERRO</span><strong id="notificationPending">0</strong></div>
+  <div class="notification-kpi"><span>E-MAILS ENVIADOS</span><strong id="notificationSent">0</strong></div>
+</div>
+<div class="notification-panel">
+  <div class="p-3 border-bottom"><strong>Histórico de alertas</strong><span class="text-muted small ms-2">Os eventos são deduplicados por dispositivo e vencimento.</span></div>
+  <div class="notification-row fw-semibold text-muted small"><span>Tipo</span><span>Dispositivo / mensagem</span><span>Vencimento</span><span>Status</span></div>
+  <div id="notificationList"><div class="notification-empty">Carregando...</div></div>
+</div>
+</div>
+</main>
+</div>
+{% endblock %}
+{% block page_js %}
+<script>
+async function carregarNotificacoes(){
+  const r=await fetch('/api/notifications?limit=100',{cache:'no-store'}); const d=await r.json();
+  if(!d.success) throw new Error(d.message||'Falha ao carregar notificações');
+  document.getElementById('notificationTotal').textContent=d.counts.total;
+  document.getElementById('notificationPending').textContent=d.counts.pendentes;
+  document.getElementById('notificationSent').textContent=d.counts.enviadas;
+  const list=document.getElementById('notificationList');
+  if(!d.notifications.length){list.innerHTML='<div class="notification-empty"><i class="bi bi-check2-circle fs-2 d-block mb-2"></i>Nenhum alerta registrado.</div>';return;}
+  list.innerHTML=d.notifications.map(n=>`<div class="notification-row">
+    <span><span class="notification-badge ${n.type}">${n.type==='overdue'?'VENCIDO':'VENCENDO'}</span></span>
+    <span><strong>${n.device||'—'}</strong><br><small class="text-muted">${n.message}</small></span>
+    <span>${n.due_date?new Date(n.due_date+'T00:00:00').toLocaleDateString('pt-BR'):'—'}</span>
+    <span><span class="notification-badge ${n.status}">${n.status==='sent'?'ENVIADO':n.status==='pending'?'PENDENTE':'ERRO'}</span></span>
+  </div>`).join('');
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  carregarNotificacoes().catch(e=>window.showToast?.(e.message,'danger'));
+  document.getElementById('checkNotifications').addEventListener('click',async()=>{
+    const b=document.getElementById('checkNotifications');b.disabled=true;
+    try{const r=await fetch('/api/notifications/check',{method:'POST'});const d=await r.json();if(!d.success)throw new Error(d.error||d.message||'Falha');window.showToast?.(`Verificação concluída: ${d.sent||0} e-mail(s) enviado(s).`,'success');await carregarNotificacoes();}catch(e){window.showToast?.(e.message,'danger')}finally{b.disabled=false}
+  });
+});
+</script>
+{% endblock %}

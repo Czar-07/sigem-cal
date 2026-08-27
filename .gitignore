@@ -1,0 +1,67 @@
+# ============================================================
+# SIGEM CAL — Git
+# ============================================================
+
+# Ambiente virtual
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Variáveis de ambiente / segredos
+.env
+.env.*
+!.env.example
+
+# Banco de dados
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads e documentos gerados
+uploads/
+certificates/
+backups/
+logs/
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Excel temporário
+~$*.xlsx
+~$*.xls
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Flask
+instance/
+
+# Testes / cobertura
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Arquivos grandes
+*.zip
+*.rar
+*.7z

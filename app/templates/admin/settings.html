@@ -1,0 +1,1263 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Configurações | SIGEM CAL
+{% endblock %}
+
+
+{% block page_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/settings.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="app">
+
+    {% include 'layouts/sidebar.html' %}
+
+
+    <main class="content">
+
+        {% include 'layouts/navbar.html' %}
+
+
+        <div class="page-content settings-page">
+
+
+            <!-- =====================================================
+                 HEADER
+            ====================================================== -->
+
+            <header class="page-header">
+
+                <div class="page-header-main">
+
+                    <span class="page-eyebrow">
+                        ADMINISTRAÇÃO
+                    </span>
+
+                    <h1>
+                        Configurações
+                    </h1>
+
+                    <p>
+                        Gerencie as preferências, parâmetros e
+                        comportamento do SIGEM CAL.
+                    </p>
+
+                </div>
+
+
+                <div class="page-header-status">
+
+                    <span class="online-dot"></span>
+
+                    Sistema operacional
+
+                </div>
+
+            </header>
+
+
+            <!-- =====================================================
+                 LAYOUT
+            ====================================================== -->
+
+            <div class="settings-layout">
+
+
+                <!-- =================================================
+                     SIDEBAR DE CONFIGURAÇÕES
+                ================================================== -->
+
+                <aside class="settings-navigation">
+
+
+                    <div class="settings-nav-header">
+
+                        <span>
+                            CONFIGURAÇÕES
+                        </span>
+
+                        <strong>
+                            Sistema
+                        </strong>
+
+                    </div>
+
+
+                    <nav class="settings-nav">
+
+
+                        <button
+                            type="button"
+                            class="settings-nav-item active"
+                            data-settings-section="general"
+                        >
+
+                            <span class="settings-nav-icon">
+
+                                <i class="bi bi-sliders"></i>
+
+                            </span>
+
+                            <span class="settings-nav-content">
+
+                                <strong>
+                                    Geral
+                                </strong>
+
+                                <small>
+                                    Informações do sistema
+                                </small>
+
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="settings-nav-item"
+                            data-settings-section="calibration"
+                        >
+
+                            <span class="settings-nav-icon">
+
+                                <i class="bi bi-rulers"></i>
+
+                            </span>
+
+                            <span class="settings-nav-content">
+
+                                <strong>
+                                    Calibração
+                                </strong>
+
+                                <small>
+                                    Regras e prazos
+                                </small>
+
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="settings-nav-item"
+                            data-settings-section="certificates"
+                        >
+
+                            <span class="settings-nav-icon">
+
+                                <i class="bi bi-file-earmark-pdf"></i>
+
+                            </span>
+
+                            <span class="settings-nav-content">
+
+                                <strong>
+                                    Certificados
+                                </strong>
+
+                                <small>
+                                    Arquivos e documentos
+                                </small>
+
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="settings-nav-item"
+                            data-settings-section="notifications"
+                        >
+
+                            <span class="settings-nav-icon">
+
+                                <i class="bi bi-bell"></i>
+
+                            </span>
+
+                            <span class="settings-nav-content">
+
+                                <strong>
+                                    Notificações
+                                </strong>
+
+                                <small>
+                                    Alertas do sistema
+                                </small>
+
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="settings-nav-item"
+                            data-settings-section="interface"
+                        >
+
+                            <span class="settings-nav-icon">
+
+                                <i class="bi bi-display"></i>
+
+                            </span>
+
+                            <span class="settings-nav-content">
+
+                                <strong>
+                                    Interface
+                                </strong>
+
+                                <small>
+                                    Aparência e navegação
+                                </small>
+
+                            </span>
+
+                        </button>
+
+
+                        <button type="button" class="settings-nav-item" data-settings-section="email">
+                            <span class="settings-nav-icon"><i class="bi bi-envelope-check"></i></span>
+                            <span class="settings-nav-content"><strong>E-mail</strong><small>Alertas e SMTP</small></span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="settings-nav-item"
+                            data-settings-section="security"
+                        >
+
+                            <span class="settings-nav-icon">
+
+                                <i class="bi bi-shield-lock"></i>
+
+                            </span>
+
+                            <span class="settings-nav-content">
+
+                                <strong>
+                                    Segurança
+                                </strong>
+
+                                <small>
+                                    Acesso e sessões
+                                </small>
+
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="settings-nav-item"
+                            data-settings-section="database"
+                        >
+
+                            <span class="settings-nav-icon">
+
+                                <i class="bi bi-database"></i>
+
+                            </span>
+
+                            <span class="settings-nav-content">
+
+                                <strong>
+                                    Banco de dados
+                                </strong>
+
+                                <small>
+                                    Status e informações
+                                </small>
+
+                            </span>
+
+                        </button>
+
+
+                    </nav>
+
+
+                    <!-- =================================================
+                         SISTEMA
+                    ================================================== -->
+
+                    <div class="settings-system-card">
+
+                        <div class="settings-system-icon">
+
+                            <i class="bi bi-cpu"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                SIGEM CAL
+                            </span>
+
+                            <strong>
+                                Sistema operacional
+                            </strong>
+
+                            <small>
+                                Versão 4.0
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                </aside>
+
+
+                <!-- =================================================
+                     CONTEÚDO
+                ================================================== -->
+
+                <section class="settings-content">
+
+
+                    <!-- =================================================
+                         GERAL
+                    ================================================== -->
+
+                    <section
+                        class="settings-section active"
+                        data-settings-content="general"
+                    >
+
+                        <div class="settings-section-header">
+
+                            <div>
+
+                                <span class="settings-eyebrow">
+                                    SISTEMA
+                                </span>
+
+                                <h2>
+                                    Configurações gerais
+                                </h2>
+
+                                <p>
+                                    Defina as informações básicas
+                                    utilizadas pelo SIGEM CAL.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-card">
+
+                            <div class="settings-card-header">
+
+                                <div class="settings-card-icon blue">
+
+                                    <i class="bi bi-building"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h3>
+                                        Identificação
+                                    </h3>
+
+                                    <p>
+                                        Informações principais da aplicação.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="settings-form-grid">
+
+
+                                <div class="settings-field">
+
+                                    <label for="systemName">
+                                        Nome do sistema
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="systemName"
+                                        class="form-control"
+                                        value="SIGEM CAL"
+                                    >
+
+                                </div>
+
+
+                                <div class="settings-field">
+
+                                    <label for="companyName">
+                                        Empresa
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="companyName"
+                                        class="form-control"
+                                        placeholder="Nome da empresa"
+                                    >
+
+                                </div>
+
+
+                                <div class="settings-field full">
+
+                                    <label for="systemDescription">
+                                        Descrição
+                                    </label>
+
+                                    <textarea
+                                        id="systemDescription"
+                                        class="form-control"
+                                        rows="3"
+                                    >Sistema Inteligente de Gestão de Equipamentos de Metrologia</textarea>
+
+                                </div>
+
+
+                                <div class="settings-field">
+
+                                    <label for="systemLanguage">
+                                        Idioma
+                                    </label>
+
+                                    <select
+                                        id="systemLanguage"
+                                        class="form-select"
+                                    >
+
+                                        <option value="pt-BR" selected>
+                                            Português — Brasil
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="settings-field">
+
+                                    <label for="systemTimezone">
+                                        Fuso horário
+                                    </label>
+
+                                    <select
+                                        id="systemTimezone"
+                                        class="form-select"
+                                    >
+
+                                        <option
+                                            value="America/Sao_Paulo"
+                                            selected
+                                        >
+                                            America/São Paulo
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         CALIBRAÇÃO
+                    ================================================== -->
+
+                    <section
+                        class="settings-section"
+                        data-settings-content="calibration"
+                    >
+
+                        <div class="settings-section-header">
+
+                            <div>
+
+                                <span class="settings-eyebrow">
+                                    METROLOGIA
+                                </span>
+
+                                <h2>
+                                    Calibração
+                                </h2>
+
+                                <p>
+                                    Configure regras para acompanhamento
+                                    das calibrações.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-card">
+
+                            <div class="settings-card-header">
+
+                                <div class="settings-card-icon green">
+
+                                    <i class="bi bi-rulers"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h3>
+                                        Controle de validade
+                                    </h3>
+
+                                    <p>
+                                        Parâmetros utilizados nos alertas.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="settings-form-grid">
+
+
+                                <div class="settings-field">
+
+                                    <label for="warningDays">
+                                        Alertar antes do vencimento
+                                    </label>
+
+                                    <div class="input-with-suffix">
+
+                                        <input
+                                            type="number"
+                                            id="warningDays"
+                                            class="form-control"
+                                            value="30"
+                                            min="1"
+                                        >
+
+                                        <span>
+                                            dias
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="settings-field">
+
+                                    <label for="criticalDays">
+                                        Alerta crítico
+                                    </label>
+
+                                    <div class="input-with-suffix">
+
+                                        <input
+                                            type="number"
+                                            id="criticalDays"
+                                            class="form-control"
+                                            value="7"
+                                            min="1"
+                                        >
+
+                                        <span>
+                                            dias
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="settings-field">
+
+                                    <label for="dateFormat">
+                                        Formato de data
+                                    </label>
+
+                                    <select
+                                        id="dateFormat"
+                                        class="form-select"
+                                    >
+
+                                        <option value="dd/MM/yyyy" selected>
+                                            DD/MM/AAAA
+                                        </option>
+
+                                        <option value="yyyy-MM-dd">
+                                            AAAA-MM-DD
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="settings-field">
+
+                                    <label for="calibrationStatus">
+                                        Status padrão
+                                    </label>
+
+                                    <select
+                                        id="calibrationStatus"
+                                        class="form-select"
+                                    >
+
+                                        <option selected>
+                                            Calibrado
+                                        </option>
+
+                                        <option>
+                                            Desenvolvimento
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         CERTIFICADOS
+                    ================================================== -->
+
+                    <section
+                        class="settings-section"
+                        data-settings-content="certificates"
+                    >
+
+                        <div class="settings-section-header">
+
+                            <div>
+
+                                <span class="settings-eyebrow">
+                                    DOCUMENTAÇÃO
+                                </span>
+
+                                <h2>
+                                    Certificados
+                                </h2>
+
+                                <p>
+                                    Configure o armazenamento e gerenciamento
+                                    dos certificados de calibração.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-card">
+
+
+                            <div class="settings-card-header">
+
+                                <div class="settings-card-icon red">
+
+                                    <i class="bi bi-file-earmark-pdf"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h3>
+                                        Armazenamento
+                                    </h3>
+
+                                    <p>
+                                        Configurações dos arquivos PDF.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="settings-form-grid">
+
+
+                                <div class="settings-field full">
+
+                                    <label for="certificateFolder">
+                                        Diretório dos certificados
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <input
+                                            type="text"
+                                            id="certificateFolder"
+                                            class="form-control"
+                                            value="uploads/certificates"
+                                        >
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-light"
+                                        >
+                                            <i class="bi bi-folder2-open"></i>
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="settings-field">
+
+                                    <label for="maxFileSize">
+                                        Tamanho máximo
+                                    </label>
+
+                                    <select
+                                        id="maxFileSize"
+                                        class="form-select"
+                                    >
+
+                                        <option>
+                                            5 MB
+                                        </option>
+
+                                        <option selected>
+                                            10 MB
+                                        </option>
+
+                                        <option>
+                                            25 MB
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="settings-field">
+
+                                    <label for="certificateFormat">
+                                        Formato permitido
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="certificateFormat"
+                                        class="form-control"
+                                        value="PDF"
+                                        disabled
+                                    >
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="settings-options">
+
+
+                                <label class="settings-switch">
+
+                                    <input
+                                        type="checkbox"
+                                        id="organizeCertificates"
+                                        checked
+                                    >
+
+                                    <span class="switch-track"></span>
+
+                                    <span class="switch-content">
+
+                                        <strong>
+                                            Organizar certificados por ano
+                                        </strong>
+
+                                        <small>
+                                            Mantém os arquivos separados
+                                            automaticamente por período.
+                                        </small>
+
+                                    </span>
+
+                                </label>
+
+
+                                <label class="settings-switch">
+
+                                    <input
+                                        type="checkbox"
+                                        id="validatePdf"
+                                        checked
+                                    >
+
+                                    <span class="switch-track"></span>
+
+                                    <span class="switch-content">
+
+                                        <strong>
+                                            Validar arquivos PDF
+                                        </strong>
+
+                                        <small>
+                                            Aceitar somente documentos
+                                            compatíveis com o formato PDF.
+                                        </small>
+
+                                    </span>
+
+                                </label>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         NOTIFICAÇÕES
+                    ================================================== -->
+
+                    <section class="settings-section" data-settings-content="notifications">
+  <div class="settings-section-header"><div><span class="settings-eyebrow">MONITORAMENTO</span><h2>Notificações</h2><p>Regras de alerta e comunicação automática do controle metrológico.</p></div></div>
+  <div class="settings-card">
+    <div class="settings-card-header"><div class="settings-card-icon yellow"><i class="bi bi-bell"></i></div><div><h3>Política de alertas</h3><p>Defina quando o SIGEM CAL deve considerar uma calibração como crítica.</p></div></div>
+    <div class="settings-form-grid">
+      <div class="settings-field full"><label class="settings-switch"><input type="checkbox" id="notificationsEnabled" data-setting="notifications.enabled" checked><span class="switch-track"></span><span class="switch-content"><strong>Ativar notificações</strong><small>Habilita o motor de alertas do sistema.</small></span></label></div>
+      <div class="settings-field full"><label class="settings-switch"><input type="checkbox" id="notificationsCalibration" data-setting="notifications.calibration" checked><span class="switch-track"></span><span class="switch-content"><strong>Alertas de calibração</strong><small>Monitora próximas calibrações e vencimentos.</small></span></label></div>
+      <div class="settings-field"><label for="notificationsExpirationDays">Antecedência do alerta</label><div class="input-with-suffix"><input id="notificationsExpirationDays" data-setting="notifications.expiration_days" type="number" min="1" max="365" class="form-control" value="30"><span>dias</span></div></div>
+      <div class="settings-field"><label for="calibrationAlertDays">Janela de calibração</label><div class="input-with-suffix"><input id="calibrationAlertDays" data-setting="calibration.alert_days" type="number" min="1" max="365" class="form-control" value="30"><span>dias</span></div></div>
+      <div class="settings-field full"><label class="settings-switch"><input type="checkbox" id="calibrationOverdueEnabled" data-setting="calibration.overdue_enabled" checked><span class="switch-track"></span><span class="switch-content"><strong>Alertar calibrações atrasadas</strong><small>Gera evento e envia e-mail quando a data já passou.</small></span></label></div>
+    </div>
+  </div>
+  <div class="settings-card">
+    <div class="settings-card-header"><div class="settings-card-icon purple"><i class="bi bi-envelope-check"></i></div><div><h3>Canal de e-mail</h3><p>O SMTP é configurado na seção E-mail para manter esta tela objetiva.</p></div></div>
+    <a href="#email" class="btn btn-outline-primary" onclick="document.querySelector('[data-settings-section=email]')?.click();return false;"><i class="bi bi-gear me-1"></i>Configurar e-mail</a>
+  </div>
+</section>
+
+<!-- =================================================
+                         INTERFACE
+                    ================================================== -->
+
+                    <section class="settings-section" data-settings-content="interface">
+  <div class="settings-section-header"><div><span class="settings-eyebrow">EXPERIÊNCIA</span><h2>Interface</h2><p>Preferências visuais e atualização automática da aplicação.</p></div></div>
+  <div class="settings-card">
+    <div class="settings-card-header"><div class="settings-card-icon purple"><i class="bi bi-display"></i></div><div><h3>Aparência</h3><p>Personalize a experiência sem alterar os dados operacionais.</p></div></div>
+    <div class="settings-form-grid">
+      <div class="settings-field"><label for="theme">Tema</label><select id="theme" data-setting="appearance.theme" class="form-select"><option value="light">Claro</option><option value="dark">Escuro</option><option value="system">Automático</option></select></div>
+      <div class="settings-field"><label class="settings-switch"><input type="checkbox" id="sidebarCollapsed" data-setting="appearance.sidebar_collapsed"><span class="switch-track"></span><span class="switch-content"><strong>Menu recolhido</strong><small>Inicia o painel lateral compacto.</small></span></label></div>
+      <div class="settings-field full"><label class="settings-switch"><input type="checkbox" id="animations" data-setting="appearance.animations" checked><span class="switch-track"></span><span class="switch-content"><strong>Animações da interface</strong><small>Ativa transições e microinterações.</small></span></label></div>
+    </div>
+  </div>
+  <div class="settings-card">
+    <div class="settings-card-header"><div class="settings-card-icon blue"><i class="bi bi-arrow-repeat"></i></div><div><h3>Atualização de dados</h3><p>Controla a frequência de atualização automática dos indicadores.</p></div></div>
+    <div class="settings-form-grid">
+      <div class="settings-field full"><label class="settings-switch"><input type="checkbox" id="refreshEnabled" data-setting="system.refresh_enabled" checked><span class="switch-track"></span><span class="switch-content"><strong>Atualização automática</strong><small>Atualiza a interface sem recarregar a página.</small></span></label></div>
+      <div class="settings-field"><label for="refreshInterval">Intervalo</label><div class="input-with-suffix"><input id="refreshInterval" data-setting="system.refresh_interval" type="number" min="10" max="3600" class="form-control" value="60"><span>seg</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================
+                         SEGURANÇA
+                    ================================================== -->
+
+                    <section
+                        class="settings-section"
+                        data-settings-content="security"
+                    >
+
+                        <div class="settings-section-header">
+
+                            <div>
+
+                                <span class="settings-eyebrow">
+                                    PROTEÇÃO
+                                </span>
+
+                                <h2>
+                                    Segurança
+                                </h2>
+
+                                <p>
+                                    Parâmetros relacionados à segurança
+                                    operacional do sistema.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="settings-card">
+
+                            <div class="settings-card-header">
+
+                                <div class="settings-card-icon blue">
+
+                                    <i class="bi bi-shield-lock"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h3>
+                                        Sessão e proteção
+                                    </h3>
+
+                                    <p>
+                                        Controles básicos de segurança.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="settings-form-grid">
+
+
+                                <div class="settings-field">
+
+                                    <label for="sessionTimeout">
+                                        Expiração da sessão
+                                    </label>
+
+                                    <select
+                                        id="sessionTimeout"
+                                        class="form-select"
+                                    >
+
+                                        <option>
+                                            15 minutos
+                                        </option>
+
+                                        <option selected>
+                                            30 minutos
+                                        </option>
+
+                                        <option>
+                                            60 minutos
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="settings-field">
+
+                                    <label for="deleteConfirmation">
+                                        Confirmação de exclusão
+                                    </label>
+
+                                    <select
+                                        id="deleteConfirmation"
+                                        class="form-select"
+                                    >
+
+                                        <option selected>
+                                            Sempre solicitar
+                                        </option>
+
+                                        <option>
+                                            Não solicitar
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="settings-options">
+
+
+                                <label class="settings-switch">
+
+                                    <input
+                                        type="checkbox"
+                                        id="activityLog"
+                                        checked
+                                    >
+
+                                    <span class="switch-track"></span>
+
+                                    <span class="switch-content">
+
+                                        <strong>
+                                            Registro de atividades
+                                        </strong>
+
+                                        <small>
+                                            Registrar ações importantes
+                                            realizadas no sistema.
+                                        </small>
+
+                                    </span>
+
+                                </label>
+
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         BANCO
+                    ================================================== -->
+
+                    
+                    <!-- CONFIGURAÇÃO DE E-MAIL -->
+                    <section class="settings-section" data-settings-content="email">
+                        <div class="settings-section-header">
+                            <div><span class="settings-eyebrow">AUTOMAÇÃO</span><h2>Notificações por e-mail</h2><p>Configure o canal SMTP usado para alertas de vencimento e atraso.</p></div>
+                        </div>
+                        <div class="settings-card">
+                            <div class="settings-card-header">
+                                <div class="settings-card-icon purple"><i class="bi bi-envelope-check"></i></div>
+                                <div><h3>Servidor de e-mail</h3><p>As credenciais são armazenadas no banco local. Para produção, prefira variáveis de ambiente para a senha.</p></div>
+                            </div>
+                            <div class="settings-form-grid">
+                                <div class="settings-field full"><label class="settings-switch"><input type="checkbox" id="emailEnabled" data-setting="notifications.email_enabled"><span class="switch-track"></span><span class="switch-content"><strong>Ativar envio automático</strong><small>Envia alertas quando calibrações estão vencendo ou atrasadas.</small></span></label></div>
+                                <div class="settings-field"><label>Servidor SMTP</label><input id="smtpHost" data-setting="notifications.smtp_host" class="form-control" placeholder="smtp.office365.com"></div>
+                                <div class="settings-field"><label>Porta</label><input id="smtpPort" data-setting="notifications.smtp_port" type="number" class="form-control" value="587"></div>
+                                <div class="settings-field"><label>Usuário</label><input id="smtpUsername" data-setting="notifications.smtp_username" class="form-control" placeholder="usuario@empresa.com"></div>
+                                <div class="settings-field"><label>Senha</label><input id="smtpPassword" data-setting="notifications.smtp_password" type="password" class="form-control" placeholder="Deixe em branco para manter"></div>
+                                <div class="settings-field"><label>Remetente</label><input id="smtpSender" data-setting="notifications.smtp_sender" type="email" class="form-control" placeholder="sigem@empresa.com"></div>
+                                <div class="settings-field"><label>Destinatários</label><input id="notificationRecipients" data-setting="notifications.recipients" class="form-control" placeholder="metrologia@empresa.com, qualidade@empresa.com"></div>
+                                <div class="settings-field"><label>Intervalo de verificação</label><div class="input-with-suffix"><input id="notificationInterval" data-setting="notifications.check_interval_minutes" type="number" min="5" class="form-control" value="30"><span>min</span></div></div>
+                                <div class="settings-field full">
+                                    <div class="d-flex gap-3 flex-wrap">
+                                        <label class="settings-switch"><input type="checkbox" id="smtpTls" data-setting="notifications.smtp_tls" checked><span class="switch-track"></span><span class="switch-content"><strong>STARTTLS</strong><small>Recomendado para porta 587.</small></span></label>
+                                        <label class="settings-switch"><input type="checkbox" id="smtpSsl" data-setting="notifications.smtp_ssl"><span class="switch-track"></span><span class="switch-content"><strong>SSL direto</strong><small>Use apenas quando exigido pelo servidor.</small></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="settings-actions mt-3">
+                                <button type="button" class="btn btn-outline-primary" id="testEmailButton"><i class="bi bi-send-check me-1"></i>Enviar e-mail de teste</button>
+                                <a class="btn btn-light" href="/notifications"><i class="bi bi-bell me-1"></i>Ver central de notificações</a>
+                            </div>
+                        </div>
+                    </section>
+
+<section
+                        class="settings-section"
+                        data-settings-content="database"
+                    >
+
+                        <div class="settings-section-header">
+
+                            <div>
+
+                                <span class="settings-eyebrow">
+                                    INFRAESTRUTURA
+                                </span>
+
+                                <h2>
+                                    Banco de dados
+                                </h2>
+
+                                <p>
+                                    Informações técnicas da base de dados
+                                    do SIGEM CAL.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="database-status-card">
+
+                            <div class="database-status-icon">
+
+                                <i class="bi bi-database-check"></i>
+
+                            </div>
+
+                            <div class="database-status-content">
+
+                                <span>
+                                    STATUS DA CONEXÃO
+                                </span>
+
+                                <strong id="databaseStatus">
+                                    Conectado
+                                </strong>
+
+                                <small>
+                                    Banco de dados operacional.
+                                </small>
+
+                            </div>
+
+                            <span class="status-pill success">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                Operacional
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="database-grid">
+
+
+                            <div class="database-info">
+
+                                <span>
+                                    Dispositivos
+                                </span>
+
+                                <strong id="databaseDevices">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="database-info">
+
+                                <span>
+                                    Certificados
+                                </span>
+
+                                <strong id="databaseCertificates">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                            <div class="database-info">
+
+                                <span>
+                                    Última sincronização
+                                </span>
+
+                                <strong id="databaseSync">
+                                    —
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         RODAPÉ
+                    ================================================== -->
+
+                    <footer class="settings-actions">
+
+                        <span
+                            class="settings-save-status"
+                            id="settingsSaveStatus"
+                        >
+                            Nenhuma alteração pendente.
+                        </span>
+
+
+                        <div>
+
+                            <button
+                                type="button"
+                                class="btn btn-light"
+                                id="resetSettings"
+                            >
+
+                                Restaurar
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                id="saveSettings"
+                            >
+
+                                <i class="bi bi-check2"></i>
+
+                                Salvar alterações
+
+                            </button>
+
+                        </div>
+
+                    </footer>
+
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+
+{% block page_js %}
+
+<script
+    src="{{ url_for('static', filename='js/sync.js') }}">
+</script>
+
+<script
+    src="{{ url_for('static', filename='js/settings.js') }}">
+</script>
+
+{% endblock %}

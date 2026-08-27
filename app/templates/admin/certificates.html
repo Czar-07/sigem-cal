@@ -1,0 +1,1177 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Certificados | SIGEM CAL
+{% endblock %}
+
+
+{% block page_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/certificates.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="app">
+
+    {% include 'layouts/sidebar.html' %}
+
+    <main class="content">
+
+        {% include 'layouts/navbar.html' %}
+
+
+        <div class="page-content certificates-page">
+
+
+            <!-- =====================================================
+                 CABEÇALHO
+            ====================================================== -->
+
+            <header class="page-header">
+
+                <div>
+
+                    <div class="page-breadcrumb">
+
+                        <span>
+                            SIGEM CAL
+                        </span>
+
+                        <span>
+                            /
+                        </span>
+
+                        <span>
+                            Gestão
+                        </span>
+
+                        <span>
+                            /
+                        </span>
+
+                        <strong>
+                            Certificados
+                        </strong>
+
+                    </div>
+
+
+                    <span class="page-eyebrow">
+                        GESTÃO METROLÓGICA
+                    </span>
+
+
+                    <h1 class="page-title">
+                        Certificados
+                    </h1>
+
+
+                    <p class="page-description">
+                        Controle, consulta e gerenciamento dos certificados
+                        de calibração dos instrumentos.
+                    </p>
+
+                </div>
+
+
+                <div class="page-header-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-light"
+                        id="refreshCertificates"
+                    >
+
+                        <i class="bi bi-arrow-clockwise"></i>
+
+                        Atualizar
+
+                    </button>
+                        <button type="button" class="btn btn-outline-primary" id="syncCertificatesButton" title="Sincronizar certificados da pasta/ZIP configurado">
+                            <i class="bi bi-cloud-arrow-down"></i>
+                            Sincronizar certificados
+                        </button>
+
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="newCertificateButton"
+                    >
+
+                        <i class="bi bi-plus-lg"></i>
+
+                        Novo certificado
+
+                    </button>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- =====================================================
+                 RESUMO
+            ====================================================== -->
+
+            <section class="certificate-summary">
+
+
+                <!-- TOTAL -->
+
+                <article class="summary-card" data-summary-filter="">
+
+                    <div class="summary-icon">
+
+                        <i class="bi bi-file-earmark-text"></i>
+
+                    </div>
+
+
+                    <div class="summary-content">
+
+                        <span class="summary-label">
+                            Total
+                        </span>
+
+                        <strong
+                            class="summary-value"
+                            id="certificateTotal"
+                        >
+                            0
+                        </strong>
+
+                        <small class="summary-description">
+                            Certificados cadastrados
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- ANO ATUAL -->
+
+                <article class="summary-card">
+
+                    <div class="summary-icon">
+
+                        <i class="bi bi-calendar-event"></i>
+
+                    </div>
+
+
+                    <div class="summary-content">
+
+                        <span class="summary-label">
+                            Ano atual
+                        </span>
+
+                        <strong
+                            class="summary-value"
+                            id="certificateCurrentYear"
+                        >
+                            0
+                        </strong>
+
+                        <small class="summary-description">
+                            Certificados deste ano
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- VÁLIDOS -->
+
+                <article class="summary-card" data-summary-filter="valid">
+
+                    <div class="summary-icon">
+
+                        <i class="bi bi-check-circle"></i>
+
+                    </div>
+
+
+                    <div class="summary-content">
+
+                        <span class="summary-label">
+                            Válidos
+                        </span>
+
+                        <strong
+                            class="summary-value"
+                            id="certificateValid"
+                        >
+                            0
+                        </strong>
+
+                        <small class="summary-description">
+                            Dentro da validade
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- VENCENDO -->
+
+                <article class="summary-card" data-summary-filter="expiring">
+
+                    <div class="summary-icon">
+
+                        <i class="bi bi-clock-history"></i>
+
+                    </div>
+
+
+                    <div class="summary-content">
+
+                        <span class="summary-label">
+                            Vencendo
+                        </span>
+
+                        <strong
+                            class="summary-value"
+                            id="certificateExpiring"
+                        >
+                            0
+                        </strong>
+
+                        <small class="summary-description">
+                            Até 30 dias
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- VENCIDOS -->
+
+                <article class="summary-card" data-summary-filter="expired">
+
+                    <div class="summary-icon">
+
+                        <i class="bi bi-exclamation-triangle"></i>
+
+                    </div>
+
+
+                    <div class="summary-content">
+
+                        <span class="summary-label">
+                            Vencidos
+                        </span>
+
+                        <strong
+                            class="summary-value"
+                            id="certificateExpired"
+                        >
+                            0
+                        </strong>
+
+                        <small class="summary-description">
+                            Requerem atenção
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+                <!-- SEM VALIDADE -->
+
+                <article class="summary-card summary-card-muted" data-summary-filter="none">
+
+                    <div class="summary-icon">
+                        <i class="bi bi-calendar-x"></i>
+                    </div>
+
+                    <div class="summary-content">
+                        <span class="summary-label">Sem validade</span>
+                        <strong class="summary-value" id="certificateNoValidity">0</strong>
+                        <small class="summary-description">Requer cadastro de validade</small>
+                    </div>
+
+                </article>
+
+            </section>
+
+
+
+            <!-- =====================================================
+                 TABELA PRINCIPAL
+            ====================================================== -->
+
+            <section class="certificates-card">
+
+
+                <!-- TOOLBAR -->
+
+                <div class="certificates-toolbar">
+
+
+                    <div class="toolbar-title">
+
+                        <h2>
+                            Certificados registrados
+                        </h2>
+
+                        <p>
+                            Consulte os certificados vinculados aos instrumentos.
+                        </p>
+
+                    </div>
+
+
+                    <div class="toolbar-actions">
+
+
+                        <!-- PESQUISA -->
+
+                        <div class="certificate-search">
+
+                            <i class="bi bi-search"></i>
+
+                            <input
+                                type="search"
+                                id="certificateSearch"
+                                placeholder="Pesquisar certificado..."
+                                autocomplete="off"
+                            >
+
+                        </div>
+
+
+
+                        <!-- ANO -->
+
+                        <div class="certificate-filter">
+
+                            <select
+                                id="certificateYearFilter"
+                                class="form-select"
+                            >
+
+                                <option value="">
+                                    Todos os anos
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- RESULTADO -->
+
+                        <div class="certificate-filter">
+
+                            <select
+                                id="certificateResultFilter"
+                                class="form-select"
+                            >
+
+                                <option value="">
+                                    Todos os resultados
+                                </option>
+
+                                <option value="Aprovado">
+                                    Aprovado
+                                </option>
+
+                                <option value="Reprovado">
+                                    Reprovado
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- STATUS DE VALIDADE -->
+
+                        <div class="certificate-filter">
+
+                            <select
+                                id="certificateStatusFilter"
+                                class="form-select"
+                                aria-label="Filtrar por validade"
+                            >
+                                <option value="">Todas as validades</option>
+                                <option value="valid">Válidos</option>
+                                <option value="expiring">Vencendo</option>
+                                <option value="expired">Vencidos</option>
+                                <option value="none">Sem validade</option>
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- LIMPAR -->
+
+                        <button
+                            type="button"
+                            class="btn btn-light"
+                            id="clearCertificateFilters"
+                            title="Limpar filtros"
+                        >
+
+                            <i class="bi bi-funnel"></i>
+
+                            <span class="d-none d-md-inline">
+                                Limpar
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TABELA -->
+
+                <div class="table-responsive">
+
+                    <table class="certificates-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Certificado</th>
+                                <th>Instrumento</th>
+                                <th>Laboratório</th>
+                                <th>Emissão</th>
+                                <th>Validade</th>
+                                <th>Resultado</th>
+                                <th>Situação</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="certificatesTableBody">
+
+                            <tr>
+
+                                <td
+                                    colspan="8"
+                                    class="table-loading"
+                                >
+
+                                    <div class="loading-content">
+
+                                        <i class="bi bi-arrow-repeat"></i>
+
+                                        Carregando certificados...
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+                <!-- RODAPÉ -->
+
+                <footer class="certificates-footer">
+
+
+                    <span
+                        class="table-result-count"
+                        id="certificateResultCount"
+                    >
+                        0 certificados
+                    </span>
+
+
+                    <div
+                        class="pagination-container"
+                        id="certificatePagination"
+                    >
+                    </div>
+
+
+                </footer>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- =============================================================
+     MODAL — CERTIFICADO
+============================================================== -->
+
+<div
+    class="modal fade"
+    id="certificateModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+        <div class="modal-content">
+
+
+            <!-- HEADER -->
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="modal-eyebrow">
+                        GESTÃO DE CERTIFICADO
+                    </span>
+
+                    <h2
+                        class="modal-title"
+                        id="certificateModalTitle"
+                    >
+                        Novo certificado
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Fechar"
+                ></button>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="modal-body">
+
+                <form
+                    id="certificateForm"
+                    novalidate
+                >
+
+
+                    <!-- =================================================
+                         DISPOSITIVO
+                    ================================================== -->
+
+                    <section class="form-section">
+
+                        <div class="form-section-header">
+
+                            <i class="bi bi-rulers"></i>
+
+                            <div>
+
+                                <h3>
+                                    Instrumento vinculado
+                                </h3>
+
+                                <p>
+                                    Selecione o equipamento ao qual
+                                    este certificado pertence.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <!-- DEVICE ID -->
+
+                            <div class="col-12">
+
+                                <label
+                                    for="certificateDevice"
+                                    class="form-label"
+                                >
+
+                                    Dispositivo
+                                    <span>*</span>
+
+                                </label>
+
+
+                                <select
+                                    id="certificateDevice"
+                                    name="device_id"
+                                    class="form-select"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Carregando dispositivos...
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <!-- INFORMAÇÕES DO DEVICE -->
+
+                            <div
+                                class="col-12"
+                                id="deviceInfoContainer"
+                                hidden
+                            >
+
+                                <div class="device-linked-card">
+
+                                    <div class="device-linked-icon">
+
+                                        <i class="bi bi-rulers"></i>
+
+                                    </div>
+
+
+                                    <div class="device-linked-content">
+
+                                        <span>
+                                            DISPOSITIVO SELECIONADO
+                                        </span>
+
+                                        <strong
+                                            id="linkedDeviceNumber"
+                                        >
+                                            —
+                                        </strong>
+
+                                        <small
+                                            id="linkedDeviceDescription"
+                                        >
+                                            —
+                                        </small>
+
+                                    </div>
+
+
+                                    <div class="device-linked-meta">
+
+                                        <span>
+                                            Cliente
+                                        </span>
+
+                                        <strong
+                                            id="linkedDeviceClient"
+                                        >
+                                            —
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="device-linked-meta">
+
+                                        <span>
+                                            Part Number
+                                        </span>
+
+                                        <strong
+                                            id="linkedDevicePartNumber"
+                                        >
+                                            —
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- =================================================
+                         DADOS DO CERTIFICADO
+                    ================================================== -->
+
+                    <section class="form-section mt-3">
+
+                        <div class="form-section-header">
+
+                            <i class="bi bi-file-earmark-text"></i>
+
+                            <div>
+
+                                <h3>
+                                    Dados do certificado
+                                </h3>
+
+                                <p>
+                                    Informações principais do documento.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <div class="col-md-4">
+
+                                <label
+                                    for="certificateYear"
+                                    class="form-label"
+                                >
+
+                                    Ano
+                                    <span>*</span>
+
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="certificateYear"
+                                    name="ano"
+                                    class="form-control"
+                                    min="2000"
+                                    max="2100"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="col-md-8">
+
+                                <label
+                                    for="certificateNumber"
+                                    class="form-label"
+                                >
+
+                                    Número do certificado
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="certificateNumber"
+                                    name="numero_certificado"
+                                    class="form-control"
+                                    placeholder="Ex.: CERT-2026-00125"
+                                >
+
+                            </div>
+
+
+
+                            <div class="col-md-6">
+
+                                <label
+                                    for="certificateIssueDate"
+                                    class="form-label"
+                                >
+
+                                    Data de emissão
+
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="certificateIssueDate"
+                                    name="data_emissao"
+                                    class="form-control"
+                                >
+
+                            </div>
+
+
+
+                            <div class="col-md-6">
+
+                                <label
+                                    for="certificateExpirationDate"
+                                    class="form-label"
+                                >
+
+                                    Data de validade
+
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="certificateExpirationDate"
+                                    name="data_validade"
+                                    class="form-control"
+                                >
+
+                            </div>
+
+
+
+                            <div class="col-md-6">
+
+                                <label
+                                    for="certificateLaboratory"
+                                    class="form-label"
+                                >
+
+                                    Laboratório
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="certificateLaboratory"
+                                    name="laboratorio"
+                                    class="form-control"
+                                    placeholder="Laboratório responsável"
+                                >
+
+                            </div>
+
+
+
+                            <div class="col-md-6">
+
+                                <label
+                                    for="certificateResult"
+                                    class="form-label"
+                                >
+
+                                    Resultado
+
+                                </label>
+
+                                <select
+                                    id="certificateResult"
+                                    name="resultado"
+                                    class="form-select"
+                                >
+
+                                    <option value="">
+                                        Não informado
+                                    </option>
+
+                                    <option value="Aprovado">
+                                        Aprovado
+                                    </option>
+
+                                    <option value="Reprovado">
+                                        Reprovado
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- =================================================
+                         PDF
+                    ================================================== -->
+
+                    <section class="form-section mt-3">
+
+                        <div class="form-section-header">
+
+                            <i class="bi bi-file-earmark-pdf"></i>
+
+                            <div>
+
+                                <h3>
+                                    Documento PDF
+                                </h3>
+
+                                <p>
+                                    Anexe o certificado de calibração.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="certificate-upload">
+
+                            <div class="upload-icon">
+
+                                <i class="bi bi-file-earmark-pdf"></i>
+
+                            </div>
+
+
+                            <div class="upload-content">
+
+                                <h3>
+                                    Certificado em PDF
+                                </h3>
+
+                                <p>
+                                    PDF • até 20 MB. No modo edição, um novo arquivo substitui o atual.
+                                </p>
+
+
+                                <label
+                                    for="certificateFile"
+                                    class="btn"
+                                >
+
+                                    <i class="bi bi-upload"></i>
+
+                                    Selecionar PDF
+
+                                </label>
+
+
+                                <input
+                                    type="file"
+                                    id="certificateFile"
+                                    name="arquivo"
+                                    accept="application/pdf,.pdf"
+                                    hidden
+                                >
+
+
+                                <div
+                                    class="selected-file"
+                                    id="selectedCertificateFile"
+                                >
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- =================================================
+                         OBSERVAÇÕES
+                    ================================================== -->
+
+                    <section class="form-section mt-3">
+
+                        <div class="form-section-header">
+
+                            <i class="bi bi-chat-left-text"></i>
+
+                            <div>
+
+                                <h3>
+                                    Observações
+                                </h3>
+
+                                <p>
+                                    Informações complementares do certificado.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <textarea
+                            id="certificateObservations"
+                            name="observacoes"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Digite observações, condições ou informações relevantes..."
+                        ></textarea>
+
+                    </section>
+
+
+                    <input
+                        type="hidden"
+                        id="certificateId"
+                        name="certificateId"
+                        value=""
+                    >
+
+                </form>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-light"
+                    data-bs-dismiss="modal"
+                >
+
+                    Cancelar
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    id="saveCertificateButton"
+                    form="certificateForm"
+                >
+
+                    <i class="bi bi-check-lg"></i>
+
+                    Salvar certificado
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =============================================================
+     MODAL — VISUALIZADOR PDF
+============================================================== -->
+
+<div
+    class="modal fade"
+    id="certificateViewerModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-fullscreen">
+
+        <div class="modal-content certificate-viewer">
+
+
+            <header class="modal-header">
+
+                <div>
+
+                    <span class="modal-eyebrow">
+                        VISUALIZAÇÃO
+                    </span>
+
+                    <h2
+                        class="modal-title"
+                        id="certificateViewerTitle"
+                    >
+                        Certificado
+                    </h2>
+
+                </div>
+
+
+                <div class="viewer-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-light"
+                        id="viewerDownloadButton"
+                    >
+
+                        <i class="bi bi-download"></i>
+
+                        <span>
+                            Baixar
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal"
+                    >
+
+                        <i class="bi bi-x-lg"></i>
+
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <div class="modal-body viewer-body">
+
+                <iframe
+                    id="certificateViewer"
+                    title="Visualizador de certificado"
+                ></iframe>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =============================================================
+     JAVASCRIPT
+============================================================== -->
+
+{% endblock %}
+
+
+{% block page_js %}
+
+<script
+    src="{{ url_for('static', filename='js/sync.js') }}"
+></script>
+
+<script
+    src="{{ url_for('static', filename='js/certificates.js') }}"
+></script>
+
+{% endblock %}

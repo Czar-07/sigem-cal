@@ -1,0 +1,37 @@
+<aside class="sidebar" id="sidebar" aria-label="Navegação principal">
+    <div class="brand">
+        <div class="brand-mark"><i class="bi bi-shield-check"></i></div>
+        <div class="brand-copy">
+            <strong>SIGEM <span>CAL</span></strong>
+            <small>Gestão de calibração</small>
+        </div>
+    </div>
+
+    <div class="nav-label">MENU PRINCIPAL</div>
+    <nav class="menu">
+        {% set nav = [
+            ('home', 'bi-grid-1x2-fill', 'Dashboard', 'Visão geral'),
+            ('instruments_page', 'bi-rulers', 'Instrumentos', 'Inventário'),
+            ('calibrations_page', 'bi-calendar2-check', 'Calibrações', 'Agenda'),
+            ('certificates_page', 'bi-file-earmark-pdf', 'Certificados', 'Documentos'),
+            ('reports_page', 'bi-bar-chart-line', 'Relatórios', 'Análises'),
+            ('notifications_page', 'bi-bell', 'Notificações', 'Alertas e histórico'),
+            ('settings_page', 'bi-sliders2', 'Configurações', 'Sistema')
+        ] %}
+        {% for endpoint, icon, label, desc in nav %}
+        <a class="nav-item {% if request.endpoint == endpoint %}active{% endif %}" href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>
+            <span class="nav-icon"><i class="bi {{ icon }}"></i></span>
+            <span class="nav-text"><strong>{{ label }}</strong><small>{{ desc }}</small></span>
+        </a>
+        {% endfor %}
+    </nav>
+
+    <div class="sidebar-spacer"></div>
+    <div class="system-status">
+        <span class="status-pulse"></span>
+        <div><strong>Sistema operacional</strong><small>Serviços online</small></div>
+    </div>
+    <a class="logout-link" href="{{ url_for('auth.admin_logout') }}">
+        <i class="bi bi-box-arrow-left"></i><span>Sair do painel</span>
+    </a>
+</aside>

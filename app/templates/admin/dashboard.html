@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | SIGEM CAL{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+{% block content %}
+<div class="app">
+    {% include 'layouts/sidebar.html' %}
+    <main class="content">
+        {% include 'layouts/navbar.html' %}
+        <div class="page-content">
+            <header class="page-header">
+                <div class="page-header-main">
+                    <span class="page-eyebrow">VISÃO EXECUTIVA</span>
+                    <h1>Dashboard</h1>
+                    <p>Monitoramento operacional, conformidade e planejamento de calibrações.</p>
+                </div>
+                <div class="dashboard-header-meta">
+                    <div class="page-header-status"><span class="online-dot"></span>Sistema operacional</div>
+                    <small>Última sincronização: <strong id="lastSync">—</strong></small>
+                </div>
+            </header>
+
+            <section class="dashboard-section">
+                <div class="section-heading"><div><h2>Indicadores críticos</h2><p>Resumo em tempo real do parque metrológico.</p></div></div>
+                <div class="cards">
+                    <article class="card-dashboard"><div class="card-icon blue"><i class="bi bi-rulers"></i></div><div class="card-info"><span>Total</span><h3 id="totalDevices">0</h3><small>Todos os registros</small></div></article>
+                    <article class="card-dashboard"><div class="card-icon purple"><i class="bi bi-activity"></i></div><div class="card-info"><span>Ativos</span><h3 id="activeDevices">0</h3><small>Dispositivos operacionais</small></div></article>
+                    <article class="card-dashboard"><div class="card-icon green"><i class="bi bi-check-circle-fill"></i></div><div class="card-info"><span>Conformes</span><h3 id="calibratedDevices">0</h3><small id="calibratedPercentage">0%</small></div></article>
+                    <article class="card-dashboard"><div class="card-icon yellow"><i class="bi bi-clock-history"></i></div><div class="card-info"><span>Vencendo</span><h3 id="expiringDevices">0</h3><small>Dentro da janela de alerta</small></div></article>
+                    <article class="card-dashboard"><div class="card-icon red"><i class="bi bi-exclamation-triangle-fill"></i></div><div class="card-info"><span>Vencidos</span><h3 id="lateDevices">0</h3><small>Requerem ação imediata</small></div></article>
+                    <article class="card-dashboard"><div class="card-icon gray"><i class="bi bi-calendar-x"></i></div><div class="card-info"><span>Sem vencimento</span><h3 id="noDateDevices">0</h3><small>Cadastros sem data definida</small></div></article>
+                </div>
+            </section>
+
+            <section class="compliance-card">
+                <div class="compliance-top">
+                    <div class="compliance-title"><div class="compliance-icon"><i class="bi bi-shield-check"></i></div><div><span>INDICADOR DE QUALIDADE</span><h2>Índice de conformidade</h2></div></div>
+                    <div class="compliance-value"><strong id="compliancePercentage">0%</strong></div>
+                </div>
+                <div class="compliance-progress-container"><div id="complianceProgress" class="progress-bar" role="progressbar" style="width:0%"></div></div>
+                <div class="compliance-footer"><span>Percentual de dispositivos calibrados entre os ativos.</span><span id="syncSource">Fonte: —</span></div>
+            </section>
+
+            <section class="dashboard-charts">
+                <article class="chart-card"><header class="chart-card-header"><span class="chart-eyebrow">STATUS</span><h2>Situação dos instrumentos</h2><p>Distribuição atual por status.</p></header><div class="chart-container chart-doughnut"><canvas id="statusChart"></canvas></div></article>
+                <article class="chart-card"><header class="chart-card-header"><span class="chart-eyebrow">CLIENTES</span><h2>Parque por cliente</h2><p>Clientes com maior quantidade de instrumentos.</p></header><div class="chart-container"><canvas id="clientChart"></canvas></div></article>
+                <article class="chart-card"><header class="chart-card-header"><span class="chart-eyebrow">CONDIÇÃO</span><h2>Condição metrológica</h2><p>Distribuição da condição registrada no Excel.</p></header><div class="chart-container"><canvas id="conditionChart"></canvas></div></article>
+                <article class="chart-card"><header class="chart-card-header"><span class="chart-eyebrow">DOCUMENTAÇÃO</span><h2>Cobertura de certificados</h2><p>Presença de certificados por ano.</p></header><div class="chart-container"><canvas id="certificateChart"></canvas></div></article>
+            </section>
+
+            <section class="chart-card chart-card-full">
+                <header class="chart-card-header"><span class="chart-eyebrow">PLANEJAMENTO</span><h2>Calendário de calibrações</h2><p>Quantidade prevista por mês no ano corrente.</p></header>
+                <div class="chart-container chart-line"><canvas id="calibrationChart"></canvas></div>
+            </section>
+        </div>
+    </main>
+</div>
+{% endblock %}
+{% block page_js %}
+<script src="{{ url_for('static', filename='js/sync.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

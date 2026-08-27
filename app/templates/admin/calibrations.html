@@ -1,0 +1,383 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Calibrações | SIGEM CAL
+{% endblock %}
+
+
+{% block page_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for(
+        'static',
+        filename='css/calibrations.css'
+    ) }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="app">
+
+    {% include 'layouts/sidebar.html' %}
+
+
+    <main class="content">
+
+        {% include 'layouts/navbar.html' %}
+
+
+        <div class="page-content">
+
+
+            <!-- =================================================
+                 HEADER
+            ================================================== -->
+
+            <header class="page-header">
+
+                <div class="page-header-main">
+
+                    <span class="page-eyebrow">
+                        CONTROLE METROLÓGICO
+                    </span>
+
+                    <h1>
+                        Calibrações
+                    </h1>
+
+                    <p>
+                        Controle e acompanhamento do ciclo
+                        de calibração dos instrumentos.
+                    </p>
+
+                </div>
+
+
+                <div class="page-header-status">
+
+                    <span class="online-dot"></span>
+
+                    Sistema operacional
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================================
+                 RESUMO
+            ================================================== -->
+
+            <section class="calibration-summary">
+
+
+                <!-- TOTAL -->
+
+                <article class="summary-card">
+
+                    <div class="summary-icon blue">
+
+                        <i class="bi bi-rulers"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total
+                        </span>
+
+                        <strong id="totalCalibrations">
+                            0
+                        </strong>
+
+                        <small>
+                            Instrumentos ativos
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+                <!-- VÁLIDAS -->
+
+                <article class="summary-card">
+
+                    <div class="summary-icon green">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Válidas
+                        </span>
+
+                        <strong id="validCalibrations">
+                            0
+                        </strong>
+
+                        <small>
+                            Dentro do prazo
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+                <!-- VENCENDO -->
+
+                <article class="summary-card">
+
+                    <div class="summary-icon yellow">
+
+                        <i class="bi bi-hourglass-split"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Vencendo
+                        </span>
+
+                        <strong id="expiringCalibrations">
+                            0
+                        </strong>
+
+                        <small>
+                            Próximos 30 dias
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+                <!-- ATRASADAS -->
+
+                <article class="summary-card">
+
+                    <div class="summary-icon red">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Atrasadas
+                        </span>
+
+                        <strong id="overdueCalibrations">
+                            0
+                        </strong>
+
+                        <small>
+                            Requerem atenção
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 CONTROLES
+            ================================================== -->
+
+            <section class="calibration-panel">
+
+
+                <div class="calibration-toolbar">
+
+
+                    <div class="search-box">
+
+                        <i class="bi bi-search"></i>
+
+                        <input
+                            type="text"
+                            id="calibrationSearch"
+                            placeholder="Pesquisar dispositivo..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <div class="status-filters">
+
+                        <button
+                            type="button"
+                            class="filter-button active"
+                            data-filter="todos"
+                        >
+                            Todos
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter-button"
+                            data-filter="valida"
+                        >
+                            Válidas
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter-button"
+                            data-filter="vencendo"
+                        >
+                            Vencendo
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter-button"
+                            data-filter="atrasada"
+                        >
+                            Atrasadas
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     TABELA
+                ================================================== -->
+
+                <div class="table-container">
+
+                    <table class="calibration-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th class="col-number">
+                                    DC
+                                </th>
+
+                                <th>
+                                    Instrumento
+                                </th>
+
+                                <th>
+                                    Cliente
+                                </th>
+
+                                <th>
+                                    Última calibração
+                                </th>
+
+                                <th>
+                                    Próxima calibração
+                                </th>
+
+                                <th>
+                                    Prazo
+                                </th>
+
+                                <th>
+                                    Situação
+                                </th>
+
+                                <th class="col-action">
+                                    Ação
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="calibrationTableBody">
+
+                            <tr>
+
+                                <td
+                                    colspan="8"
+                                    class="table-loading"
+                                >
+
+                                    <i class="bi bi-arrow-repeat"></i>
+
+                                    Carregando calibrações...
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- =================================================
+                     PAGINAÇÃO
+                ================================================== -->
+
+                <div class="table-footer">
+
+                    <span id="tableResultCount">
+                        0 registros
+                    </span>
+
+                    <div
+                        class="pagination"
+                        id="calibrationPagination"
+                    ></div>
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+
+{% block page_js %}
+
+<script>
+
+    const calibrationsPage = true;
+
+</script>
+
+<script
+    src="{{ url_for('static', filename='js/sync.js') }}">
+</script>
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/calibrations.js'
+    ) }}"
+></script>
+
+{% endblock %}

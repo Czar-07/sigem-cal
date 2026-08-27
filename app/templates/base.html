@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1220">
+    <meta name="description" content="SIGEM CAL — Sistema Inteligente de Gestão de Calibração">
+    <title>{% block title %}SIGEM CAL{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.css">
+    {% block page_css %}{% endblock %}
+</head>
+<body>
+    <div class="app-shell">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+    <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+    <div class="modal fade" id="excelUploadModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+          <div class="modal-header">
+            <div><span class="text-primary small fw-bold">SINCRONIZAÇÃO</span><h5 class="modal-title mb-0">Atualizar dados pelo Excel</h5></div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <form id="excelUploadForm">
+            <div class="modal-body">
+              <div class="p-3 rounded-3 bg-light border mb-3"><i class="bi bi-shield-check me-2 text-primary"></i>A planilha será validada antes de substituir o arquivo ativo.</div>
+              <label class="form-label fw-semibold" for="excelFile">Arquivo Excel (.xlsx)</label>
+              <input class="form-control" id="excelFile" name="file" type="file" accept=".xlsx" required>
+              <div class="form-text">Depois da importação, o dashboard, indicadores e alertas serão atualizados.</div>
+              <div id="excelUploadProgress" class="d-none mt-3"><div class="progress" style="height:6px"><div class="progress-bar progress-bar-striped progress-bar-animated" style="width:100%"></div></div><small class="text-muted">Processando sincronização...</small></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+              <button class="btn btn-primary" id="excelUploadSubmit" type="submit"><i class="bi bi-cloud-arrow-up me-1"></i>Importar e sincronizar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+    {% block page_js %}{% endblock %}
+</body>
+</html>

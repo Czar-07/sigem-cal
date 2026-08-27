@@ -1,0 +1,490 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Relatórios | SIGEM CAL
+{% endblock %}
+
+
+{% block page_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for(
+        'static',
+        filename='css/reports.css'
+    ) }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="app">
+
+    {% include 'layouts/sidebar.html' %}
+
+
+    <main class="content">
+
+        {% include 'layouts/navbar.html' %}
+
+
+        <div class="page-content">
+
+
+            <!-- =================================================
+                 HEADER
+            ================================================== -->
+
+            <header class="page-header">
+
+                <div>
+
+                    <span class="page-eyebrow">
+                        GESTÃO ESTRATÉGICA
+                    </span>
+
+                    <h1>
+                        Relatórios
+                    </h1>
+
+                    <p>
+                        Gere relatórios gerenciais e
+                        metrológicos do SIGEM CAL.
+                    </p>
+
+                </div>
+
+
+                <div class="page-header-status">
+
+                    <span class="online-dot"></span>
+
+                    Sistema operacional
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================================
+                 RESUMO
+            ================================================== -->
+
+            <section class="report-summary">
+
+
+                <article class="summary-card">
+
+                    <div class="summary-icon blue">
+
+                        <i class="bi bi-rulers"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Instrumentos
+                        </span>
+
+                        <strong id="reportTotal">
+                            0
+                        </strong>
+
+                        <small>
+                            Total cadastrado
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+                <article class="summary-card">
+
+                    <div class="summary-icon green">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Calibrados
+                        </span>
+
+                        <strong id="reportCalibrated">
+                            0
+                        </strong>
+
+                        <small>
+                            Situação atual
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+                <article class="summary-card">
+
+                    <div class="summary-icon yellow">
+
+                        <i class="bi bi-hourglass-split"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Próximos
+                        </span>
+
+                        <strong id="reportExpiring">
+                            0
+                        </strong>
+
+                        <small>
+                            Próximos 30 dias
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+                <article class="summary-card">
+
+                    <div class="summary-icon red">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Atrasados
+                        </span>
+
+                        <strong id="reportOverdue">
+                            0
+                        </strong>
+
+                        <small>
+                            Requerem atenção
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 GERADOR
+            ================================================== -->
+
+            <section class="report-generator">
+
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-eyebrow">
+                            GERADOR
+                        </span>
+
+                        <h2>
+                            Criar relatório
+                        </h2>
+
+                        <p>
+                            Selecione o tipo de documento
+                            que deseja gerar.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     TIPOS
+                ================================================== -->
+
+                <div class="report-types">
+
+
+                    <button
+                        type="button"
+                        class="report-type active"
+                        data-report="metrological"
+                    >
+
+                        <div class="report-type-icon">
+
+                            <i class="bi bi-rulers"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Relatório Metrológico
+                            </strong>
+
+                            <span>
+                                Situação geral dos instrumentos
+                                e calibrações.
+                            </span>
+
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="report-type"
+                        data-report="calibrations"
+                    >
+
+                        <div class="report-type-icon">
+
+                            <i class="bi bi-calendar-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Relatório de Calibrações
+                            </strong>
+
+                            <span>
+                                Controle de vencimentos,
+                                atrasos e prazos.
+                            </span>
+
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="report-type"
+                        data-report="inventory"
+                    >
+
+                        <div class="report-type-icon">
+
+                            <i class="bi bi-clipboard-data"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Inventário de Instrumentos
+                            </strong>
+
+                            <span>
+                                Relação completa dos
+                                instrumentos cadastrados.
+                            </span>
+
+                        </div>
+
+                    </button>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     CONFIGURAÇÕES
+                ================================================== -->
+
+                <div class="report-options">
+
+
+                    <div class="form-field">
+
+                        <label for="reportClient">
+                            Cliente
+                        </label>
+
+                        <select id="reportClient">
+
+                            <option value="todos">
+                                Todos os clientes
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="reportStatus">
+                            Status
+                        </label>
+
+                        <select id="reportStatus">
+
+                            <option value="todos">
+                                Todos
+                            </option>
+
+                            <option value="calibrado">
+                                Calibrado
+                            </option>
+
+                            <option value="desenvolvimento">
+                                Desenvolvimento
+                            </option>
+
+                            <option value="atrasado">
+                                Atrasado
+                            </option>
+
+                            <option value="inativo">
+                                Inativo
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="reportPeriod">
+                            Período
+                        </label>
+
+                        <select id="reportPeriod">
+
+                            <option value="current">
+                                Situação atual
+                            </option>
+
+                            <option value="30">
+                                Próximos 30 dias
+                            </option>
+
+                            <option value="60">
+                                Próximos 60 dias
+                            </option>
+
+                            <option value="90">
+                                Próximos 90 dias
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     AÇÕES
+                ================================================== -->
+
+                <div class="report-actions">
+
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        id="previewReport"
+                    >
+
+                        <i class="bi bi-eye"></i>
+
+                        Visualizar
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        id="generateReport"
+                    >
+
+                        <i class="bi bi-file-earmark-pdf"></i>
+
+                        Gerar PDF
+
+                    </button>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 INFORMAÇÕES
+            ================================================== -->
+
+            <section class="report-info">
+
+                <div class="info-icon">
+
+                    <i class="bi bi-info-circle"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Relatórios oficiais
+                    </strong>
+
+                    <p>
+                        Os documentos são gerados com os dados
+                        atualmente registrados no SIGEM CAL,
+                        incluindo data e hora de emissão.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+
+{% block page_js %}
+
+<script
+    src="{{ url_for('static', filename='js/sync.js') }}">
+</script>
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/reports.js'
+    ) }}"
+></script>
+
+{% endblock %}

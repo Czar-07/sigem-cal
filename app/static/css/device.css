@@ -1,0 +1,1451 @@
+/* ============================================================
+   DEVICE PAGE
+============================================================ */
+
+.device-page {
+
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+}
+
+
+/* ============================================================
+   NAVEGAÇÃO
+============================================================ */
+
+.device-navigation {
+
+    margin-bottom: 18px;
+
+}
+
+
+.back-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #64748b;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: .2s ease;
+
+}
+
+
+.back-link:hover {
+
+    color: #2563eb;
+
+}
+
+
+/* ============================================================
+   HERO
+============================================================ */
+
+.device-hero {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding: 30px;
+
+    margin-bottom: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 16px;
+
+}
+
+
+.device-hero-main {
+
+    min-width: 0;
+
+}
+
+
+.device-overline {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #64748b;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: .12em;
+
+}
+
+
+.device-hero-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.device-hero-title h1 {
+
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 30px;
+
+    line-height: 1.1;
+
+    font-weight: 750;
+
+    letter-spacing: -.02em;
+
+    overflow-wrap: anywhere;
+
+}
+
+
+.device-hero-description {
+
+    max-width: 850px;
+
+    margin: 8px 0 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+}
+
+
+.device-hero-status {
+
+    flex-shrink: 0;
+
+}
+
+
+/* ============================================================
+   CARD
+============================================================ */
+
+.device-card {
+
+    padding: 26px;
+
+    margin-bottom: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 16px;
+
+}
+
+
+/* ============================================================
+   SECTION HEADER
+============================================================ */
+
+.device-section-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding-bottom: 20px;
+
+    margin-bottom: 22px;
+
+    border-bottom: 1px solid #f1f5f9;
+
+}
+
+
+.device-section-header h2 {
+
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+}
+
+
+.device-section-header p {
+
+    margin: 4px 0 0;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+}
+
+
+/* ============================================================
+   CARD ICON
+============================================================ */
+
+.device-card-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 42px;
+
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    font-size: 18px;
+
+}
+
+
+.device-card-icon.blue {
+
+    color: #2563eb;
+
+    background: #eff6ff;
+
+}
+
+
+.device-card-icon.green {
+
+    color: #16a34a;
+
+    background: #f0fdf4;
+
+}
+
+
+.device-card-icon.purple {
+
+    color: #7c3aed;
+
+    background: #f5f3ff;
+
+}
+
+
+/* ============================================================
+   IDENTIFICAÇÃO
+============================================================ */
+
+.device-data-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 24px 40px;
+
+}
+
+
+.device-data-item {
+
+    min-width: 0;
+
+}
+
+
+.device-data-item span {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+.device-data-item strong {
+
+    display: block;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    font-weight: 650;
+
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+
+}
+
+
+.device-data-wide {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   METROLOGIA
+============================================================ */
+
+.metrology-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+}
+
+
+.metrology-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    min-width: 0;
+
+    padding: 18px;
+
+    background: #f8fafc;
+
+    border: 1px solid #f1f5f9;
+
+    border-radius: 12px;
+
+}
+
+
+.metrology-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 38px;
+
+    height: 38px;
+
+    flex-shrink: 0;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 9px;
+
+    color: #2563eb;
+
+    font-size: 16px;
+
+}
+
+
+.metrology-item span {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+}
+
+
+.metrology-item strong {
+
+    display: block;
+
+    color: #334155;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    overflow-wrap: anywhere;
+
+}
+
+
+/* ============================================================
+   QR CODE
+============================================================ */
+
+.qr-card {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 40px;
+
+    padding: 28px 30px;
+
+    margin-bottom: 20px;
+
+    background: #0f172a;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+}
+
+
+.qr-content {
+
+    min-width: 0;
+
+}
+
+
+.qr-overline {
+
+    color: #94a3b8;
+
+}
+
+
+.qr-content h2 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 19px;
+
+    font-weight: 700;
+
+}
+
+
+.qr-content p {
+
+    max-width: 650px;
+
+    margin: 8px 0 16px;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+
+.qr-url {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #cbd5e1;
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+}
+
+
+.qr-url i {
+
+    font-size: 14px;
+
+}
+
+
+.qr-code-wrapper {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 128px;
+
+    height: 128px;
+
+    flex-shrink: 0;
+
+    padding: 9px;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+}
+
+
+.device-qr-code {
+
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+}
+
+
+/* ============================================================
+   HISTÓRICO
+============================================================ */
+
+.history-card {
+
+    margin-bottom: 30px;
+
+}
+
+
+.history-empty {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 24px;
+
+    background: #f8fafc;
+
+    border: 1px dashed #cbd5e1;
+
+    border-radius: 12px;
+
+}
+
+
+.history-empty-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 42px;
+
+    height: 42px;
+
+    flex-shrink: 0;
+
+    background: #f5f3ff;
+
+    border-radius: 10px;
+
+    color: #7c3aed;
+
+    font-size: 17px;
+
+}
+
+
+.history-empty strong {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #334155;
+
+    font-size: 13px;
+
+}
+
+
+.history-empty span {
+
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+}
+
+
+/* ============================================================
+   RESPONSIVO
+============================================================ */
+
+@media (max-width: 1100px) {
+
+    .metrology-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .device-hero {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+
+    .device-hero-status {
+
+        align-self: flex-start;
+
+    }
+
+
+    .qr-card {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+
+    .qr-code-wrapper {
+
+        width: 120px;
+
+        height: 120px;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .device-card {
+
+        padding: 20px;
+
+    }
+
+
+    .device-hero {
+
+        padding: 22px;
+
+    }
+
+
+    .device-hero-title h1 {
+
+        font-size: 24px;
+
+    }
+
+
+    .device-data-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+
+    }
+
+
+    .metrology-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .qr-card {
+
+        padding: 22px;
+
+    }
+
+}
+
+/* ============================================================
+   CALIBRAÇÃO
+============================================================ */
+
+.calibration-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+/* ============================================================
+   RESUMO
+============================================================ */
+
+.calibration-summary {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        44px
+        minmax(0, 1fr)
+        minmax(180px, .8fr);
+
+    align-items: stretch;
+
+    gap: 14px;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* ============================================================
+   DATA
+============================================================ */
+
+.calibration-date {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    min-height: 82px;
+
+    padding: 16px 18px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+
+}
+
+
+.calibration-date span,
+.calibration-validity span {
+
+    margin-bottom: 7px;
+
+    color: #64748b;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: .05em;
+
+    text-transform: uppercase;
+
+}
+
+
+.calibration-date strong {
+
+    color: #0f172a;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+}
+
+
+/* ============================================================
+   SETA
+============================================================ */
+
+.calibration-arrow {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #94a3b8;
+
+    font-size: 17px;
+
+}
+
+
+.calibration-arrow i {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 32px;
+
+    height: 32px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 50%;
+
+}
+
+
+/* ============================================================
+   VALIDADE
+============================================================ */
+
+.calibration-validity {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    min-height: 82px;
+
+    padding: 16px 18px;
+
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+    border-radius: 10px;
+
+}
+
+
+.calibration-validity strong {
+
+    color: #15803d;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   DETALHES
+============================================================ */
+
+.calibration-details {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #f1f5f9;
+
+}
+
+
+/* ============================================================
+   DETALHE
+============================================================ */
+
+.calibration-detail {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    min-width: 0;
+
+}
+
+
+.calibration-detail > span {
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: .04em;
+
+    text-transform: uppercase;
+
+}
+
+
+.calibration-detail > strong {
+
+    overflow-wrap: anywhere;
+
+    color: #334155;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+/* ============================================================
+   SITUAÇÃO
+============================================================ */
+
+.calibration-situation > strong {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    width: fit-content;
+
+    min-height: 28px;
+
+    padding: 5px 10px;
+
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+    border-radius: 7px;
+
+    color: #15803d;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   RESPONSIVO
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .calibration-summary {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+
+    .calibration-arrow {
+
+        display: none;
+
+    }
+
+
+    .calibration-details {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .calibration-summary {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .calibration-details {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+/* ============================================================
+   CONDIÇÃO DO INSTRUMENTO
+============================================================ */
+
+#fieldCondicao {
+
+    font-weight: 700;
+
+    transition:
+        color .2s ease,
+        background-color .2s ease;
+
+}
+
+
+/* ============================================================
+   APROVADO
+============================================================ */
+
+#fieldCondicao.condition-aprovado {
+
+    color: #15803d;
+
+}
+
+
+/* ============================================================
+   REPROVADO
+============================================================ */
+
+#fieldCondicao.condition-reprovado {
+
+    color: #dc2626;
+
+}
+
+
+/* ============================================================
+   DESENVOLVIMENTO
+============================================================ */
+
+#fieldCondicao.condition-desenvolvimento {
+
+    color: #ca8a04;
+
+}
+
+
+/* ============================================================
+   INATIVO
+============================================================ */
+
+#fieldCondicao.condition-inativo {
+
+    color: #64748b;
+
+}
+
+/* ============================================================
+   SITUAÇÃO DA CALIBRAÇÃO
+============================================================ */
+
+#fieldSituacaoCalibracao {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    min-height: 30px;
+
+    padding: 6px 10px;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    transition:
+        color .2s ease,
+        background-color .2s ease,
+        border-color .2s ease;
+
+}
+
+
+/* ============================================================
+   CALIBRAÇÃO VÁLIDA
+============================================================ */
+
+#fieldSituacaoCalibracao.calibration-valid {
+
+    color: #15803d;
+
+    background: #ecfdf3;
+
+    border: 1px solid #bbf7d0;
+
+}
+
+
+/* ============================================================
+   CALIBRAÇÃO ATRASADA
+============================================================ */
+
+#fieldSituacaoCalibracao.calibration-overdue {
+
+    color: #b91c1c;
+
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+
+}
+
+
+/* ============================================================
+   VENCE HOJE
+============================================================ */
+
+#fieldSituacaoCalibracao.calibration-today {
+
+    color: #a16207;
+
+    background: #fffbeb;
+
+    border: 1px solid #fde68a;
+
+}
+
+
+/* ============================================================
+   DESENVOLVIMENTO
+============================================================ */
+
+#fieldSituacaoCalibracao.calibration-development {
+
+    color: #a16207;
+
+    background: #fffbeb;
+
+    border: 1px solid #fde68a;
+
+}
+
+
+/* ============================================================
+   INATIVO
+============================================================ */
+
+#fieldSituacaoCalibracao.calibration-inactive {
+
+    color: #64748b;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+}
+
+/* ============================================================
+   DIAS PARA CALIBRAÇÃO
+============================================================ */
+
+#fieldDiasRestantes {
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   ATRASO
+============================================================ */
+
+#fieldDiasRestantes.calibration-days-overdue {
+
+    color: #dc2626;
+
+}
+
+
+/* ============================================================
+   VÁLIDO
+============================================================ */
+
+#fieldDiasRestantes.calibration-days-valid {
+
+    color: #15803d;
+
+}
+
+
+/* ============================================================
+   HOJE
+============================================================ */
+
+#fieldDiasRestantes.calibration-days-today {
+
+    color: #ca8a04;
+
+}
+
+/* ============================================================
+   CONDIÇÃO DO INSTRUMENTO
+============================================================ */
+
+.condition-aprovado {
+
+    color: #15803d !important;
+
+    font-weight: 700;
+
+}
+
+
+.condition-reprovado {
+
+    color: #dc2626 !important;
+
+    font-weight: 800;
+
+}
+
+
+.condition-desenvolvimento {
+
+    color: #ca8a04 !important;
+
+    font-weight: 700;
+
+}
+
+
+.condition-inativo {
+
+    color: #64748b !important;
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   DIAS DE CALIBRAÇÃO
+============================================================ */
+
+.calibration-days-overdue {
+
+    color: #dc2626 !important;
+
+    font-weight: 800;
+
+}
+
+
+.calibration-days-valid {
+
+    color: #15803d !important;
+
+    font-weight: 700;
+
+}
+
+
+.calibration-days-today {
+
+    color: #ca8a04 !important;
+
+    font-weight: 800;
+
+}
+
+
+/* ============================================================
+   SITUAÇÃO DA CALIBRAÇÃO
+============================================================ */
+
+.calibration-valid {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    width: fit-content;
+
+    padding: 5px 9px;
+
+    border: 1px solid #bbf7d0;
+
+    border-radius: 6px;
+
+    background: #f0fdf4;
+
+    color: #15803d !important;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+.calibration-overdue {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    width: fit-content;
+
+    padding: 5px 9px;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 6px;
+
+    background: #fef2f2;
+
+    color: #dc2626 !important;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+}
+
+
+.calibration-today {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    width: fit-content;
+
+    padding: 5px 9px;
+
+    border: 1px solid #fde68a;
+
+    border-radius: 6px;
+
+    background: #fffbeb;
+
+    color: #a16207 !important;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+.calibration-development {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    width: fit-content;
+
+    padding: 5px 9px;
+
+    border: 1px solid #fde68a;
+
+    border-radius: 6px;
+
+    background: #fffbeb;
+
+    color: #a16207 !important;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+.calibration-inactive {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    width: fit-content;
+
+    padding: 5px 9px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 6px;
+
+    background: #f8fafc;
+
+    color: #64748b !important;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}

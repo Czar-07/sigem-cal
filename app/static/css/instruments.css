@@ -1,0 +1,1872 @@
+/* ============================================================
+   SIGEM CAL
+   INSTRUMENTOS
+   DataTables 2.x
+   Design corporativo / metrologia
+   ============================================================ */
+
+
+/* ============================================================
+   01. VARIÁVEIS
+   ============================================================ */
+
+:root {
+
+    --instrument-primary: #2563eb;
+    --instrument-primary-hover: #1d4ed8;
+
+    --instrument-text: #0f172a;
+    --instrument-text-secondary: #475569;
+    --instrument-text-muted: #94a3b8;
+
+    --instrument-border: #e2e8f0;
+    --instrument-border-light: #f1f5f9;
+
+    --instrument-background: #f8fafc;
+    --instrument-white: #ffffff;
+
+    --instrument-blue-soft: #eff6ff;
+    --instrument-blue-border: #dbeafe;
+
+    --instrument-success: #15803d;
+    --instrument-success-bg: #ecfdf3;
+    --instrument-success-border: #bbf7d0;
+
+    --instrument-warning: #a16207;
+    --instrument-warning-bg: #fffbeb;
+    --instrument-warning-border: #fde68a;
+
+    --instrument-danger: #b91c1c;
+    --instrument-danger-bg: #fef2f2;
+    --instrument-danger-border: #fecaca;
+
+    --instrument-radius: 12px;
+
+}
+
+
+/* ============================================================
+   02. ÁREA PRINCIPAL DA PÁGINA
+   ============================================================ */
+
+.page-content {
+
+    width: 100%;
+
+    max-width: 1600px;
+
+    margin: 0 auto;
+
+    padding: 28px 32px 40px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ============================================================
+   03. CABEÇALHO DA PÁGINA
+   ============================================================ */
+
+.page-header {
+
+    width: 100%;
+
+    margin: 0 0 22px;
+
+}
+
+
+.page-eyebrow {
+
+    display: block;
+
+    margin: 0 0 5px;
+
+    color: #64748b;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: .12em;
+
+    line-height: 1.2;
+
+    text-transform: uppercase;
+
+}
+
+
+.page-header h1 {
+
+    margin: 0;
+
+    color: var(--instrument-text);
+
+    font-size: 27px;
+
+    font-weight: 750;
+
+    line-height: 1.2;
+
+    letter-spacing: -.025em;
+
+}
+
+
+.page-header p {
+
+    max-width: 650px;
+
+    margin: 6px 0 0;
+
+    color: var(--instrument-text-muted);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   04. FILTROS DE STATUS
+   ============================================================ */
+
+.instrument-filters {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    width: 100%;
+
+    min-height: 48px;
+
+    margin: 0 0 16px;
+
+    padding: 5px;
+
+    box-sizing: border-box;
+
+    overflow-x: auto;
+
+    background: var(--instrument-white);
+
+    border: 1px solid var(--instrument-border);
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, .025);
+
+}
+
+
+.instrument-filters::-webkit-scrollbar {
+
+    height: 3px;
+
+}
+
+
+.instrument-filters::-webkit-scrollbar-track {
+
+    background: transparent;
+
+}
+
+
+.instrument-filters::-webkit-scrollbar-thumb {
+
+    background: #cbd5e1;
+
+    border-radius: 999px;
+
+}
+
+
+.instrument-filters::-webkit-scrollbar-thumb:hover {
+
+    background: #94a3b8;
+
+}
+
+
+/* ============================================================
+   05. BOTÕES DOS FILTROS
+   ============================================================ */
+
+.filter-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 34px;
+
+    padding: 0 11px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #64748b;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 650;
+
+    line-height: 1;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background .16s ease,
+        color .16s ease,
+        box-shadow .16s ease;
+
+}
+
+
+.filter-button:hover {
+
+    background: #f8fafc;
+
+    color: #334155;
+
+}
+
+
+.filter-button span {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 21px;
+
+    height: 19px;
+
+    padding: 0 5px;
+
+    border-radius: 5px;
+
+    background: #f1f5f9;
+
+    color: #64748b;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    line-height: 1;
+
+}
+
+
+.filter-button.active {
+
+    background: var(--instrument-blue-soft);
+
+    color: var(--instrument-primary);
+
+    box-shadow:
+        inset 0 0 0 1px var(--instrument-blue-border);
+
+}
+
+
+.filter-button.active span {
+
+    background: var(--instrument-blue-border);
+
+    color: var(--instrument-primary);
+
+}
+
+
+/* ============================================================
+   06. CARD PRINCIPAL
+   ============================================================ */
+
+.instrument-card {
+
+    width: 100%;
+
+    margin: 0;
+
+    padding: 0;
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+
+    background: var(--instrument-white);
+
+    border: 1px solid var(--instrument-border);
+
+    border-radius: var(--instrument-radius);
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, .025);
+
+}
+
+
+/* ============================================================
+   07. CABEÇALHO DO CARD
+   ============================================================ */
+
+.instrument-card-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    width: 100%;
+
+    padding: 18px 20px;
+
+    box-sizing: border-box;
+
+    border-bottom: 1px solid var(--instrument-border-light);
+
+}
+
+
+.instrument-card-header h2 {
+
+    margin: 0;
+
+    color: var(--instrument-text);
+
+    font-size: 15px;
+
+    font-weight: 750;
+
+    line-height: 1.3;
+
+    letter-spacing: -.015em;
+
+}
+
+
+.instrument-card-header p {
+
+    margin: 4px 0 0;
+
+    color: var(--instrument-text-muted);
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   08. DATATABLES — WRAPPER
+   ============================================================ */
+
+.dataTables_wrapper {
+
+    width: 100%;
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+    color: var(--instrument-text-secondary);
+
+    background: var(--instrument-white);
+
+}
+
+
+/* ============================================================
+   09. DATATABLES — LINHAS DE CONTROLE
+   ============================================================ */
+
+.dataTables_wrapper .dt-layout-row {
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    min-height: 56px;
+
+    margin: 0 !important;
+
+    padding: 10px 18px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ============================================================
+   10. PRIMEIRA LINHA
+   Mostrar registros + pesquisa
+   ============================================================ */
+
+.dataTables_wrapper .dt-layout-row:first-child {
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-bottom: 1px solid
+        var(--instrument-border-light);
+
+}
+
+
+/* ============================================================
+   11. ÚLTIMA LINHA
+   Informação + paginação
+   ============================================================ */
+
+.dataTables_wrapper .dt-layout-row:last-child {
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-top: 1px solid
+        var(--instrument-border-light);
+
+}
+
+
+/* ============================================================
+   12. COLUNAS INTERNAS
+   ============================================================ */
+
+.dataTables_wrapper .dt-layout-start,
+.dataTables_wrapper .dt-layout-end {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+}
+
+
+.dataTables_wrapper .dt-layout-start {
+
+    justify-content: flex-start;
+
+}
+
+
+.dataTables_wrapper .dt-layout-end {
+
+    justify-content: flex-end;
+
+    margin-left: auto !important;
+
+}
+
+
+/* ============================================================
+   13. MOSTRAR REGISTROS
+   ============================================================ */
+
+.dataTables_wrapper .dt-length {
+
+    display: flex;
+
+    align-items: center;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+.dataTables_wrapper .dt-length label {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin: 0;
+
+    padding: 0;
+
+    color: #475569;
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    line-height: 1;
+
+    white-space: nowrap;
+
+}
+
+
+.dataTables_wrapper .dt-length select {
+
+    width: 58px;
+
+    min-width: 58px;
+
+    height: 32px;
+
+    margin: 0 !important;
+
+    padding: 0 22px 0 8px;
+
+    border: 1px solid var(--instrument-border);
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background-color: var(--instrument-white);
+
+    color: #334155;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 650;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        border-color .15s ease,
+        box-shadow .15s ease;
+
+}
+
+
+.dataTables_wrapper .dt-length select:hover {
+
+    border-color: #cbd5e1;
+
+}
+
+
+.dataTables_wrapper .dt-length select:focus {
+
+    border-color: #93c5fd;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, .07);
+
+}
+
+
+/* ============================================================
+   14. PESQUISA
+   ============================================================ */
+
+.dataTables_wrapper .dt-search {
+
+    display: flex;
+
+    align-items: center;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+.dataTables_wrapper .dt-search label {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin: 0;
+
+    padding: 0;
+
+    color: transparent;
+
+    font-size: 0;
+
+    line-height: 1;
+
+}
+
+
+.dataTables_wrapper .dt-search label::before {
+
+    content: "\F52A";
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    color: #94a3b8;
+
+    font-family: "bootstrap-icons";
+
+    font-size: 12px;
+
+    line-height: 1;
+
+}
+
+
+.dataTables_wrapper .dt-search input {
+
+    width: 245px;
+
+    height: 34px;
+
+    margin: 0 !important;
+
+    padding: 0 11px;
+
+    border: 1px solid var(--instrument-border);
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background: var(--instrument-white);
+
+    color: #334155;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    line-height: 1;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color .15s ease,
+        box-shadow .15s ease;
+
+}
+
+
+.dataTables_wrapper .dt-search input::placeholder {
+
+    color: #cbd5e1;
+
+}
+
+
+.dataTables_wrapper .dt-search input:hover {
+
+    border-color: #cbd5e1;
+
+}
+
+
+.dataTables_wrapper .dt-search input:focus {
+
+    border-color: #93c5fd;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, .07);
+
+}
+
+
+/* ============================================================
+   15. CONTAINER DA TABELA
+   ============================================================ */
+
+.table-container {
+
+    width: 100%;
+
+    margin: 10px;
+
+    padding: 0;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    box-sizing: border-box;
+
+    background: var(--instrument-white);
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #cbd5e1
+        transparent;
+
+}
+
+
+.table-container::-webkit-scrollbar {
+
+    height: 8px;
+
+}
+
+
+.table-container::-webkit-scrollbar-track {
+
+    background: #f8fafc;
+
+}
+
+
+.table-container::-webkit-scrollbar-thumb {
+
+    background: #cbd5e1;
+
+    border-radius: 999px;
+
+}
+
+
+.table-container::-webkit-scrollbar-thumb:hover {
+
+    background: #94a3b8;
+
+}
+
+
+/* ============================================================
+   16. TABELA
+   ============================================================ */
+
+#devicesTable {
+
+    width: 100% !important;
+
+    min-width: 900px;
+
+    margin: 0 !important;
+
+    border-collapse: separate !important;
+
+    border-spacing: 0;
+
+    table-layout: auto;
+
+}
+
+
+/* ============================================================
+   17. CABEÇALHO DA TABELA
+   ============================================================ */
+
+#devicesTable thead th {
+
+    height: 40px;
+
+    padding: 0 16px;
+
+    border-top: 1px solid
+        var(--instrument-border-light);
+
+    border-bottom: 1px solid
+        var(--instrument-border);
+
+    background: #f8fafc;
+
+    color: #64748b;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: .07em;
+
+    line-height: 1;
+
+    text-align: left;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+    vertical-align: middle;
+
+}
+
+
+#devicesTable thead th:first-child {
+
+    padding-left: 20px;
+
+}
+
+
+#devicesTable thead th:last-child {
+
+    padding-right: 20px;
+
+}
+
+
+/* ============================================================
+   18. CORPO DA TABELA
+   ============================================================ */
+
+#devicesTable tbody td {
+
+    height: 54px;
+
+    padding: 8px 16px;
+
+    border-bottom: 1px solid
+        var(--instrument-border-light);
+
+    background: var(--instrument-white);
+
+    color: #475569;
+
+    font-size: 10px;
+
+    line-height: 1.35;
+
+    vertical-align: middle;
+
+}
+
+
+#devicesTable tbody td:first-child {
+
+    padding-left: 20px;
+
+}
+
+
+#devicesTable tbody td:last-child {
+
+    padding-right: 20px;
+
+}
+
+
+#devicesTable tbody tr:last-child td {
+
+    border-bottom: 0;
+
+}
+
+
+/* ============================================================
+   19. HOVER DAS LINHAS
+   ============================================================ */
+
+#devicesTable tbody tr {
+
+    background: var(--instrument-white);
+
+    transition:
+        background-color .12s ease;
+
+}
+
+
+#devicesTable tbody tr:hover td {
+
+    background: #f8fbff;
+
+}
+
+
+/* ============================================================
+   20. COLUNA — NÚMERO
+   ============================================================ */
+
+#devicesTable tbody td:nth-child(1) {
+
+    min-width: 105px;
+
+}
+
+
+/* ============================================================
+   21. COLUNA — INSTRUMENTO
+   ============================================================ */
+
+#devicesTable tbody td:nth-child(2) {
+
+    min-width: 170px;
+
+    color: #475569;
+
+}
+
+
+/* ============================================================
+   22. COLUNA — CLIENTE
+   ============================================================ */
+
+#devicesTable tbody td:nth-child(3) {
+
+    min-width: 115px;
+
+    color: #64748b;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+}
+
+
+/* ============================================================
+   23. COLUNA — PART NUMBER
+   ============================================================ */
+
+#devicesTable tbody td:nth-child(4) {
+
+    min-width: 170px;
+
+    color: #64748b;
+
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+
+    font-size: 9px;
+
+}
+
+
+/* ============================================================
+   24. COLUNA — PRÓXIMA CALIBRAÇÃO
+   ============================================================ */
+
+#devicesTable tbody td:nth-child(5) {
+
+    min-width: 145px;
+
+    color: #334155;
+
+    font-size: 10px;
+
+    font-weight: 650;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   25. COLUNA — STATUS
+   ============================================================ */
+
+#devicesTable tbody td:nth-child(6) {
+
+    min-width: 120px;
+
+}
+
+
+/* ============================================================
+   26. LINK DO INSTRUMENTO
+   ============================================================ */
+
+.device-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: var(--instrument-primary);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+
+}
+
+
+.device-link::before {
+
+    content: "";
+
+    width: 4px;
+
+    height: 4px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #3b82f6;
+
+}
+
+
+.device-link::after {
+
+    content: "\F135";
+
+    font-family: "bootstrap-icons";
+
+    font-size: 8px;
+
+    opacity: 0;
+
+    transform: translateX(-3px);
+
+    transition:
+        opacity .12s ease,
+        transform .12s ease;
+
+}
+
+
+.device-link:hover {
+
+    color: var(--instrument-primary-hover);
+
+}
+
+
+.device-link:hover::after {
+
+    opacity: 1;
+
+    transform: translateX(0);
+
+}
+
+
+/* ============================================================
+   27. NOME DO INSTRUMENTO
+   ============================================================ */
+
+.instrument-name {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+.instrument-name strong {
+
+    color: #334155;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+.instrument-name span {
+
+    color: #a0aec0;
+
+    font-size: 8px;
+
+}
+
+
+/* ============================================================
+   28. STATUS BADGE
+   ============================================================ */
+
+.status-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    min-width: 88px;
+
+    height: 24px;
+
+    padding: 0 8px;
+
+    box-sizing: border-box;
+
+    border-radius: 6px;
+
+    font-size: 8px;
+
+    font-weight: 750;
+
+    line-height: 1;
+
+    white-space: nowrap;
+
+}
+
+
+.status-badge i {
+
+    font-size: 8px;
+
+}
+
+
+/* ============================================================
+   29. STATUS — CALIBRADO
+   ============================================================ */
+
+.status-calibrado {
+
+    color: var(--instrument-success);
+
+    background: var(--instrument-success-bg);
+
+    border: 1px solid
+        var(--instrument-success-border);
+
+}
+
+
+/* ============================================================
+   30. STATUS — DESENVOLVIMENTO
+   ============================================================ */
+
+.status-desenvolvimento {
+
+    color: var(--instrument-warning);
+
+    background: var(--instrument-warning-bg);
+
+    border: 1px solid
+        var(--instrument-warning-border);
+
+}
+
+
+/* ============================================================
+   31. STATUS — ATRASADO
+   ============================================================ */
+
+.status-atrasado {
+
+    color: var(--instrument-danger);
+
+    background: var(--instrument-danger-bg);
+
+    border: 1px solid
+        var(--instrument-danger-border);
+
+}
+
+
+/* ============================================================
+   32. STATUS — INATIVO
+   ============================================================ */
+
+.status-inativo {
+
+    color: #64748b;
+
+    background: #f8fafc;
+
+    border: 1px solid
+        var(--instrument-border);
+
+}
+
+
+/* ============================================================
+   33. STATUS — DESCONHECIDO
+   ============================================================ */
+
+.status-desconhecido {
+
+    color: #475569;
+
+    background: #f8fafc;
+
+    border: 1px solid
+        var(--instrument-border);
+
+}
+
+
+/* ============================================================
+   34. INFORMAÇÃO DO DATATABLES
+   ============================================================ */
+
+.dataTables_wrapper .dt-info {
+
+    display: flex;
+
+    align-items: center;
+
+    min-height: 30px;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    color: #64748b !important;
+
+    font-size: 10px !important;
+
+    font-weight: 500;
+
+    line-height: 1.4;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   35. PAGINAÇÃO
+   ============================================================ */
+
+.dataTables_wrapper .dt-paging {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+.dataTables_wrapper .dt-paging nav {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+/* ============================================================
+   36. BOTÕES DA PAGINAÇÃO
+   ============================================================ */
+
+.dataTables_wrapper
+.dt-paging
+.dt-paging-button {
+
+    display: inline-flex !important;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 30px;
+
+    height: 30px;
+
+    margin: 0 !important;
+
+    padding: 0 8px !important;
+
+    border: 1px solid transparent !important;
+
+    border-radius: 6px !important;
+
+    background: transparent !important;
+
+    color: #64748b !important;
+
+    font-size: 9px !important;
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+
+    transition:
+        background .12s ease,
+        color .12s ease,
+        border-color .12s ease;
+
+}
+
+
+.dataTables_wrapper
+.dt-paging
+.dt-paging-button:hover {
+
+    border-color:
+        var(--instrument-border) !important;
+
+    background: #f8fafc !important;
+
+    color: #334155 !important;
+
+}
+
+
+.dataTables_wrapper
+.dt-paging
+.dt-paging-button.current {
+
+    border-color:
+        var(--instrument-blue-border) !important;
+
+    background:
+        var(--instrument-blue-soft) !important;
+
+    color:
+        var(--instrument-primary) !important;
+
+    font-weight: 800;
+
+}
+
+
+.dataTables_wrapper
+.dt-paging
+.dt-paging-button.current:hover {
+
+    border-color: #bfdbfe !important;
+
+    background: #dbeafe !important;
+
+    color: var(--instrument-primary-hover) !important;
+
+}
+
+
+.dataTables_wrapper
+.dt-paging
+.dt-paging-button.disabled {
+
+    opacity: .4;
+
+    cursor: default;
+
+}
+
+
+/* ============================================================
+   37. ELLIPSIS
+   ============================================================ */
+
+.dataTables_wrapper
+.dt-paging
+.ellipsis {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 24px;
+
+    height: 30px;
+
+    color: #94a3b8;
+
+    font-size: 9px;
+
+}
+
+
+/* ============================================================
+   38. TABELA VAZIA
+   ============================================================ */
+
+.dataTables_wrapper
+.dataTables_empty {
+
+    height: 150px !important;
+
+    padding: 30px !important;
+
+    color: #94a3b8 !important;
+
+    text-align: center !important;
+
+    vertical-align: middle !important;
+
+    font-size: 10px !important;
+
+}
+
+
+/* ============================================================
+   39. ERRO DA TABELA
+   ============================================================ */
+
+.table-error {
+
+    height: 140px;
+
+    color: #94a3b8 !important;
+
+    text-align: center;
+
+    vertical-align: middle !important;
+
+    font-size: 10px !important;
+
+}
+
+
+.table-error i {
+
+    margin-right: 6px;
+
+    color: #f59e0b;
+
+}
+
+
+/* ============================================================
+   40. ACESSIBILIDADE
+   ============================================================ */
+
+.filter-button:focus-visible,
+.device-link:focus-visible,
+.dataTables_wrapper
+.dt-paging
+.dt-paging-button:focus-visible {
+
+    outline: 2px solid #93c5fd;
+
+    outline-offset: 2px;
+
+}
+
+
+/* ============================================================
+   41. RESPONSIVIDADE — ATÉ 1100px
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+    .page-content {
+
+        padding-left: 24px;
+
+        padding-right: 24px;
+
+    }
+
+
+    #devicesTable {
+
+        min-width: 850px;
+
+    }
+
+
+    .dataTables_wrapper .dt-search input {
+
+        width: 210px;
+
+    }
+
+}
+
+
+/* ============================================================
+   42. RESPONSIVIDADE — ATÉ 900px
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .page-content {
+
+        padding: 24px 20px 32px;
+
+    }
+
+
+    .instrument-filters {
+
+        overflow-x: auto;
+
+    }
+
+
+    .filter-button {
+
+        flex-shrink: 0;
+
+    }
+
+
+    .dataTables_wrapper .dt-layout-row {
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+
+    }
+
+
+    .dataTables_wrapper
+    .dt-layout-start,
+    .dataTables_wrapper
+    .dt-layout-end {
+
+        width: 100%;
+
+    }
+
+
+    .dataTables_wrapper .dt-layout-end {
+
+        justify-content: flex-start;
+
+        margin-left: 0 !important;
+
+    }
+
+
+    .dataTables_wrapper .dt-search {
+
+        width: 100%;
+
+    }
+
+
+    .dataTables_wrapper .dt-search label {
+
+        width: 100%;
+
+    }
+
+
+    .dataTables_wrapper .dt-search input {
+
+        flex: 1;
+
+        width: auto;
+
+    }
+
+
+    .dataTables_wrapper .dt-paging {
+
+        justify-content: flex-start;
+
+        width: 100%;
+
+        overflow-x: auto;
+
+    }
+
+}
+
+
+/* ============================================================
+   43. RESPONSIVIDADE — ATÉ 600px
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .page-content {
+
+        padding: 20px 14px 28px;
+
+    }
+
+
+    .page-header {
+
+        margin-bottom: 18px;
+
+    }
+
+
+    .page-header h1 {
+
+        font-size: 23px;
+
+    }
+
+
+    .page-header p {
+
+        font-size: 11px;
+
+    }
+
+
+    .instrument-card-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding: 16px;
+
+    }
+
+
+    .instrument-filters {
+
+        border-radius: 9px;
+
+    }
+
+
+    #devicesTable {
+
+        min-width: 800px;
+
+    }
+
+
+    #devicesTable thead th,
+    #devicesTable tbody td {
+
+        padding-left: 12px;
+
+        padding-right: 12px;
+
+    }
+
+
+    #devicesTable thead th:first-child,
+    #devicesTable tbody td:first-child {
+
+        padding-left: 14px;
+
+    }
+
+
+    #devicesTable thead th:last-child,
+    #devicesTable tbody td:last-child {
+
+        padding-right: 14px;
+
+    }
+
+
+    .dataTables_wrapper .dt-layout-row {
+
+        align-items: stretch;
+
+        flex-direction: column;
+
+        gap: 10px;
+
+        padding: 10px 12px;
+
+    }
+
+
+    .dataTables_wrapper
+    .dt-layout-start,
+    .dataTables_wrapper
+    .dt-layout-end {
+
+        width: 100%;
+
+    }
+
+
+    .dataTables_wrapper .dt-layout-end {
+
+        justify-content: flex-start;
+
+        margin-left: 0 !important;
+
+    }
+
+
+    .dataTables_wrapper .dt-length {
+
+        width: 100%;
+
+    }
+
+
+    .dataTables_wrapper .dt-search {
+
+        width: 100%;
+
+    }
+
+
+    .dataTables_wrapper .dt-search label {
+
+        width: 100%;
+
+    }
+
+
+    .dataTables_wrapper .dt-search input {
+
+        width: 100%;
+
+        flex: 1;
+
+    }
+
+
+    .dataTables_wrapper .dt-info {
+
+        width: 100%;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+
+    }
+
+
+    .dataTables_wrapper .dt-paging {
+
+        justify-content: flex-start;
+
+        width: 100%;
+
+        overflow-x: auto;
+
+        padding-bottom: 2px;
+
+    }
+
+}
+
+
+/* ============================================================
+   44. REDUÇÃO DE MOVIMENTO
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .filter-button,
+    .device-link,
+    .dataTables_wrapper .dt-search input,
+    .dataTables_wrapper .dt-length select,
+    #devicesTable tbody tr,
+    .dataTables_wrapper
+    .dt-paging
+    .dt-paging-button {
+
+        transition: none;
+
+    }
+
+}
+
+/* ============================================================
+   ALINHAMENTO FIXO — COLUNA NÚMERO
+   Garante alinhamento à esquerda em todos os filtros
+============================================================ */
+
+#devicesTable thead th:first-child,
+#devicesTable tbody td:first-child {
+
+    text-align: left !important;
+
+}
+
+
+/* Mantém o conteúdo interno da célula à esquerda */
+
+#devicesTable tbody td:first-child .device-link {
+
+    justify-content: flex-start;
+
+    text-align: left;
+
+}
+
+
+/* Evita que o DataTables altere o alinhamento */
+
+#devicesTable th.dt-type-numeric:first-child,
+#devicesTable td.dt-type-numeric:first-child {
+
+    text-align: left !important;
+
+}
+/* ============================================================
+   SIGEM CAL PRO — QR / TOOLBAR / REFINAMENTO
+   ============================================================ */
+.instrument-card-header{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 24px;border-bottom:1px solid var(--instrument-border-light)}
+.instrument-toolbar{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.toolbar-button{height:36px;padding:0 13px;border:1px solid #dbe3ee;border-radius:8px;background:#fff;color:#334155;font:700 10px Inter,sans-serif;display:inline-flex;align-items:center;gap:7px;cursor:pointer;transition:.18s ease}
+.toolbar-button:hover{border-color:#bfdbfe;background:#eff6ff;color:#2563eb;transform:translateY(-1px)}
+.inventory-live{display:inline-flex;align-items:center;gap:6px;color:#64748b;font-size:9px;font-weight:700;white-space:nowrap}.inventory-live span{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px #dcfce7}
+.qr-column{width:70px;text-align:center}.qr-cell{text-align:center!important}.qr-thumb{width:34px;height:34px;padding:4px;border:1px solid #e2e8f0;border-radius:7px;background:#fff;object-fit:contain;cursor:pointer;transition:.18s ease}.qr-thumb:hover{transform:scale(1.1);border-color:#93c5fd;box-shadow:0 5px 14px rgba(37,99,235,.15)}
+.qr-action{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid #e2e8f0;border-radius:7px;background:#f8fafc;color:#2563eb;cursor:pointer}.qr-action:hover{background:#eff6ff;border-color:#bfdbfe}
+.qr-modal{border:0;border-radius:18px;overflow:hidden;box-shadow:0 24px 70px rgba(15,23,42,.22)}.qr-modal .modal-header{padding:22px 24px;border-bottom:1px solid #eef2f7}.qr-modal .modal-title{font-size:18px;font-weight:800;color:#0f172a}.qr-modal .modal-header p{margin:5px 0 0;color:#64748b;font-size:11px}.qr-modal .modal-body{padding:28px}.qr-hero{text-align:center}.qr-frame{display:inline-flex;padding:18px;border:1px solid #e2e8f0;border-radius:16px;background:#fff;box-shadow:0 12px 35px rgba(15,23,42,.08)}.qr-frame img{width:240px;height:240px;object-fit:contain;display:block}.qr-device-number{margin-top:18px;font-size:22px;font-weight:850;color:#0f172a;letter-spacing:-.03em}.qr-device-desc{margin-top:5px;color:#64748b;font-size:11px}.qr-modal .modal-footer{padding:16px 24px;border-top:1px solid #eef2f7;background:#fbfdff}.qr-modal .btn{border-radius:8px;font-size:11px;font-weight:700}.device-link{font-weight:800;text-decoration:none}.device-link:hover{text-decoration:underline}
+@media(max-width:900px){.instrument-card-header{align-items:flex-start;flex-direction:column}.instrument-toolbar{width:100%}.inventory-live{margin-left:auto}.qr-frame img{width:190px;height:190px}}
+
+
+/* ============================================================
+   CERTIFICADOS POR DISPOSITIVO / DC
+============================================================ */
+.certificate-cell{white-space:nowrap}.certificate-action{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--instrument-blue-border);background:var(--instrument-blue-soft);color:var(--instrument-primary);border-radius:9px;padding:7px 10px;font-size:12px;font-weight:700;cursor:pointer;transition:.15s ease}.certificate-action:hover{background:#dbeafe;border-color:#bfdbfe;transform:translateY(-1px)}.certificate-action i{font-size:15px}.certificates-device-modal .modal-header{border-bottom:1px solid var(--instrument-border-light);padding:20px 24px}.certificates-device-modal .modal-body{padding:20px 24px;background:var(--instrument-background)}.certificates-device-state{min-height:220px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:9px;color:var(--instrument-text-secondary);text-align:center}.certificates-device-state>i{font-size:34px;color:var(--instrument-text-muted)}.device-certificates-list{display:grid;gap:12px}.device-certificate-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--instrument-border);border-radius:12px;padding:14px 16px;box-shadow:0 2px 8px rgba(15,23,42,.04)}.device-certificate-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:10px;background:#fef2f2;color:#dc2626;font-size:21px;flex:0 0 auto}.device-certificate-main{min-width:0;flex:1}.device-certificate-top{display:flex;align-items:center;gap:10px;justify-content:space-between}.device-certificate-top strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--instrument-text);font-size:13px}.device-certificate-meta{display:flex;flex-wrap:wrap;gap:5px 16px;margin:7px 0;color:var(--instrument-text-secondary);font-size:11px}.device-certificate-main small{color:var(--instrument-text-muted)}.device-certificate-actions{display:flex;gap:7px;flex:0 0 auto}.certificate-status{font-size:10px;font-weight:800;padding:4px 7px;border-radius:999px;white-space:nowrap}.certificate-status.success{color:var(--instrument-success);background:var(--instrument-success-bg)}.certificate-status.warning{color:var(--instrument-warning);background:var(--instrument-warning-bg)}.certificate-status.danger{color:var(--instrument-danger);background:var(--instrument-danger-bg)}.certificate-status.neutral{color:#64748b;background:#f1f5f9}@media(max-width:800px){.device-certificate-card{align-items:flex-start;flex-wrap:wrap}.device-certificate-actions{width:100%;padding-left:56px}.device-certificate-top{align-items:flex-start;flex-direction:column;gap:6px}}

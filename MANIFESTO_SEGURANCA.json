@@ -1,0 +1,21 @@
+{
+  "project": "SIGEM CAL",
+  "version": "profissional-2026-08-25",
+  "security": [
+    "PBKDF2 password hashes",
+    "Fernet encryption for sensitive settings",
+    "HTTP security headers",
+    "secure session cookies in production",
+    "secrets excluded from distributable .env"
+  ],
+  "runtime_modules": [
+    "app/runtime/excel_watcher.py",
+    "app/runtime/notification_monitor.py"
+  ],
+  "data_included": {
+    "Certificados.zip": true,
+    "uploads": true,
+    "excel": true,
+    "instance": true
+  }
+}

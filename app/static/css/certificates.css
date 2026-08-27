@@ -1,0 +1,3682 @@
+/* ============================================================
+SIGEM CAL
+CERTIFICATES.CSS
+Página de Certificados
+============================================================ */
+
+/* ============================================================
+
+1. VARIÁVEIS
+   ============================================================ */
+
+.certificates-page {
+
+
+--cert-primary: #2563eb;
+--cert-primary-dark: #1d4ed8;
+--cert-primary-soft: #eff6ff;
+
+--cert-success: #16a34a;
+--cert-success-soft: #f0fdf4;
+
+--cert-warning: #d97706;
+--cert-warning-soft: #fffbeb;
+
+--cert-danger: #dc2626;
+--cert-danger-soft: #fef2f2;
+
+--cert-info: #0891b2;
+--cert-info-soft: #ecfeff;
+
+--cert-text: #111827;
+--cert-text-secondary: #4b5563;
+--cert-text-muted: #6b7280;
+
+--cert-border: #e5e7eb;
+--cert-border-light: #eef0f3;
+
+--cert-bg: #f8fafc;
+--cert-card: #ffffff;
+
+--cert-radius-sm: 8px;
+--cert-radius-md: 12px;
+--cert-radius-lg: 16px;
+
+--cert-shadow-sm:
+    0 1px 2px rgba(15, 23, 42, 0.04);
+
+--cert-shadow-md:
+    0 4px 12px rgba(15, 23, 42, 0.06);
+
+--cert-transition:
+    160ms ease;
+
+
+}
+
+/* ============================================================
+2. PÁGINA
+============================================================ */
+
+.certificates-page {
+
+
+width: 100%;
+max-width: 1800px;
+
+margin: 0 auto;
+
+padding:
+    28px 32px
+    48px;
+
+
+}
+
+/* ============================================================
+3. CABEÇALHO
+============================================================ */
+
+.certificates-page .page-header {
+
+
+display: flex;
+
+align-items: flex-start;
+
+justify-content: space-between;
+
+gap: 32px;
+
+margin-bottom: 28px;
+
+
+}
+
+.certificates-page .page-breadcrumb {
+
+
+display: flex;
+
+align-items: center;
+
+gap: 8px;
+
+margin-bottom: 8px;
+
+color:
+    var(--cert-text-muted);
+
+font-size: 12px;
+
+font-weight: 500;
+
+
+}
+
+.certificates-page .page-breadcrumb span {
+
+
+color:
+    #cbd5e1;
+
+
+}
+
+.certificates-page .page-title {
+
+
+margin: 0;
+
+color:
+    var(--cert-text);
+
+font-size: 30px;
+
+line-height: 1.2;
+
+font-weight: 700;
+
+letter-spacing: -0.025em;
+
+
+}
+
+.certificates-page .page-description {
+
+
+max-width: 720px;
+
+margin:
+    8px 0 0;
+
+color:
+    var(--cert-text-muted);
+
+font-size: 14px;
+
+line-height: 1.6;
+
+
+}
+
+.page-header-actions {
+
+
+display: flex;
+
+align-items: center;
+
+gap: 10px;
+
+
+}
+
+/* ============================================================
+4. BOTÕES
+============================================================ */
+
+.certificates-page .btn {
+
+
+display: inline-flex;
+
+align-items: center;
+
+justify-content: center;
+
+gap: 8px;
+
+min-height: 40px;
+
+border-radius:
+    var(--cert-radius-sm);
+
+font-size: 13px;
+
+font-weight: 600;
+
+transition:
+    background-color var(--cert-transition),
+    border-color var(--cert-transition),
+    color var(--cert-transition),
+    box-shadow var(--cert-transition),
+    transform var(--cert-transition);
+
+
+}
+
+.certificates-page .btn i {
+
+
+font-size: 15px;
+
+
+}
+
+.certificates-page .btn-primary {
+
+
+color: #ffffff;
+
+background:
+    var(--cert-primary);
+
+border-color:
+    var(--cert-primary);
+
+box-shadow:
+    0 1px 2px
+    rgba(37, 99, 235, 0.18);
+
+
+}
+
+.certificates-page .btn-primary:hover {
+
+
+color: #ffffff;
+
+background:
+    var(--cert-primary-dark);
+
+border-color:
+    var(--cert-primary-dark);
+
+transform:
+    translateY(-1px);
+
+box-shadow:
+    0 4px 10px
+    rgba(37, 99, 235, 0.18);
+
+
+}
+
+.certificates-page .btn-light {
+
+
+color:
+    var(--cert-text-secondary);
+
+background:
+    #ffffff;
+
+border:
+    1px solid var(--cert-border);
+
+
+}
+
+.certificates-page .btn-light:hover {
+
+
+color:
+    var(--cert-text);
+
+background:
+    #f8fafc;
+
+border-color:
+    #d1d5db;
+
+
+}
+
+/* ============================================================
+5. RESUMO
+============================================================ */
+
+.certificate-summary {
+
+
+display: grid;
+
+grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+
+gap: 16px;
+
+margin-bottom: 24px;
+
+
+}
+
+.summary-card {
+
+
+position: relative;
+
+display: flex;
+
+align-items: center;
+
+gap: 16px;
+
+min-width: 0;
+
+padding: 20px;
+
+overflow: hidden;
+
+background:
+    var(--cert-card);
+
+border:
+    1px solid var(--cert-border);
+
+border-radius:
+    var(--cert-radius-md);
+
+box-shadow:
+    var(--cert-shadow-sm);
+
+transition:
+    transform var(--cert-transition),
+    box-shadow var(--cert-transition),
+    border-color var(--cert-transition);
+
+
+}
+
+.summary-card::after {
+
+
+content: "";
+
+position: absolute;
+
+right: -24px;
+
+bottom: -30px;
+
+width: 80px;
+
+height: 80px;
+
+border-radius: 50%;
+
+background:
+    rgba(37, 99, 235, 0.035);
+
+
+}
+
+.summary-card:hover {
+
+
+transform:
+    translateY(-2px);
+
+border-color:
+    #dbe3ee;
+
+box-shadow:
+    var(--cert-shadow-md);
+
+
+}
+
+.summary-icon {
+
+
+position: relative;
+
+z-index: 1;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+flex: 0 0 44px;
+
+width: 44px;
+
+height: 44px;
+
+color:
+    var(--cert-primary);
+
+background:
+    var(--cert-primary-soft);
+
+border-radius:
+    11px;
+
+
+}
+
+.summary-icon i {
+
+
+font-size: 20px;
+
+
+}
+
+.summary-content {
+
+
+position: relative;
+
+z-index: 1;
+
+min-width: 0;
+
+
+}
+
+.summary-label {
+
+
+display: block;
+
+margin-bottom: 2px;
+
+color:
+    var(--cert-text-muted);
+
+font-size: 12px;
+
+font-weight: 600;
+
+
+}
+
+.summary-value {
+
+
+display: block;
+
+color:
+    var(--cert-text);
+
+font-size: 24px;
+
+line-height: 1.2;
+
+font-weight: 700;
+
+letter-spacing: -0.02em;
+
+
+}
+
+.summary-description {
+
+
+display: block;
+
+margin-top: 3px;
+
+overflow: hidden;
+
+color:
+    #9ca3af;
+
+font-size: 11px;
+
+line-height: 1.4;
+
+text-overflow: ellipsis;
+
+white-space: nowrap;
+
+
+}
+
+/* ============================================================
+6. CORES DOS INDICADORES
+============================================================ */
+
+.summary-card:nth-child(2) .summary-icon {
+
+
+color:
+    var(--cert-info);
+
+background:
+    var(--cert-info-soft);
+
+
+}
+
+.summary-card:nth-child(3) .summary-icon {
+
+
+color:
+    var(--cert-success);
+
+background:
+    var(--cert-success-soft);
+
+
+}
+
+.summary-card:nth-child(4) .summary-icon {
+
+
+color:
+    var(--cert-warning);
+
+background:
+    var(--cert-warning-soft);
+
+
+}
+
+.summary-card:nth-child(5) .summary-icon {
+
+
+color:
+    var(--cert-danger);
+
+background:
+    var(--cert-danger-soft);
+
+
+}
+
+/* ============================================================
+7. CARD PRINCIPAL
+============================================================ */
+
+.certificates-card {
+
+
+overflow: hidden;
+
+background:
+    var(--cert-card);
+
+border:
+    1px solid var(--cert-border);
+
+border-radius:
+    var(--cert-radius-lg);
+
+box-shadow:
+    var(--cert-shadow-sm);
+
+
+}
+
+/* ============================================================
+8. TOOLBAR
+============================================================ */
+
+.certificates-toolbar {
+
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+gap: 24px;
+
+padding:
+    20px 24px;
+
+border-bottom:
+    1px solid var(--cert-border);
+
+
+}
+
+.toolbar-title {
+
+
+min-width: 220px;
+
+
+}
+
+.toolbar-title h2 {
+
+
+margin: 0;
+
+color:
+    var(--cert-text);
+
+font-size: 15px;
+
+font-weight: 700;
+
+
+}
+
+.toolbar-title p {
+
+
+margin:
+    4px 0 0;
+
+color:
+    var(--cert-text-muted);
+
+font-size: 12px;
+
+
+}
+
+.toolbar-actions {
+
+
+display: flex;
+
+align-items: center;
+
+justify-content: flex-end;
+
+gap: 8px;
+
+
+}
+
+/* ============================================================
+9. PESQUISA
+============================================================ */
+
+.certificate-search {
+
+
+position: relative;
+
+width: 270px;
+
+
+}
+
+.certificate-search > i {
+
+
+position: absolute;
+
+top: 50%;
+
+left: 13px;
+
+z-index: 2;
+
+color:
+    #9ca3af;
+
+font-size: 14px;
+
+pointer-events: none;
+
+transform:
+    translateY(-50%);
+
+
+}
+
+.certificate-search input {
+
+
+width: 100%;
+
+height: 40px;
+
+padding:
+    0 14px 0 36px;
+
+color:
+    var(--cert-text);
+
+background:
+    #ffffff;
+
+border:
+    1px solid var(--cert-border);
+
+border-radius:
+    var(--cert-radius-sm);
+
+outline: none;
+
+font-size: 12px;
+
+transition:
+    border-color var(--cert-transition),
+    box-shadow var(--cert-transition);
+
+
+}
+
+.certificate-search input::placeholder {
+
+
+color:
+    #9ca3af;
+
+
+}
+
+.certificate-search input:focus {
+
+
+border-color:
+    #93c5fd;
+
+box-shadow:
+    0 0 0 3px
+    rgba(37, 99, 235, 0.08);
+
+
+}
+
+/* ============================================================
+10. SELECTS
+============================================================ */
+
+.certificate-filter {
+
+
+min-width: 150px;
+
+
+}
+
+.certificate-filter .form-select {
+
+
+height: 40px;
+
+padding:
+    0 34px 0 12px;
+
+color:
+    var(--cert-text-secondary);
+
+background-color:
+    #ffffff;
+
+border:
+    1px solid var(--cert-border);
+
+border-radius:
+    var(--cert-radius-sm);
+
+font-size: 12px;
+
+cursor: pointer;
+
+box-shadow: none;
+
+
+}
+
+.certificate-filter .form-select:focus {
+
+
+border-color:
+    #93c5fd;
+
+box-shadow:
+    0 0 0 3px
+    rgba(37, 99, 235, 0.08);
+
+
+}
+
+/* ============================================================
+11. TABELA
+============================================================ */
+
+.certificates-table {
+
+
+width: 100%;
+
+min-width: 1050px;
+
+margin: 0;
+
+border-collapse: separate;
+
+border-spacing: 0;
+
+
+}
+
+.certificates-table thead th {
+
+
+height: 46px;
+
+padding:
+    0 18px;
+
+color:
+    #6b7280;
+
+background:
+    #f8fafc;
+
+border-bottom:
+    1px solid var(--cert-border);
+
+font-size: 10px;
+
+font-weight: 700;
+
+letter-spacing: 0.055em;
+
+text-transform: uppercase;
+
+vertical-align: middle;
+
+white-space: nowrap;
+
+
+}
+
+.certificates-table tbody td {
+
+
+height: 70px;
+
+padding:
+    12px 18px;
+
+color:
+    var(--cert-text-secondary);
+
+background:
+    #ffffff;
+
+border-bottom:
+    1px solid var(--cert-border-light);
+
+font-size: 12px;
+
+vertical-align: middle;
+
+
+}
+
+.certificates-table tbody tr:last-child td {
+
+
+border-bottom: 0;
+
+
+}
+
+.certificates-table tbody tr {
+
+
+transition:
+    background-color var(--cert-transition);
+
+
+}
+
+.certificates-table tbody tr:hover td {
+
+
+background:
+    #fbfdff;
+
+
+}
+
+/* ============================================================
+12. CERTIFICADO
+============================================================ */
+
+.certificate-cell {
+
+
+display: flex;
+
+align-items: center;
+
+gap: 11px;
+
+min-width: 190px;
+
+
+}
+
+.certificate-file-icon {
+
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+flex: 0 0 38px;
+
+width: 38px;
+
+height: 38px;
+
+color:
+    var(--cert-danger);
+
+background:
+    var(--cert-danger-soft);
+
+border-radius:
+    9px;
+
+
+}
+
+.certificate-file-icon i {
+
+
+font-size: 18px;
+
+
+}
+
+.certificate-cell-content {
+
+
+min-width: 0;
+
+
+}
+
+.certificate-cell-content strong {
+
+
+display: block;
+
+max-width: 210px;
+
+overflow: hidden;
+
+color:
+    var(--cert-text);
+
+font-size: 12px;
+
+font-weight: 650;
+
+line-height: 1.4;
+
+text-overflow: ellipsis;
+
+white-space: nowrap;
+
+
+}
+
+.certificate-cell-content small {
+
+
+display: block;
+
+margin-top: 3px;
+
+color:
+    #9ca3af;
+
+font-size: 10px;
+
+
+}
+
+/* ============================================================
+13. INSTRUMENTO
+============================================================ */
+
+.instrument-cell {
+
+
+min-width: 170px;
+
+
+}
+
+.instrument-cell strong {
+
+
+display: block;
+
+max-width: 210px;
+
+overflow: hidden;
+
+color:
+    var(--cert-text);
+
+font-size: 12px;
+
+font-weight: 600;
+
+line-height: 1.4;
+
+text-overflow: ellipsis;
+
+white-space: nowrap;
+
+
+}
+
+.instrument-cell small {
+
+
+display: block;
+
+margin-top: 3px;
+
+color:
+    #9ca3af;
+
+font-size: 10px;
+
+
+}
+
+/* ============================================================
+14. RESULTADO
+============================================================ */
+
+.result-badge {
+
+
+display: inline-flex;
+
+align-items: center;
+
+gap: 6px;
+
+padding:
+    5px 9px;
+
+border-radius:
+    999px;
+
+font-size: 10px;
+
+font-weight: 650;
+
+white-space: nowrap;
+
+
+}
+
+.result-badge i {
+
+
+font-size: 10px;
+
+
+}
+
+.result-approved {
+
+
+color:
+    #15803d;
+
+background:
+    #f0fdf4;
+
+
+}
+
+.result-rejected {
+
+
+color:
+    #b91c1c;
+
+background:
+    #fef2f2;
+
+
+}
+
+.result-unknown {
+
+
+color:
+    #6b7280;
+
+background:
+    #f3f4f6;
+
+
+}
+
+/* ============================================================
+15. SITUAÇÃO DA VALIDADE
+============================================================ */
+
+.calibration-badge {
+
+
+display: inline-flex;
+
+align-items: center;
+
+gap: 6px;
+
+padding:
+    5px 9px;
+
+border-radius:
+    999px;
+
+font-size: 10px;
+
+font-weight: 650;
+
+line-height: 1.2;
+
+white-space: nowrap;
+
+
+}
+
+.calibration-badge i {
+
+
+font-size: 10px;
+
+
+}
+
+.calibration-valida {
+
+
+color:
+    #15803d;
+
+background:
+    #f0fdf4;
+
+
+}
+
+.calibration-vencendo {
+
+
+color:
+    #b45309;
+
+background:
+    #fffbeb;
+
+
+}
+
+.calibration-hoje {
+
+
+color:
+    #c2410c;
+
+background:
+    #fff7ed;
+
+
+}
+
+.calibration-atrasada {
+
+
+color:
+    #b91c1c;
+
+background:
+    #fef2f2;
+
+
+}
+
+.calibration-sem-data {
+
+
+color:
+    #6b7280;
+
+background:
+    #f3f4f6;
+
+
+}
+
+/* ============================================================
+16. AÇÕES
+============================================================ */
+
+.certificate-actions {
+
+
+display: flex;
+
+align-items: center;
+
+justify-content: flex-end;
+
+gap: 4px;
+
+
+}
+
+.certificate-action {
+
+
+display: inline-flex;
+
+align-items: center;
+
+justify-content: center;
+
+width: 32px;
+
+height: 32px;
+
+padding: 0;
+
+color:
+    #6b7280;
+
+background:
+    transparent;
+
+border:
+    1px solid transparent;
+
+border-radius:
+    7px;
+
+font-size: 14px;
+
+text-decoration: none;
+
+cursor: pointer;
+
+transition:
+    background-color var(--cert-transition),
+    color var(--cert-transition),
+    border-color var(--cert-transition);
+
+
+}
+
+.certificate-action:hover {
+
+
+color:
+    var(--cert-primary);
+
+background:
+    var(--cert-primary-soft);
+
+border-color:
+    #dbeafe;
+
+
+}
+
+.certificate-action.action-download:hover {
+
+
+color:
+    #15803d;
+
+background:
+    #f0fdf4;
+
+border-color:
+    #dcfce7;
+
+
+}
+
+.certificate-action.action-delete:hover {
+
+
+color:
+    var(--cert-danger);
+
+background:
+    var(--cert-danger-soft);
+
+border-color:
+    #fee2e2;
+
+
+}
+
+/* ============================================================
+17. ESTADO VAZIO / LOADING / ERRO
+============================================================ */
+
+.certificates-table .table-loading,
+.certificates-table .table-empty,
+.certificates-table .table-error {
+
+
+height: 260px;
+
+padding: 40px;
+
+color:
+    #9ca3af;
+
+text-align: center;
+
+vertical-align: middle;
+
+
+}
+
+.loading-content {
+
+
+display: inline-flex;
+
+align-items: center;
+
+gap: 9px;
+
+color:
+    var(--cert-text-muted);
+
+font-size: 12px;
+
+
+}
+
+.loading-content i {
+
+
+font-size: 16px;
+
+animation:
+    certificateSpin 1s linear infinite;
+
+
+}
+
+.table-empty i,
+.table-error i {
+
+
+display: block;
+
+margin-bottom: 8px;
+
+font-size: 24px;
+
+
+}
+
+.table-error {
+
+
+color:
+    var(--cert-danger) !important;
+
+
+}
+
+@keyframes certificateSpin {
+
+
+from {
+
+    transform:
+        rotate(0deg);
+
+}
+
+to {
+
+    transform:
+        rotate(360deg);
+
+}
+
+
+}
+
+/* ============================================================
+18. RODAPÉ
+============================================================ */
+
+.certificates-footer {
+
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+gap: 20px;
+
+min-height: 64px;
+
+padding:
+    12px 24px;
+
+border-top:
+    1px solid var(--cert-border);
+
+
+}
+
+.table-result-count {
+
+
+color:
+    var(--cert-text-muted);
+
+font-size: 11px;
+
+
+}
+
+.pagination-container {
+
+
+display: flex;
+
+align-items: center;
+
+gap: 4px;
+
+
+}
+
+.pagination-button {
+
+
+display: inline-flex;
+
+align-items: center;
+
+justify-content: center;
+
+min-width: 32px;
+
+height: 32px;
+
+padding:
+    0 8px;
+
+color:
+    var(--cert-text-secondary);
+
+background:
+    #ffffff;
+
+border:
+    1px solid var(--cert-border);
+
+border-radius:
+    7px;
+
+font-size: 11px;
+
+font-weight: 600;
+
+cursor: pointer;
+
+transition:
+    background-color var(--cert-transition),
+    color var(--cert-transition),
+    border-color var(--cert-transition);
+
+
+}
+
+.pagination-button:hover {
+
+
+color:
+    var(--cert-primary);
+
+background:
+    var(--cert-primary-soft);
+
+border-color:
+    #bfdbfe;
+
+
+}
+
+.pagination-button.active {
+
+
+color:
+    #ffffff;
+
+background:
+    var(--cert-primary);
+
+border-color:
+    var(--cert-primary);
+
+
+}
+
+/* ============================================================
+19. MODAL
+============================================================ */
+
+#certificateModal .modal-content {
+
+
+overflow: hidden;
+
+border:
+    1px solid var(--cert-border);
+
+border-radius:
+    16px;
+
+box-shadow:
+    0 20px 60px
+    rgba(15, 23, 42, 0.18);
+
+
+}
+
+#certificateModal .modal-header {
+
+
+padding:
+    22px 26px;
+
+border-bottom:
+    1px solid var(--cert-border);
+
+
+}
+
+#certificateModal .modal-body {
+
+
+max-height:
+    calc(100vh - 190px);
+
+padding:
+    26px;
+
+overflow-y: auto;
+
+background:
+    #f8fafc;
+
+
+}
+
+#certificateModal .modal-footer {
+
+
+padding:
+    16px 26px;
+
+background:
+    #ffffff;
+
+border-top:
+    1px solid var(--cert-border);
+
+
+}
+
+.modal-eyebrow {
+
+
+display: block;
+
+margin-bottom: 4px;
+
+color:
+    var(--cert-primary);
+
+font-size: 9px;
+
+font-weight: 700;
+
+letter-spacing:
+    0.12em;
+
+
+}
+
+#certificateModal .modal-title,
+.certificate-viewer .modal-title {
+
+
+margin: 0;
+
+color:
+    var(--cert-text);
+
+font-size: 20px;
+
+font-weight: 700;
+
+
+}
+
+/* ============================================================
+20. SEÇÕES DO FORMULÁRIO
+============================================================ */
+
+.form-section {
+
+
+padding:
+    20px;
+
+background:
+    #ffffff;
+
+border:
+    1px solid var(--cert-border);
+
+border-radius:
+    var(--cert-radius-md);
+
+
+}
+
+.form-section-header {
+
+
+display: flex;
+
+align-items: flex-start;
+
+gap: 12px;
+
+margin-bottom: 20px;
+
+
+}
+
+.form-section-header > i {
+
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+flex: 0 0 36px;
+
+width: 36px;
+
+height: 36px;
+
+color:
+    var(--cert-primary);
+
+background:
+    var(--cert-primary-soft);
+
+border-radius:
+    9px;
+
+font-size: 16px;
+
+
+}
+
+.form-section-header h3 {
+
+
+margin: 0;
+
+color:
+    var(--cert-text);
+
+font-size: 13px;
+
+font-weight: 700;
+
+
+}
+
+.form-section-header p {
+
+
+margin:
+    3px 0 0;
+
+color:
+    var(--cert-text-muted);
+
+font-size: 11px;
+
+
+}
+
+/* ============================================================
+21. FORMULÁRIO
+============================================================ */
+
+.certificates-page .form-label,
+#certificateModal .form-label {
+
+
+margin-bottom: 7px;
+
+color:
+    var(--cert-text-secondary);
+
+font-size: 11px;
+
+font-weight: 650;
+
+
+}
+
+#certificateModal .form-label span {
+
+
+color:
+    var(--cert-danger);
+
+
+}
+
+#certificateModal .form-control,
+#certificateModal .form-select {
+
+
+min-height: 40px;
+
+color:
+    var(--cert-text);
+
+background:
+    #ffffff;
+
+border:
+    1px solid var(--cert-border);
+
+border-radius:
+    8px;
+
+box-shadow: none;
+
+font-size: 12px;
+
+
+}
+
+#certificateModal textarea.form-control {
+
+
+min-height: 100px;
+
+padding:
+    12px;
+
+resize: vertical;
+
+
+}
+
+#certificateModal .form-control::placeholder {
+
+
+color:
+    #a1a1aa;
+
+
+}
+
+#certificateModal .form-control:focus,
+#certificateModal .form-select:focus {
+
+
+border-color:
+    #93c5fd;
+
+box-shadow:
+    0 0 0 3px
+    rgba(37, 99, 235, 0.08);
+
+
+}
+
+/* ============================================================
+22. UPLOAD
+============================================================ */
+
+.certificate-upload {
+
+
+display: flex;
+
+align-items: center;
+
+gap: 18px;
+
+padding:
+    22px;
+
+background:
+    #ffffff;
+
+border:
+    1px dashed #cbd5e1;
+
+border-radius:
+    var(--cert-radius-md);
+
+transition:
+    border-color var(--cert-transition),
+    background-color var(--cert-transition);
+
+
+}
+
+.certificate-upload:hover {
+
+
+background:
+    #fbfdff;
+
+border-color:
+    #93c5fd;
+
+
+}
+
+.upload-icon {
+
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+flex: 0 0 50px;
+
+width: 50px;
+
+height: 50px;
+
+color:
+    var(--cert-danger);
+
+background:
+    var(--cert-danger-soft);
+
+border-radius:
+    12px;
+
+
+}
+
+.upload-icon i {
+
+
+font-size: 23px;
+
+
+}
+
+.upload-content {
+
+
+min-width: 0;
+
+
+}
+
+.upload-content h3 {
+
+
+margin: 0;
+
+color:
+    var(--cert-text);
+
+font-size: 13px;
+
+font-weight: 700;
+
+
+}
+
+.upload-content p {
+
+
+margin:
+    4px 0 12px;
+
+color:
+    var(--cert-text-muted);
+
+font-size: 11px;
+
+
+}
+
+.upload-content .btn {
+
+
+min-height: 36px;
+
+color:
+    var(--cert-primary);
+
+background:
+    #ffffff;
+
+border:
+    1px solid #bfdbfe;
+
+
+}
+
+.upload-content .btn:hover {
+
+
+background:
+    var(--cert-primary-soft);
+
+
+}
+
+.selected-file {
+
+
+margin-top: 8px;
+
+color:
+    var(--cert-success);
+
+font-size: 10px;
+
+font-weight: 600;
+
+word-break: break-word;
+
+
+}
+
+/* ============================================================
+23. VISUALIZADOR
+============================================================ */
+
+.certificate-viewer {
+
+
+display: flex;
+
+flex-direction: column;
+
+height: 100vh;
+
+border: 0;
+
+border-radius: 0;
+
+
+}
+
+.certificate-viewer .modal-header {
+
+
+flex: 0 0 auto;
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+gap: 20px;
+
+padding:
+    14px 20px;
+
+background:
+    #ffffff;
+
+border-bottom:
+    1px solid var(--cert-border);
+
+
+}
+
+.viewer-actions {
+
+
+display: flex;
+
+align-items: center;
+
+gap: 8px;
+
+
+}
+
+.viewer-body {
+
+
+flex: 1;
+
+min-height: 0;
+
+padding: 0 !important;
+
+background:
+    #111827;
+
+
+}
+
+#certificateViewer {
+
+
+display: block;
+
+width: 100%;
+
+height: 100%;
+
+border: 0;
+
+background:
+    #111827;
+
+
+}
+
+/* ============================================================
+24. SCROLLBAR
+============================================================ */
+
+.certificates-page ::-webkit-scrollbar {
+
+
+width: 7px;
+
+height: 7px;
+
+
+}
+
+.certificates-page ::-webkit-scrollbar-track {
+
+
+background:
+    transparent;
+
+
+}
+
+.certificates-page ::-webkit-scrollbar-thumb {
+
+
+background:
+    #cbd5e1;
+
+border-radius:
+    999px;
+
+
+}
+
+.certificates-page ::-webkit-scrollbar-thumb:hover {
+
+
+background:
+    #94a3b8;
+
+
+}
+
+/* ============================================================
+25. RESPONSIVIDADE — 1400px
+============================================================ */
+
+@media (max-width: 1400px) {
+
+
+.certificate-summary {
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+}
+
+
+.toolbar-actions {
+
+    flex-wrap: wrap;
+
+}
+
+
+}
+
+/* ============================================================
+26. RESPONSIVIDADE — 1100px
+============================================================ */
+
+@media (max-width: 1100px) {
+
+
+.certificates-page {
+
+    padding:
+        24px;
+
+}
+
+
+.certificates-page .page-header {
+
+    align-items: stretch;
+
+}
+
+
+.certificates-toolbar {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+}
+
+
+.toolbar-actions {
+
+    width: 100%;
+
+    justify-content: flex-start;
+
+}
+
+
+.certificate-search {
+
+    flex: 1;
+
+    width: auto;
+
+}
+
+
+}
+
+/* ============================================================
+27. RESPONSIVIDADE — 768px
+============================================================ */
+
+@media (max-width: 768px) {
+
+
+.certificates-page {
+
+    padding:
+        20px 16px 36px;
+
+}
+
+
+.certificates-page .page-header {
+
+    flex-direction: column;
+
+    gap: 18px;
+
+    margin-bottom: 22px;
+
+}
+
+
+.certificates-page .page-title {
+
+    font-size: 25px;
+
+}
+
+
+.page-header-actions {
+
+    width: 100%;
+
+}
+
+
+.page-header-actions .btn {
+
+    width: 100%;
+
+}
+
+
+.certificate-summary {
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+
+}
+
+
+.summary-card {
+
+    padding: 15px;
+
+}
+
+
+.summary-icon {
+
+    flex-basis: 38px;
+
+    width: 38px;
+
+    height: 38px;
+
+}
+
+
+.summary-value {
+
+    font-size: 20px;
+
+}
+
+
+.certificates-toolbar {
+
+    padding:
+        18px;
+
+}
+
+
+.toolbar-actions {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    width: 100%;
+
+}
+
+
+.certificate-search {
+
+    grid-column:
+        1 / -1;
+
+    width: 100%;
+
+}
+
+
+.certificate-filter {
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+
+.toolbar-actions > .btn {
+
+    width: 40px;
+
+    justify-self: end;
+
+}
+
+
+.certificates-footer {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    padding:
+        14px 18px;
+
+}
+
+
+.pagination-container {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    padding-bottom: 2px;
+
+}
+
+
+#certificateModal .modal-body {
+
+    max-height:
+        none;
+
+    padding:
+        18px;
+
+}
+
+
+#certificateModal .modal-header {
+
+    padding:
+        18px;
+
+}
+
+
+#certificateModal .modal-footer {
+
+    padding:
+        14px 18px;
+
+}
+
+
+.certificate-upload {
+
+    align-items: flex-start;
+
+}
+
+
+}
+
+/* ============================================================
+28. RESPONSIVIDADE — 576px
+============================================================ */
+
+@media (max-width: 576px) {
+
+
+.certificate-summary {
+
+    grid-template-columns:
+        1fr;
+
+}
+
+
+.summary-card {
+
+    min-height: 76px;
+
+}
+
+
+.toolbar-actions {
+
+    grid-template-columns:
+        1fr;
+
+}
+
+
+.certificate-search {
+
+    grid-column:
+        auto;
+
+}
+
+
+.certificate-filter {
+
+    width: 100%;
+
+}
+
+
+.toolbar-actions > .btn {
+
+    width: 100%;
+
+    justify-self: stretch;
+
+}
+
+
+.certificates-page .page-description {
+
+    font-size: 12px;
+
+}
+
+
+.certificate-upload {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+}
+
+
+.upload-content {
+
+    width: 100%;
+
+}
+
+
+.upload-content .btn {
+
+    width: 100%;
+
+}
+
+
+.viewer-actions .btn {
+
+    width: 40px;
+
+    padding: 0;
+
+}
+
+
+.viewer-actions .btn:not(:last-child) {
+
+    font-size: 0;
+
+}
+
+
+.viewer-actions .btn i {
+
+    font-size: 15px;
+
+}
+
+
+.certificate-viewer .modal-header {
+
+    padding:
+        12px 14px;
+
+}
+
+
+.certificate-viewer .modal-title {
+
+    max-width: 180px;
+
+    overflow: hidden;
+
+    font-size: 15px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+}
+
+/* ============================================================
+29. ACESSIBILIDADE
+============================================================ */
+
+.certificates-page button:focus-visible,
+.certificates-page a:focus-visible,
+.certificates-page input:focus-visible,
+.certificates-page select:focus-visible,
+.certificates-page textarea:focus-visible {
+
+
+outline:
+    3px solid
+    rgba(37, 99, 235, 0.25);
+
+outline-offset:
+    2px;
+
+
+}
+
+/* ============================================================
+30. REDUÇÃO DE MOVIMENTO
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+
+.certificates-page *,
+.certificates-page *::before,
+.certificates-page *::after {
+
+    scroll-behavior: auto !important;
+
+    transition: none !important;
+
+    animation: none !important;
+
+}
+
+
+}
+
+/* ============================================================
+   SIGEM CAL
+   CERTIFICATES.CSS
+   COMPONENTE — DISPOSITIVO RELACIONADO
+============================================================ */
+
+.device-link-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 16px;
+
+    margin-bottom: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eff6ff,
+            #ffffff
+        );
+
+    border:
+        1px solid #dbeafe;
+
+    border-radius:
+        12px;
+
+}
+
+
+.device-link-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex: 0 0 42px;
+
+    width: 42px;
+
+    height: 42px;
+
+    color:
+        #2563eb;
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid #dbeafe;
+
+    border-radius:
+        10px;
+
+    font-size: 20px;
+
+}
+
+
+.device-link-content {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+.device-link-content strong {
+
+    color:
+        #1e3a8a;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+.device-link-content span {
+
+    color:
+        #64748b;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   DISPOSITIVO SELECIONADO
+============================================================ */
+
+.selected-device-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 14px;
+
+    padding: 14px;
+
+    background:
+        #f8fafc;
+
+    border:
+        1px solid #e2e8f0;
+
+    border-radius:
+        10px;
+
+}
+
+
+.selected-device-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex: 0 0 38px;
+
+    width: 38px;
+
+    height: 38px;
+
+    color:
+        #2563eb;
+
+    background:
+        #eff6ff;
+
+    border-radius:
+        9px;
+
+}
+
+
+.selected-device-info > div:last-child {
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+}
+
+
+.selected-device-info span {
+
+    color:
+        #94a3b8;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing:
+        .08em;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+.selected-device-info strong {
+
+    margin-top: 2px;
+
+    color:
+        #0f172a;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+.selected-device-info small {
+
+    margin-top: 2px;
+
+    color:
+        #64748b;
+
+    font-size: 10px;
+
+}
+
+
+/* ============================================================
+   STATUS NA TABELA
+============================================================ */
+
+.certificate-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+}
+
+
+.certificate-status::before {
+
+    content: "";
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+}
+
+
+.certificate-status.valid {
+
+    color:
+        #15803d;
+
+    background:
+        #f0fdf4;
+
+}
+
+
+.certificate-status.valid::before {
+
+    background:
+        #22c55e;
+
+}
+
+
+.certificate-status.expiring {
+
+    color:
+        #b45309;
+
+    background:
+        #fffbeb;
+
+}
+
+
+.certificate-status.expiring::before {
+
+    background:
+        #f59e0b;
+
+}
+
+
+.certificate-status.expired {
+
+    color:
+        #b91c1c;
+
+    background:
+        #fef2f2;
+
+}
+
+
+.certificate-status.expired::before {
+
+    background:
+        #ef4444;
+
+}
+
+
+.certificate-status.none {
+
+    color:
+        #64748b;
+
+    background:
+        #f1f5f9;
+
+}
+
+
+.certificate-status.none::before {
+
+    background:
+        #94a3b8;
+
+}
+
+
+/* ============================================================
+   PRAZO
+============================================================ */
+
+.certificate-deadline {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 60px;
+
+    padding: 4px 7px;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+}
+
+
+.certificate-deadline.safe {
+
+    color:
+        #15803d;
+
+    background:
+        #f0fdf4;
+
+}
+
+
+.certificate-deadline.warning {
+
+    color:
+        #b45309;
+
+    background:
+        #fffbeb;
+
+}
+
+
+.certificate-deadline.danger {
+
+    color:
+        #b91c1c;
+
+    background:
+        #fef2f2;
+
+}
+
+
+/* ============================================================
+   DETALHES DO CERTIFICADO
+============================================================ */
+
+.certificate-detail-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+}
+
+
+.certificate-detail-item {
+
+    padding: 14px;
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius:
+        10px;
+
+}
+
+
+.certificate-detail-item.full {
+
+    grid-column:
+        1 / -1;
+
+}
+
+
+.certificate-detail-label {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color:
+        #94a3b8;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing:
+        .08em;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+.certificate-detail-value {
+
+    color:
+        #111827;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 768px) {
+
+    .certificate-detail-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .certificate-detail-item.full {
+
+        grid-column:
+            auto;
+
+    }
+
+    .device-link-box {
+
+        align-items:
+            flex-start;
+
+    }
+
+}
+
+/* ============================================================
+   TOAST — NOTIFICAÇÕES
+============================================================ */
+
+.sigem-certificate-toast {
+
+    position: fixed;
+
+    top: 24px;
+
+    right: 24px;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: min(
+        380px,
+        calc(100vw - 32px)
+    );
+
+    padding: 14px 16px;
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius:
+        12px;
+
+    box-shadow:
+        0 16px 40px
+        rgba(
+            15,
+            23,
+            42,
+            0.14
+        );
+
+    opacity: 0;
+
+    transform:
+        translateY(-10px);
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease;
+
+}
+
+
+.sigem-certificate-toast.show {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+.toast-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 34px;
+
+    height: 34px;
+
+    flex: 0 0 34px;
+
+    border-radius:
+        9px;
+
+}
+
+
+.toast-message {
+
+    color:
+        #334155;
+
+    font-size:
+        12px;
+
+    font-weight:
+        600;
+
+    line-height:
+        1.5;
+
+}
+
+
+.sigem-certificate-toast.success
+.toast-icon {
+
+    color:
+        #15803d;
+
+    background:
+        #f0fdf4;
+
+}
+
+
+.sigem-certificate-toast.error
+.toast-icon {
+
+    color:
+        #b91c1c;
+
+    background:
+        #fef2f2;
+
+}
+
+
+.sigem-certificate-toast.warning
+.toast-icon {
+
+    color:
+        #b45309;
+
+    background:
+        #fffbeb;
+
+}
+
+
+.sigem-certificate-toast.info
+.toast-icon {
+
+    color:
+        #2563eb;
+
+    background:
+        #eff6ff;
+
+}
+
+
+@media (max-width: 576px) {
+
+    .sigem-certificate-toast {
+
+        top: 12px;
+
+        right: 12px;
+
+        left: 12px;
+
+        width: auto;
+
+    }
+
+}
+
+/* ============================================================
+   DISPOSITIVO VINCULADO AO CERTIFICADO
+============================================================ */
+
+.device-linked-card {
+
+    display: grid;
+
+    grid-template-columns:
+        auto minmax(180px, 1.4fr)
+        minmax(150px, 1fr)
+        minmax(150px, 1fr);
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 16px 18px;
+
+    background: #f8fafc;
+
+    border: 1px solid var(--cert-border);
+
+    border-radius: var(--cert-radius-md);
+
+}
+
+
+.device-linked-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 42px;
+
+    height: 42px;
+
+    color: var(--cert-primary);
+
+    background: var(--cert-primary-soft);
+
+    border-radius: 10px;
+
+}
+
+
+.device-linked-icon i {
+
+    font-size: 19px;
+
+}
+
+
+.device-linked-content,
+.device-linked-meta {
+
+    min-width: 0;
+
+}
+
+
+.device-linked-content > span,
+.device-linked-meta > span {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--cert-text-muted);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+}
+
+
+.device-linked-content strong,
+.device-linked-meta strong {
+
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--cert-text);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.device-linked-content small {
+
+    display: block;
+
+    margin-top: 3px;
+
+    overflow: hidden;
+
+    color: var(--cert-text-muted);
+
+    font-size: 10px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+@media (max-width: 768px) {
+
+    .device-linked-card {
+
+        grid-template-columns: 42px 1fr;
+
+        gap: 12px;
+
+    }
+
+
+    .device-linked-content {
+
+        min-width: 0;
+
+    }
+
+
+    .device-linked-meta {
+
+        grid-column: 2;
+
+    }
+
+}
+
+/* ============================================================
+   SIGEM CAL — REFINAMENTO PROFISSIONAL 2026
+============================================================ */
+
+.certificates-page {
+    --cert-primary: #0f4c81;
+    --cert-primary-dark: #0b3558;
+    --cert-border: #e2e8f0;
+    --cert-muted: #64748b;
+    --cert-bg: #f8fafc;
+}
+
+.certificate-summary {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.summary-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 112px;
+    border: 1px solid var(--cert-border);
+    box-shadow: 0 5px 18px rgba(15, 23, 42, .045);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.summary-card[data-summary-filter] {
+    cursor: pointer;
+}
+
+.summary-card[data-summary-filter]:hover {
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, .08);
+}
+
+.summary-card-muted .summary-icon {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.certificates-toolbar {
+    align-items: flex-end;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.toolbar-title {
+    flex: 1 1 260px;
+}
+
+.toolbar-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex: 2 1 720px;
+    flex-wrap: wrap;
+}
+
+.certificate-search {
+    min-width: 260px;
+    flex: 1 1 300px;
+}
+
+.certificate-filter {
+    min-width: 150px;
+}
+
+.certificate-filter .form-select,
+.certificate-search input {
+    min-height: 40px;
+    border-color: #dbe3ec;
+    background: #fff;
+}
+
+.certificates-table {
+    min-width: 1080px;
+}
+
+.certificates-table thead th {
+    height: 44px;
+    background: #f8fafc;
+    color: #475569;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.certificates-table tbody tr {
+    transition: background-color .15s ease;
+}
+
+.certificates-table tbody tr:hover {
+    background: #f8fbff;
+}
+
+.certificates-table tbody td {
+    height: 68px;
+    border-bottom-color: #edf2f7;
+    vertical-align: middle;
+}
+
+.certificate-file-icon {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.certificate-file-icon.no-file {
+    background: #f1f5f9;
+    color: #94a3b8;
+}
+
+.certificate-cell-content small {
+    display: block;
+    max-width: 260px;
+    overflow: hidden;
+    color: #94a3b8;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.laboratory-cell {
+    display: inline-block;
+    max-width: 180px;
+    overflow: hidden;
+    color: #475569;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.validity-cell {
+    display: flex;
+    min-width: 105px;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.certificate-deadline {
+    width: fit-content;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 9px;
+}
+
+.certificate-action:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.pagination-button {
+    min-width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    background: #fff;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+    transition: .15s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+    border-color: #bfdbfe;
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.pagination-button.active {
+    border-color: var(--cert-primary);
+    background: var(--cert-primary);
+    color: #fff;
+}
+
+.pagination-button:disabled {
+    opacity: .4;
+}
+
+.pagination-ellipsis {
+    width: 26px;
+    text-align: center;
+    color: #94a3b8;
+}
+
+.table-empty small {
+    display: block;
+    margin-top: 5px;
+    color: #94a3b8;
+}
+
+.certificate-toast-container {
+    position: fixed;
+    z-index: 2000;
+    right: 22px;
+    bottom: 22px;
+    display: flex;
+    width: min(390px, calc(100vw - 32px));
+    flex-direction: column;
+    gap: 8px;
+}
+
+.certificate-toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 14px 35px rgba(15, 23, 42, .14);
+    color: #334155;
+    font-size: 12px;
+    font-weight: 600;
+    animation: certificateToastIn .18s ease-out;
+}
+
+.certificate-toast.success i { color: #16a34a; }
+.certificate-toast.error i { color: #dc2626; }
+.certificate-toast.warning i { color: #d97706; }
+
+@keyframes certificateToastIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.is-loading i {
+    animation: certificateSpin .7s linear infinite;
+}
+
+@keyframes certificateSpin {
+    to { transform: rotate(360deg); }
+}
+
+.selected-file {
+    min-height: 24px;
+    margin-top: 10px;
+    padding: 8px 10px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 11px;
+}
+
+.selected-file strong {
+    color: #334155;
+}
+
+.selected-file .file-error {
+    color: #b91c1c;
+    font-weight: 700;
+}
+
+.device-linked-card {
+    border-color: #dbeafe;
+    background: linear-gradient(135deg, #f8fbff, #f1f5f9);
+}
+
+.certificate-viewer iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #e2e8f0;
+}
+
+@media (max-width: 1400px) {
+    .certificate-summary {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .certificate-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .toolbar-actions {
+        justify-content: stretch;
+    }
+
+    .certificate-search {
+        min-width: 100%;
+        flex-basis: 100%;
+    }
+
+    .certificate-filter {
+        flex: 1 1 140px;
+    }
+}
+
+@media (max-width: 576px) {
+    .certificate-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .certificate-filter {
+        min-width: 100%;
+    }
+
+    .certificates-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .pagination-container {
+        justify-content: flex-start;
+    }
+}
