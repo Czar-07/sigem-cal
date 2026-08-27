@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import re
 import zipfile
-import os
 
 from datetime import date, datetime
 from pathlib import Path
@@ -16,11 +16,12 @@ from app.database.database import db
 from app.models.certificate import Certificate
 from app.models.device import Device
 
-from app.services.r2_service import (
+from app.utils.r2_storage import (
     is_enabled as r2_enabled,
     list_certificates as r2_list_certificates,
     read_file as r2_read_file,
 )
+
 
 # ============================================================
 # FILENAME PARSING
@@ -42,7 +43,7 @@ FILENAME_RE = re.compile(
     \s*
     DC
     \s*[-_\s]?\s*
-    (?P<dc>\d+)
+    (?P<dc>[^)]+)
     \s*
     \)
     """,
@@ -50,7 +51,560 @@ FILENAME_RE = re.compile(
 )
 
 
+# ============================================================
+# TEXTO
+# ============================================================
+
+
+def _text(value) -> str:
+    """
+    Converte qualquer valor para texto sem
+    aplicar normalização de DC.
+    """
+
+    if value is None:
+        return ""
+
+    return str(value).strip()
+
+
+# ============================================================
+# NORMALIZAÇÃO DE DC
+# ============================================================
+
+
+def normalize_dc(value):
+    """
+    Normaliza o número do dispositivo.
+
+    Exemplos:
+
+        DC-737
+        DC 737
+        dc737
+        0737
+        737.0
+
+    resultam em:
+
+        737
+
+    Identificadores especiais são preservados:
+
+        DC-3.A
+            -> 3.A
+
+        DC-9.B
+            -> 9.B
+
+        DC-871_872
+            -> 871_872
+
+        DC-855_856
+            -> 855_856
+
+        DC-100000057300_400
+            -> 100000057300_400
+    """
+
+    if value is None:
+        return None
+
+    value = str(value).strip().upper()
+
+    if not value:
+        return None
+
+    # Remove extensão caso seja nome de arquivo.
+    value = re.sub(
+        r"\.(?:PDF|XLSX)$",
+        "",
+        value,
+        flags=re.IGNORECASE,
+    )
+
+    # Remove prefixo DC.
+    value = re.sub(
+        r"^\s*DC[\s\-_]*",
+        "",
+        value,
+        flags=re.IGNORECASE,
+    )
+
+    value = value.strip()
+
+    if not value:
+        return None
+
+    # Excel pode transformar 737 em 737.0.
+    if re.fullmatch(
+        r"\d+\.0",
+        value,
+    ):
+        value = value[:-2]
+
+    # Remove zeros à esquerda somente
+    # em identificadores numéricos puros.
+    if re.fullmatch(
+        r"\d+",
+        value,
+    ):
+        value = str(
+            int(value)
+        )
+
+    return value
+
+
+def _normalize_dc(value):
+    """
+    Alias de compatibilidade.
+    """
+
+    normalized = normalize_dc(
+        value
+    )
+
+    return normalized or ""
+
+
+# ============================================================
+# FILENAME METADATA
+# ============================================================
+
+
+def parse_filename(
+    name: str,
+):
+    """
+    Extrai informações do certificado pelo nome.
+
+    Exemplos:
+
+        Certificado de calibração 001-2026 (DC-918).pdf
+
+        Certificado de calibração 168-2026 (DC-3.A).pdf
+
+        Certificado de calibração 215-2026 (DC-871_872).pdf
+
+        Certificado de calibração 046-2026
+        (DC-100000057300_400).pdf
+    """
+
+    if not name:
+        return None
+
+    stem = Path(
+        str(name)
+    ).stem
+
+    # --------------------------------------------------------
+    # CERTIFICADO PADRÃO
+    # --------------------------------------------------------
+
+    match = FILENAME_RE.search(
+        stem
+    )
+
+    if match:
+
+        dc = normalize_dc(
+            match.group("dc")
+        )
+
+        return {
+            "numero_certificado": (
+                f"{match.group('num')}/"
+                f"{match.group('year')}"
+            ),
+            "ano": int(
+                match.group("year")
+            ),
+            "dc": dc,
+            "kind": "padrao",
+        }
+
+    # --------------------------------------------------------
+    # TERCEIROS / RELATÓRIOS
+    # --------------------------------------------------------
+
+    dc_match = re.search(
+        r"""
+        (?:^|[/\\\s_(\-])
+        DC
+        [\s\-_]*
+        (
+            [A-Za-z0-9]
+            [A-Za-z0-9._\-]*
+        )
+        """,
+        str(name),
+        re.IGNORECASE | re.VERBOSE,
+    )
+
+    year_match = re.search(
+        r"(?:19|20)\d{2}",
+        str(name),
+    )
+
+    if dc_match and year_match:
+
+        dc = normalize_dc(
+            dc_match.group(1)
+        )
+
+        return {
+            "numero_certificado": stem,
+            "ano": int(
+                year_match.group(0)
+            ),
+            "dc": dc,
+            "kind": "terceiros",
+        }
+
+    return None
+
+
+# ============================================================
+# DATE PARSING
+# ============================================================
+
+
+def _date_value(
+    value,
+) -> date | None:
+    """
+    Converte valores comuns do Excel para date.
+    """
+
+    if isinstance(
+        value,
+        datetime,
+    ):
+        return value.date()
+
+    if isinstance(
+        value,
+        date,
+    ):
+        return value
+
+    if not value:
+        return None
+
+    text = str(
+        value
+    ).strip()
+
+    formats = (
+        "%Y-%m-%d",
+        "%d/%m/%Y",
+        "%d-%m-%Y",
+        "%Y/%m/%d",
+        "%d.%m.%Y",
+    )
+
+    for fmt in formats:
+
+        try:
+            return datetime.strptime(
+                text,
+                fmt,
+            ).date()
+
+        except ValueError:
+            continue
+
+    return None
+
+
+# ============================================================
+# XLSX METADATA
+# ============================================================
+
+
+def read_xlsx_metadata(
+    path: Path,
+) -> dict:
+    """
+    Extrai metadados de certificados XLSX.
+
+    A função é tolerante a diferentes
+    modelos de certificado.
+    """
+
+    data = {}
+
+    workbook = None
+
+    try:
+
+        workbook = load_workbook(
+            path,
+            data_only=True,
+            read_only=True,
+        )
+
+        worksheet = (
+            workbook.active
+        )
+
+        # ----------------------------------------------------
+        # PRIMEIRAS 50 LINHAS
+        # ----------------------------------------------------
+
+        rows = list(
+            worksheet.iter_rows(
+                values_only=True
+            )
+        )
+
+        for row in rows[:50]:
+
+            values = list(row)
+
+            for index, value in enumerate(
+                values
+            ):
+
+                label = (
+                    _text(value)
+                    .lower()
+                    .rstrip(":")
+                )
+
+                next_value = (
+                    values[index + 1]
+                    if index + 1
+                    < len(values)
+                    else None
+                )
+
+                # --------------------------------------------
+                # DATA DE EMISSÃO / CALIBRAÇÃO
+                # --------------------------------------------
+
+                if (
+                    "data de emissão"
+                    in label
+                    or "data da emissão"
+                    in label
+                    or "data de calibração"
+                    in label
+                    or "data da calibração"
+                    in label
+                ):
+
+                    parsed = _date_value(
+                        next_value
+                    )
+
+                    if parsed:
+                        data[
+                            "data_emissao"
+                        ] = parsed
+
+                # --------------------------------------------
+                # LABORATÓRIO
+                # --------------------------------------------
+
+                if (
+                    "laboratório"
+                    in label
+                    or "laboratorio"
+                    in label
+                ):
+
+                    laboratory = _text(
+                        next_value
+                    )
+
+                    if laboratory:
+                        data[
+                            "laboratorio"
+                        ] = laboratory
+
+                # --------------------------------------------
+                # VALIDADE
+                # --------------------------------------------
+
+                if "validade" in label:
+
+                    parsed = _date_value(
+                        next_value
+                    )
+
+                    if parsed:
+
+                        data[
+                            "data_validade"
+                        ] = parsed
+
+            # ------------------------------------------------
+            # REPRESENTAÇÃO TEXTUAL
+            # ------------------------------------------------
+
+            text = " | ".join(
+                _text(value)
+                for value in values
+                if value is not None
+            )
+
+            validity_match = re.search(
+                r"""
+                Validade
+                \s*:\s*
+                (
+                    \d{2}/
+                    \d{2}/
+                    \d{4}
+                )
+                """,
+                text,
+                re.IGNORECASE | re.VERBOSE,
+            )
+
+            if (
+                validity_match
+                and not data.get(
+                    "data_validade"
+                )
+            ):
+
+                data[
+                    "data_validade"
+                ] = _date_value(
+                    validity_match.group(1)
+                )
+
+        # ----------------------------------------------------
+        # RESULTADO
+        # ----------------------------------------------------
+
+        statuses = []
+
+        for row in rows:
+
+            for value in row:
+
+                status = _text(
+                    value
+                ).upper()
+
+                if status in {
+                    "A",
+                    "R",
+                    "APROVADO",
+                    "REPROVADO",
+                }:
+
+                    statuses.append(
+                        status
+                    )
+
+        if any(
+            status in {
+                "R",
+                "REPROVADO",
+            }
+            for status in statuses
+        ):
+
+            data[
+                "resultado"
+            ] = "REPROVADO"
+
+        elif any(
+            status in {
+                "A",
+                "APROVADO",
+            }
+            for status in statuses
+        ):
+
+            data[
+                "resultado"
+            ] = "APROVADO"
+
+    except Exception:
+        # A falha de leitura de metadata
+        # nunca deve impedir a sincronização.
+        pass
+
+    finally:
+
+        if workbook is not None:
+
+            try:
+                workbook.close()
+            except Exception:
+                pass
+
+    return data
+
+
+# ============================================================
+# FINGERPRINT
+# ============================================================
+
+
+def fingerprint_bytes(
+    data: bytes,
+) -> str:
+    """
+    SHA-256 dos bytes.
+    """
+
+    return hashlib.sha256(
+        data
+    ).hexdigest()
+
+
+def fingerprint_file(
+    path: Path,
+) -> str:
+    """
+    SHA-256 de arquivo.
+    """
+
+    digest = hashlib.sha256()
+
+    with path.open(
+        "rb"
+    ) as file:
+
+        for chunk in iter(
+            lambda: file.read(
+                1024 * 1024
+            ),
+            b"",
+        ):
+
+            digest.update(
+                chunk
+            )
+
+    return digest.hexdigest()
+
+
+# ============================================================
+# R2 SOURCE
+# ============================================================
+
+
 def r2_source_candidates():
+    """
+    Descobre certificados no Cloudflare R2.
+
+    Prefixo padrão:
+
+        Certificados/
+
+    Exemplo de chave:
+
+        Certificados/Certificados de Calibração 2026/
+        Certificado de calibração 001-2026 (DC-918).xlsx
+    """
 
     if not r2_enabled():
         return
@@ -62,7 +616,14 @@ def r2_source_candidates():
             "name": item["name"],
             "ext": item["ext"],
             "r2": True,
-
+            "size": item.get(
+                "size",
+                0,
+            ),
+            "etag": item.get(
+                "etag",
+                "",
+            ),
             "signature": (
                 f'{item.get("etag", "")}:'
                 f'{item.get("size", 0)}'
@@ -71,372 +632,26 @@ def r2_source_candidates():
 
 
 # ============================================================
-# NORMALIZATION
-# ============================================================
-
-def _normalize_dc(value):
-    """
-    Alias interno para manter compatibilidade com chamadas antigas.
-    """
-
-    normalized = normalize_dc(value)
-
-    return normalized or ""
-
-
-def normalize_dc(value):
-    """
-    Normaliza o número do dispositivo (DC) para comparação.
-
-    Exemplos aceitos:
-
-        DC-737                  -> 737
-        DC 737                  -> 737
-        dc737                   -> 737
-        0737                    -> 737
-        737.0                   -> 737
-
-        DC-3.A                  -> 3.A
-        DC-9.B                  -> 9.B
-        DC-871_872              -> 871_872
-        DC-855_856              -> 855_856
-        DC-100000057300_400     -> 100000057300_400
-
-    A normalização não remove letras, pontos ou underscores
-    quando eles fazem parte do identificador do dispositivo.
-    """
-
-    if value is None:
-        return None
-
-    value = str(value).strip().upper()
-
-    if not value:
-        return None
-
-    # Remove extensão caso tenha vindo de um nome de arquivo
-    value = re.sub(r"\.(?:PDF|XLSX)$", "", value, flags=re.IGNORECASE)
-
-    # Remove prefixo DC
-    value = re.sub(r"^\s*DC[\s\-_]*", "", value, flags=re.IGNORECASE)
-
-    # Remove espaços nas extremidades
-    value = value.strip()
-
-    if not value:
-        return None
-
-    # Excel pode transformar números em "737.0"
-    if re.fullmatch(r"\d+\.0", value):
-        value = value[:-2]
-
-    # Remove zeros à esquerda somente quando for número puro.
-    # Não fazer isso em valores como 3.A ou 871_872.
-    if re.fullmatch(r"\d+", value):
-        value = str(int(value))
-
-    return value
-
-# ============================================================
-# FILENAME METADATA
-# ============================================================
-
-
-def parse_filename(name: str):
-    """
-    Extrai os dados do certificado a partir do nome do arquivo.
-
-    Formato padrão:
-
-        Certificado de calibração 001-2026 (DC-918).pdf
-        Certificado de calibração 168-2026 (DC-3.A).pdf
-        Certificado de calibração 215-2026 (DC-871_872).pdf
-        Certificado de calibração 046-2026 (DC-100000057300_400).pdf
-    """
-
-    stem = Path(name).stem
-
-    # ---------------------------------------------------------
-    # CERTIFICADO PADRÃO
-    # ---------------------------------------------------------
-
-    pattern = re.compile(
-        r"""
-        Certificado
-        \s+de\s+calibra(?:ç|c)[aã]o
-        \s+
-        (?P<num>\d+)
-        [-_]
-        (?P<year>20\d{2})
-        \s*
-        \(
-        \s*
-        DC
-        [\s\-_]*
-        (?P<dc>[^)]+)
-        \s*
-        \)
-        """,
-        re.IGNORECASE | re.VERBOSE,
-    )
-
-    match = pattern.search(stem)
-
-    if match:
-        dc = normalize_dc(match.group("dc"))
-
-        return {
-            "numero_certificado": (
-                f"{match.group('num')}/{match.group('year')}"
-            ),
-            "ano": int(match.group("year")),
-            "dc": dc,
-            "kind": "padrao",
-        }
-
-    # ---------------------------------------------------------
-    # TERCEIROS / RELATÓRIOS
-    # ---------------------------------------------------------
-
-    dc_match = re.search(
-        r"(?:^|[/\\\s_(\-])DC[\s\-_]*([A-Za-z0-9][A-Za-z0-9._-]*)",
-        name,
-        re.IGNORECASE,
-    )
-
-    year_match = re.search(
-        r"(?:19|20)\d{2}",
-        name,
-    )
-
-    if dc_match and year_match:
-        dc = normalize_dc(dc_match.group(1))
-
-        return {
-            "numero_certificado": stem,
-            "ano": int(year_match.group(0)),
-            "dc": dc,
-            "kind": "terceiros",
-        }
-
-    return None
-
-# ============================================================
-# DATE PARSING
-# ============================================================
-
-def _date_value(value) -> date | None:
-    """Convert common Excel/date representations to date."""
-
-    if isinstance(value, datetime):
-        return value.date()
-
-    if isinstance(value, date):
-        return value
-
-    if not value:
-        return None
-
-    text = str(value).strip()
-
-    formats = (
-        "%Y-%m-%d",
-        "%d/%m/%Y",
-        "%d-%m-%Y",
-        "%Y/%m/%d",
-        "%d.%m.%Y",
-    )
-
-    for fmt in formats:
-        try:
-            return datetime.strptime(text, fmt).date()
-        except ValueError:
-            continue
-
-    return None
-
-
-# ============================================================
-# XLSX METADATA
-# ============================================================
-
-def read_xlsx_metadata(path: Path) -> dict:
-    """
-    Read metadata from an XLSX certificate.
-
-    The function is intentionally tolerant because certificate
-    templates may vary between years/laboratories.
-    """
-
-    data: dict = {}
-
-    try:
-        workbook = load_workbook(
-            path,
-            data_only=True,
-            read_only=True,
-        )
-
-        worksheet = workbook.active
-
-        rows = list(
-            worksheet.iter_rows(
-                values_only=True
-            )
-        )
-
-        # ----------------------------------------------------
-        # Search first rows for labeled metadata.
-        # ----------------------------------------------------
-
-        for row in rows[:50]:
-            values = list(row)
-
-            for index, value in enumerate(values):
-                label = _normalize_dc(value).lower().rstrip(":")
-
-                next_value = (
-                    values[index + 1]
-                    if index + 1 < len(values)
-                    else None
-                )
-
-                # Emission/calibration date.
-                if (
-                    "data de emissão" in label
-                    or "data da emissão" in label
-                    or "data da calibração" in label
-                    or "data de calibração" in label
-                ):
-                    parsed = _date_value(next_value)
-
-                    if parsed:
-                        data["data_emissao"] = parsed
-
-                # Laboratory.
-                if (
-                    "laboratório" in label
-                    or "laboratorio" in label
-                ):
-                    laboratory = _normalize_dc(next_value)
-
-                    if laboratory:
-                        data["laboratorio"] = laboratory
-
-                # Validity.
-                if "validade" in label:
-                    parsed = _date_value(next_value)
-
-                    if parsed:
-                        data["data_validade"] = parsed
-
-            # ------------------------------------------------
-            # Search textual representation.
-            # ------------------------------------------------
-
-            text = " | ".join(
-                _normalize_dc(value)
-                for value in values
-                if value is not None
-            )
-
-            validity_match = re.search(
-                r"Validade\s*:\s*(\d{2}/\d{2}/\d{4})",
-                text,
-                re.IGNORECASE,
-            )
-
-            if (
-                validity_match
-                and not data.get("data_validade")
-            ):
-                data["data_validade"] = _date_value(
-                    validity_match.group(1)
-                )
-
-        # ----------------------------------------------------
-        # Detect result/status.
-        #
-        # A = approved
-        # R = rejected
-        # ----------------------------------------------------
-
-        statuses = []
-
-        for row in rows:
-            for value in row:
-                status = _normalize_dc(value).upper()
-
-                if status in {
-                    "A",
-                    "R",
-                    "APROVADO",
-                    "REPROVADO",
-                }:
-                    statuses.append(status)
-
-        if any(
-            status in {"R", "REPROVADO"}
-            for status in statuses
-        ):
-            data["resultado"] = "REPROVADO"
-
-        elif any(
-            status in {"A", "APROVADO"}
-            for status in statuses
-        ):
-            data["resultado"] = "APROVADO"
-
-        workbook.close()
-
-    except Exception:
-        # Metadata extraction must never stop the synchronization.
-        pass
-
-    return data
-
-
-# ============================================================
-# FINGERPRINT
-# ============================================================
-
-def fingerprint_bytes(data: bytes) -> str:
-    """Return SHA-256 fingerprint of bytes."""
-
-    return hashlib.sha256(data).hexdigest()
-
-
-def fingerprint_file(path: Path) -> str:
-    """Return SHA-256 fingerprint of a file."""
-
-    digest = hashlib.sha256()
-
-    with path.open("rb") as file:
-        for chunk in iter(
-            lambda: file.read(1024 * 1024),
-            b"",
-        ):
-            digest.update(chunk)
-
-    return digest.hexdigest()
-
-
-# ============================================================
 # SOURCE DISCOVERY
 # ============================================================
 
-def source_candidates(source: Path):
-    """
-    Return supported certificate files from a directory or ZIP.
 
-    Supported:
+def source_candidates(
+    source: Path,
+):
+    """
+    Descobre certificados em:
+
+        diretório
+
+    ou:
+
+        ZIP
+
+    Suportados:
+
         .pdf
         .xlsx
-
-    Ignored:
-        ~$temporary Excel files
-        directories
-        unsupported files
     """
 
     # --------------------------------------------------------
@@ -450,8 +665,9 @@ def source_candidates(source: Path):
             if not path.is_file():
                 continue
 
-            # Temporary Excel file.
-            if path.name.startswith("~$"):
+            if path.name.startswith(
+                "~$"
+            ):
                 continue
 
             if path.suffix.lower() not in {
@@ -466,10 +682,16 @@ def source_candidates(source: Path):
                 continue
 
             yield {
-                "key": path.relative_to(source).as_posix(),
+                "key": path.relative_to(
+                    source
+                ).as_posix(),
+
                 "name": path.name,
+
                 "ext": path.suffix.lower(),
+
                 "path": path,
+
                 "signature": (
                     f"{stat.st_size}:"
                     f"{stat.st_mtime_ns}"
@@ -484,26 +706,40 @@ def source_candidates(source: Path):
 
     if (
         source.is_file()
-        and source.suffix.lower() == ".zip"
+        and source.suffix.lower()
+        == ".zip"
     ):
 
         try:
-            with zipfile.ZipFile(source) as archive:
+
+            with zipfile.ZipFile(
+                source
+            ) as archive:
 
                 for info in archive.infolist():
 
-                    name = info.filename.replace(
-                        "\\",
-                        "/",
+                    name = (
+                        info.filename
+                        .replace(
+                            "\\",
+                            "/",
+                        )
                     )
 
-                    filename = Path(name).name
-                    extension = Path(name).suffix.lower()
+                    filename = Path(
+                        name
+                    ).name
+
+                    extension = Path(
+                        name
+                    ).suffix.lower()
 
                     if info.is_dir():
                         continue
 
-                    if filename.startswith("~$"):
+                    if filename.startswith(
+                        "~$"
+                    ):
                         continue
 
                     if extension not in {
@@ -517,7 +753,9 @@ def source_candidates(source: Path):
                             f"{info.CRC}:"
                             f"{info.file_size}:"
                             f"{info.date_time}"
-                        ).encode("utf-8")
+                        ).encode(
+                            "utf-8"
+                        )
                     ).hexdigest()
 
                     yield {
@@ -537,75 +775,106 @@ def source_candidates(source: Path):
 # SOURCE READING
 # ============================================================
 
-def _read_source(candidate: dict) -> bytes:
+
+def _read_source(
+    candidate: dict,
+) -> bytes:
     """
     Lê certificado de:
 
-    - diretório local
-    - ZIP
-    - Cloudflare R2
+        R2
+        diretório local
+        ZIP
     """
 
     if candidate.get("r2"):
-        return r2_read_file(candidate["key"])
+        return r2_read_file(
+            candidate["key"]
+        )
 
     if "path" in candidate:
-        return candidate["path"].read_bytes()
+        return candidate[
+            "path"
+        ].read_bytes()
 
-    with zipfile.ZipFile(candidate["zip"]) as archive:
-        return archive.read(candidate["info"])
+    with zipfile.ZipFile(
+        candidate["zip"]
+    ) as archive:
+
+        return archive.read(
+            candidate["info"]
+        )
 
 
 def read_source_member(
     source_path: str,
     source_key: str,
-) -> tuple[bytes, str] | None:
+):
     """
-    Read a stored source member directly from the original ZIP.
+    Lê diretamente um membro do ZIP original.
 
-    Returns:
-        (bytes, extension)
+    Retorna:
 
-    Returns None when unavailable.
+        (bytes, extensão)
+
+    ou:
+
+        None
     """
 
     if not source_path or not source_key:
         return None
 
     try:
+
         source = (
-            Path(source_path)
+            Path(
+                source_path
+            )
             .expanduser()
             .resolve()
         )
+
     except OSError:
         return None
 
     if (
         not source.is_file()
-        or source.suffix.lower() != ".zip"
+        or source.suffix.lower()
+        != ".zip"
     ):
         return None
 
     try:
-        with zipfile.ZipFile(source) as archive:
 
-            normalized_key = source_key.replace(
-                "\\",
-                "/",
+        with zipfile.ZipFile(
+            source
+        ) as archive:
+
+            normalized_key = (
+                source_key
+                .replace(
+                    "\\",
+                    "/",
+                )
             )
 
             info = archive.getinfo(
                 normalized_key
             )
 
-            data = archive.read(info)
+            data = archive.read(
+                info
+            )
 
             extension = Path(
                 normalized_key
             ).suffix.lower()
 
-            return data, extension
+            return (
+                data,
+                extension,
+            )
 
     except (
         KeyError,
@@ -616,14 +885,16 @@ def read_source_member(
 
 
 # ============================================================
-# UPLOAD STORAGE
+# UPLOAD STORAGE LOCAL
 # ============================================================
+
 
 def _upload_root() -> Path:
     """
-    Return the canonical upload directory.
+    Retorna o diretório local de uploads.
 
-    Must match the UPLOAD_FOLDER configured by Flask.
+    Usado somente quando a fonte
+    NÃO é R2.
     """
 
     configured = current_app.config.get(
@@ -631,12 +902,17 @@ def _upload_root() -> Path:
     )
 
     if not configured:
+
         configured = (
-            Path(current_app.instance_path)
+            Path(
+                current_app.instance_path
+            )
             / "uploads"
         )
 
-    root = Path(configured).resolve()
+    root = Path(
+        configured
+    ).resolve()
 
     root.mkdir(
         parents=True,
@@ -652,9 +928,10 @@ def _ensure_file(
     filename: str,
 ) -> str:
     """
-    Store certificate locally.
+    Armazena certificado localmente.
 
-    Structure:
+    Estrutura:
+
         uploads/
             certificates/
                 2026/
@@ -674,25 +951,33 @@ def _ensure_file(
         exist_ok=True,
     )
 
-    # Keep normal certificate characters.
     safe_filename = re.sub(
         r"[^A-Za-z0-9À-ÿ.\-_() ]+",
         "_",
         filename,
-    ).strip(" ._")
+    ).strip(
+        " ._"
+    )
 
     if not safe_filename:
-        safe_filename = "certificado.pdf"
+        safe_filename = (
+            "certificado.pdf"
+        )
 
-    target = base / safe_filename
+    target = (
+        base
+        / safe_filename
+    )
 
-    # Write only when necessary.
     if (
         not target.exists()
         or fingerprint_file(target)
         != fingerprint_bytes(data)
     ):
-        target.write_bytes(data)
+
+        target.write_bytes(
+            data
+        )
 
     return target.relative_to(
         upload_root
@@ -700,34 +985,83 @@ def _ensure_file(
 
 
 # ============================================================
-# SOURCE DISCOVERY
+# DISCOVER SOURCE
 # ============================================================
+
 
 def _discover_source(
     source_value=None,
-) -> Path | None:
+):
     """
-    Discover certificate source.
+    Descobre fonte local.
 
-    Priority:
-        1. Explicit source
-        2. Certificados.zip
-        3. certificados.zip
-        4. Certificados/
-        5. certificados/
+    Ordem:
+
+        1. fonte explicitamente informada
+        2. CERTIFICATES_FOLDER
+        3. Certificados.zip
+        4. certificados.zip
+        5. Certificados/
+        6. certificados/
+
+    IMPORTANTE:
+
+        R2 é tratado separadamente por
+        synchronize_certificates().
     """
 
     candidates = []
 
-    raw = _normalize_dc(source_value)
+    # --------------------------------------------------------
+    # FONTE EXPLÍCITA
+    # --------------------------------------------------------
 
-    if raw:
-        candidates.append(
-            Path(raw).expanduser()
+    if source_value:
+
+        raw = str(
+            source_value
+        ).strip()
+
+        if raw:
+
+            candidates.append(
+                Path(
+                    raw
+                ).expanduser()
+            )
+
+    # --------------------------------------------------------
+    # DIRETÓRIO DO PROJETO
+    # --------------------------------------------------------
+
+    base = (
+        Path(__file__)
+        .resolve()
+        .parents[2]
+    )
+
+    cwd = Path.cwd().resolve()
+
+    # --------------------------------------------------------
+    # CONFIGURAÇÃO
+    # --------------------------------------------------------
+
+    configured = current_app.config.get(
+        "CERTIFICATES_FOLDER"
+    )
+
+    if configured:
+
+        candidates.insert(
+            0,
+            Path(
+                configured
+            ).expanduser(),
         )
 
-    base = Path(__file__).resolve().parents[2]
-    cwd = Path.cwd().resolve()
+    # --------------------------------------------------------
+    # CANDIDATOS
+    # --------------------------------------------------------
 
     candidates.extend(
         [
@@ -746,17 +1080,6 @@ def _discover_source(
         ]
     )
 
-    # Optional environment/config path.
-    configured = current_app.config.get(
-        "CERTIFICATES_FOLDER"
-    )
-
-    if configured:
-        candidates.insert(
-            0,
-            Path(configured).expanduser(),
-        )
-
     seen = set()
 
     for candidate in candidates:
@@ -766,12 +1089,16 @@ def _discover_source(
         except OSError:
             continue
 
-        normalized = str(resolved).lower()
+        normalized = str(
+            resolved
+        ).lower()
 
         if normalized in seen:
             continue
 
-        seen.add(normalized)
+        seen.add(
+            normalized
+        )
 
         if not resolved.exists():
             continue
@@ -781,23 +1108,41 @@ def _discover_source(
 
         if (
             resolved.is_file()
-            and resolved.suffix.lower() == ".zip"
+            and resolved.suffix.lower()
+            == ".zip"
         ):
             return resolved
 
     return None
+
+
+# ============================================================
+# DEVICE LOOKUP
+# ============================================================
+
+
+def _find_device_by_dc(
+    dc,
+):
     """
-    Find Device using normalized DC number.
+    Localiza Device através do DC normalizado.
 
-    Example:
-        certificate DC-918
-        device.numero = "DC-918"
+    Exemplo:
 
-    Both normalize to:
-        "918"
+        Certificado:
+            DC-918
+
+        Device:
+            DC-918
+
+    Ambos:
+
+        918
     """
 
-    normalized_dc = normalize_dc(dc)
+    normalized_dc = normalize_dc(
+        dc
+    )
 
     if not normalized_dc:
         return None
@@ -824,12 +1169,30 @@ def _discover_source(
 # CERTIFICATE GROUPING
 # ============================================================
 
-def _group_candidates(candidates, stats):
-    """
-    Parse and group certificate files.
 
-    For the same logical certificate:
-        PDF > XLSX
+def _group_candidates(
+    candidates,
+    stats,
+):
+    """
+    Agrupa certificados logicamente.
+
+    Para certificados padrão:
+
+        ano
+        número
+        DC
+
+    definem o certificado lógico.
+
+    Se existir:
+
+        XLSX
+        PDF
+
+    para o mesmo certificado:
+
+        PDF ganha.
     """
 
     grouped = {}
@@ -841,9 +1204,13 @@ def _group_candidates(candidates, stats):
         )
 
         if not meta:
-            stats["ignored"].append(
+
+            stats[
+                "ignored"
+            ].append(
                 candidate["name"]
             )
+
             continue
 
         candidate = {
@@ -852,12 +1219,7 @@ def _group_candidates(candidates, stats):
         }
 
         # ----------------------------------------------------
-        # Standard certificates.
-        #
-        # Same:
-        #   year + certificate number + DC
-        #
-        # are considered the same logical certificate.
+        # PADRÃO
         # ----------------------------------------------------
 
         if meta["kind"] == "padrao":
@@ -873,43 +1235,120 @@ def _group_candidates(candidates, stats):
             )
 
             if existing is None:
-                grouped[logical_key] = candidate
+
+                grouped[
+                    logical_key
+                ] = candidate
 
             else:
-                # PDF always wins over XLSX.
+
+                # PDF sempre vence XLSX.
                 if (
-                    candidate["ext"] == ".pdf"
-                    and existing["ext"] != ".pdf"
+                    candidate["ext"]
+                    == ".pdf"
+                    and existing["ext"]
+                    != ".pdf"
                 ):
-                    grouped[logical_key] = candidate
+
+                    grouped[
+                        logical_key
+                    ] = candidate
 
         # ----------------------------------------------------
-        # Third-party documents.
-        #
-        # Keep each ZIP/path key independently.
+        # TERCEIROS
         # ----------------------------------------------------
 
         else:
+
             grouped[
                 candidate["key"]
             ] = candidate
 
-    return list(grouped.values())
+    return list(
+        grouped.values()
+    )
+
+
+# ============================================================
+# DATABASE DEVICE CACHE
+# ============================================================
+
+
+def _build_device_cache():
+    """
+    Cria um índice:
+
+        DC normalizado -> Device
+    """
+
+    devices_by_dc = {}
+
+    for device in Device.query.all():
+
+        normalized = normalize_dc(
+            getattr(
+                device,
+                "numero",
+                None,
+            )
+        )
+
+        if not normalized:
+            continue
+
+        # Não sobrescrever silenciosamente
+        # um dispositivo já existente.
+        if normalized not in devices_by_dc:
+
+            devices_by_dc[
+                normalized
+            ] = device
+
+    return devices_by_dc
 
 
 # ============================================================
 # MAIN SYNCHRONIZATION
 # ============================================================
 
-def synchronize_certificates(source_value=None):
+
+def synchronize_certificates(
+    source_value=None,
+):
+    """
+    Sincroniza certificados.
+
+    Com R2 configurado:
+
+        R2 é a fonte padrão.
+
+    Com source_value informado:
+
+        usa a fonte local explicitamente.
+
+    Sem R2:
+
+        procura automaticamente:
+
+            Certificados.zip
+            certificados.zip
+            Certificados/
+            certificados/
+    """
 
     # ========================================================
     # DEFINIR FONTE
     # ========================================================
 
+    explicit_source = bool(
+        str(
+            source_value or ""
+        ).strip()
+    )
+
     use_r2 = (
         r2_enabled()
-        and not source_value
+        and not explicit_source
     )
 
     if use_r2:
@@ -926,14 +1365,19 @@ def synchronize_certificates(source_value=None):
 
             return {
                 "success": False,
+
                 "message": (
-                    "Nenhuma fonte de certificados "
-                    "foi encontrada."
+                    "Nenhuma fonte de "
+                    "certificados foi encontrada."
                 ),
+
+                "source": None,
+
                 "imported": 0,
                 "updated": 0,
                 "unchanged": 0,
                 "scanned": 0,
+
                 "unmatched": [],
                 "ignored": [],
                 "errors": [],
@@ -944,6 +1388,7 @@ def synchronize_certificates(source_value=None):
     # ========================================================
 
     stats = {
+
         "success": True,
 
         "source": (
@@ -977,30 +1422,27 @@ def synchronize_certificates(source_value=None):
         else:
 
             candidates = list(
-                source_candidates(source)
+                source_candidates(
+                    source
+                )
             )
 
-        devices_by_dc = {}
-
-        for device in Device.query.all():
-
-            normalized = normalize_dc(
-                device.numero
-            )
-
-            if normalized:
-                devices_by_dc[
-                    normalized
-                ] = device
+        devices_by_dc = (
+            _build_device_cache()
+        )
 
     except Exception as exc:
 
         stats["success"] = False
 
-        stats["errors"].append({
-            "arquivo": "__source__",
-            "erro": str(exc),
-        })
+        stats[
+            "errors"
+        ].append(
+            {
+                "arquivo": "__source__",
+                "erro": str(exc),
+            }
+        )
 
         return stats
 
@@ -1008,9 +1450,11 @@ def synchronize_certificates(source_value=None):
     # AGRUPAR
     # ========================================================
 
-    grouped_candidates = _group_candidates(
-        candidates,
-        stats,
+    grouped_candidates = (
+        _group_candidates(
+            candidates,
+            stats,
+        )
     )
 
     # ========================================================
@@ -1019,9 +1463,13 @@ def synchronize_certificates(source_value=None):
 
     for candidate in grouped_candidates:
 
-        stats["scanned"] += 1
+        stats[
+            "scanned"
+        ] += 1
 
-        meta = candidate["meta"]
+        meta = candidate[
+            "meta"
+        ]
 
         try:
 
@@ -1033,40 +1481,14 @@ def synchronize_certificates(source_value=None):
                 candidate
             )
 
-            fingerprint = fingerprint_bytes(
-                raw
+            fingerprint = (
+                fingerprint_bytes(
+                    raw
+                )
             )
 
             # ------------------------------------------------
-            # PROCURAR CERTIFICADO EXISTENTE
-            # ------------------------------------------------
-
-            with db.session.no_autoflush:
-
-                certificate = (
-                    Certificate.query
-                    .filter_by(
-                        source_key=candidate["key"]
-                    )
-                    .first()
-                )
-
-            # ------------------------------------------------
-            # NÃO MUDOU
-            # ------------------------------------------------
-
-            if (
-                certificate is not None
-                and certificate.source_hash
-                == fingerprint
-            ):
-
-                stats["unchanged"] += 1
-
-                continue
-
-            # ------------------------------------------------
-            # LOCALIZAR DEVICE
+            # LOCALIZAR DEVICE PRIMEIRO
             # ------------------------------------------------
 
             normalized_dc = normalize_dc(
@@ -1079,12 +1501,87 @@ def synchronize_certificates(source_value=None):
 
             if device is None:
 
-                stats["unmatched"].append({
-                    "dc": meta.get("dc"),
-                    "dc_normalizado": normalized_dc,
-                    "arquivo": candidate["name"],
-                    "source_key": candidate["key"],
-                })
+                stats[
+                    "unmatched"
+                ].append(
+                    {
+                        "dc": meta.get(
+                            "dc"
+                        ),
+
+                        "dc_normalizado":
+                            normalized_dc,
+
+                        "arquivo":
+                            candidate[
+                                "name"
+                            ],
+
+                        "source_key":
+                            candidate[
+                                "key"
+                            ],
+                    }
+                )
+
+                continue
+
+            # ------------------------------------------------
+            # PROCURAR CERTIFICADO EXISTENTE
+            # ------------------------------------------------
+
+            with db.session.no_autoflush:
+
+                certificate = (
+                    Certificate.query
+                    .filter_by(
+                        source_key=(
+                            candidate[
+                                "key"
+                            ]
+                        )
+                    )
+                    .first()
+                )
+
+            is_new = (
+                certificate is None
+            )
+
+            # ------------------------------------------------
+            # CERTIFICADO EXISTENTE SEM ALTERAÇÃO
+            # ------------------------------------------------
+
+            if (
+                certificate is not None
+                and certificate.source_hash
+                == fingerprint
+            ):
+
+                changed_relation = (
+                    certificate.device_id
+                    != device.id
+                )
+
+                if changed_relation:
+
+                    certificate.device_id = (
+                        device.id
+                    )
+
+                    certificate.updated_at = (
+                        datetime.utcnow()
+                    )
+
+                    stats[
+                        "updated"
+                    ] += 1
+
+                else:
+
+                    stats[
+                        "unchanged"
+                    ] += 1
 
                 continue
 
@@ -1092,15 +1589,17 @@ def synchronize_certificates(source_value=None):
             # NOVO / EXISTENTE
             # ------------------------------------------------
 
-            is_new = certificate is None
-
             if is_new:
 
-                certificate = Certificate()
+                certificate = (
+                    Certificate()
+                )
 
             else:
 
-                stats["updated"] += 1
+                stats[
+                    "updated"
+                ] += 1
 
             # ------------------------------------------------
             # METADATA XLSX
@@ -1145,12 +1644,18 @@ def synchronize_certificates(source_value=None):
             # PREENCHER CERTIFICATE
             # ------------------------------------------------
 
-            certificate.device_id = device.id
+            certificate.device_id = (
+                device.id
+            )
 
-            certificate.ano = meta["ano"]
+            certificate.ano = (
+                meta["ano"]
+            )
 
             certificate.numero_certificado = (
-                meta["numero_certificado"]
+                meta[
+                    "numero_certificado"
+                ]
             )
 
             certificate.nome_arquivo = (
@@ -1168,6 +1673,7 @@ def synchronize_certificates(source_value=None):
             certificate.source_type = (
                 candidate["ext"]
                 .lstrip(".")
+                .lower()
             )
 
             # ------------------------------------------------
@@ -1236,6 +1742,10 @@ def synchronize_certificates(source_value=None):
                 )
             )
 
+            # ------------------------------------------------
+            # OBSERVAÇÕES
+            # ------------------------------------------------
+
             certificate.observacoes = (
                 "Sincronizado automaticamente. "
                 f"DC identificado pelo nome "
@@ -1246,23 +1756,39 @@ def synchronize_certificates(source_value=None):
                 datetime.utcnow()
             )
 
+            # ------------------------------------------------
+            # INSERT
+            # ------------------------------------------------
+
             if is_new:
 
                 db.session.add(
                     certificate
                 )
 
-                stats["imported"] += 1
+                stats[
+                    "imported"
+                ] += 1
 
         except Exception as exc:
 
             db.session.rollback()
 
-            stats["errors"].append({
-                "arquivo": candidate["name"],
-                "source_key": candidate["key"],
-                "erro": str(exc),
-            })
+            stats[
+                "errors"
+            ].append(
+                {
+                    "arquivo": candidate[
+                        "name"
+                    ],
+
+                    "source_key": candidate[
+                        "key"
+                    ],
+
+                    "erro": str(exc),
+                }
+            )
 
     # ========================================================
     # COMMIT
@@ -1278,9 +1804,34 @@ def synchronize_certificates(source_value=None):
 
         stats["success"] = False
 
-        stats["errors"].append({
-            "arquivo": "__commit__",
-            "erro": str(exc),
-        })
+        stats[
+            "errors"
+        ].append(
+            {
+                "arquivo": "__commit__",
+                "erro": str(exc),
+            }
+        )
+
+    # ========================================================
+    # MENSAGEM FINAL
+    # ========================================================
+
+    if stats["success"]:
+
+        stats[
+            "message"
+        ] = (
+            "Sincronização concluída."
+        )
+
+    else:
+
+        stats[
+            "message"
+        ] = (
+            "Sincronização concluída "
+            "com erros."
+        )
 
     return stats
