@@ -290,41 +290,218 @@ def create_app():
 
     @app.route("/device/<path:numero>/certificate/<int:certificate_id>/view")
     def public_certificate_view(numero, certificate_id):
+        """
+        Visualização pública de certificado.
+
+        O certificado é localizado pelo banco de dados e lido
+        diretamente do Cloudflare R2 quando estiver armazenado lá.
+        """
+
         from app.models.device import Device
         from app.models.certificate import Certificate
-        from app.services.certificate_sync_service import read_source_member
-        from app.api.certificates import _xlsx_preview
+        from app.utils.r2_storage import get_r2
         from pathlib import Path
+        from flask import send_file
         import io
 
-        dispositivo = Device.query.filter_by(numero=numero).first()
-        cert = Certificate.query.filter_by(id=certificate_id).first()
-        if not dispositivo or not cert or cert.device_id != dispositivo.id:
-            return ("Certificado não encontrado.", 404)
+        dispositivo = (
+            Device.query
+            .filter_by(numero=numero)
+            .first()
+        )
+
+        cert = (
+            Certificate.query
+            .filter_by(id=certificate_id)
+            .first()
+        )
+
+        # --------------------------------------------------------
+        # VALIDAÇÃO
+        # --------------------------------------------------------
+
+        if not dispositivo or not cert:
+            return (
+                "Certificado não encontrado.",
+                404
+            )
+
+        if cert.device_id != dispositivo.id:
+            return (
+                "Certificado não pertence a este dispositivo.",
+                404
+            )
+
         if not cert.arquivo:
-            return ("Este certificado não possui arquivo.", 404)
+            return (
+                "Este certificado não possui arquivo.",
+                404
+            )
 
-        partes = cert.arquivo.replace("\\", "/").split("/")
-        upload_root = Path(app.config["UPLOAD_FOLDER"]).resolve()
-        arquivo_local = upload_root / Path(*partes)
-        extensao = Path(partes[-1]).suffix.lower()
-        if arquivo_local.is_file():
+        try:
+
+            # ====================================================
+            # R2
+            # ====================================================
+
+            r2 = get_r2()
+
+            arquivo = (
+                str(cert.arquivo)
+                .strip()
+                .replace("\\", "/")
+            )
+
+            # ----------------------------------------------------
+            # Normaliza r2://bucket/key
+            # ----------------------------------------------------
+
+            if arquivo.lower().startswith("r2://"):
+
+                resto = arquivo[5:]
+
+                partes = resto.split("/", 1)
+
+                if len(partes) == 2:
+                    key = partes[1]
+                else:
+                    return (
+                        "Chave R2 inválida.",
+                        500
+                    )
+
+            elif arquivo.lower().startswith("r2:/"):
+
+                resto = arquivo[4:]
+
+                partes = resto.split("/", 1)
+
+                if len(partes) == 2:
+                    key = partes[1]
+                else:
+                    return (
+                        "Chave R2 inválida.",
+                        500
+                    )
+
+            else:
+
+                key = arquivo.lstrip("/")
+
+            # ----------------------------------------------------
+            # Normalização final
+            # ----------------------------------------------------
+
+            while "//" in key:
+                key = key.replace("//", "/")
+
+            current_app.logger.info(
+                "SIGEM CAL PUBLIC CERTIFICATE | "
+                "device=%s | cert=%s | key=%s",
+                numero,
+                certificate_id,
+                key
+            )
+
+            # ====================================================
+            # VERIFICA SE EXISTE
+            # ====================================================
+
+            if not r2.exists(key):
+
+                current_app.logger.warning(
+                    "Certificado não encontrado no R2: %s",
+                    key
+                )
+
+                return (
+                    "Arquivo do certificado não encontrado no Cloudflare R2.",
+                    404
+                )
+
+            # ====================================================
+            # LÊ O ARQUIVO
+            # ====================================================
+
+            data = r2.read_object(key)
+
+            if not data:
+
+                return (
+                    "O arquivo do certificado está vazio.",
+                    404
+                )
+
+            extensao = Path(key).suffix.lower()
+
+            # ====================================================
+            # PDF
+            # ====================================================
+
             if extensao == ".pdf":
-                return send_from_directory(str(arquivo_local.parent), arquivo_local.name, mimetype="application/pdf", as_attachment=False)
-            if extensao == ".xlsx":
-                html = _xlsx_preview(arquivo_local.read_bytes(), cert.nome_arquivo or arquivo_local.name)
-                return html, 200, {"Content-Type": "text/html; charset=utf-8"}
 
-        recuperado = read_source_member(cert.source_path, cert.source_key)
-        if recuperado:
-            data, source_ext = recuperado
-            if source_ext == ".pdf":
-                from flask import send_file
-                return send_file(io.BytesIO(data), mimetype="application/pdf", as_attachment=False, download_name=cert.nome_arquivo or partes[-1])
-            if source_ext == ".xlsx":
-                html = _xlsx_preview(data, cert.nome_arquivo or partes[-1])
-                return html, 200, {"Content-Type": "text/html; charset=utf-8"}
-        return ("Arquivo do certificado não encontrado.", 404)
+                return send_file(
+                    io.BytesIO(data),
+                    mimetype="application/pdf",
+                    download_name=(
+                        cert.nome_arquivo
+                        or Path(key).name
+                    ),
+                    as_attachment=False
+                )
+
+            # ====================================================
+            # XLSX
+            # ====================================================
+
+            if extensao in {".xlsx", ".xlsm"}:
+
+                from app.api.certificates import _xlsx_to_pdf
+
+                pdf_data = _xlsx_to_pdf(
+                    data=data,
+                    filename=(
+                        cert.nome_arquivo
+                        or Path(key).name
+                    )
+                )
+
+                nome_pdf = (
+                    Path(
+                        cert.nome_arquivo
+                        or Path(key).name
+                    ).stem
+                    + ".pdf"
+                )
+
+                return send_file(
+                    io.BytesIO(pdf_data),
+                    mimetype="application/pdf",
+                    download_name=nome_pdf,
+                    as_attachment=False
+                )
+
+            # ====================================================
+            # FORMATO NÃO SUPORTADO
+            # ====================================================
+
+            return (
+                f"Formato de certificado não suportado: {extensao}",
+                415
+            )
+
+        except Exception as erro:
+
+            current_app.logger.exception(
+                "SIGEM CAL — Erro ao visualizar "
+                "certificado público"
+            )
+
+            return (
+                "Não foi possível visualizar "
+                f"o certificado: {erro}",
+                500
+            )
 
 
     @app.route("/device/<path:numero>/certificate/<int:certificate_id>/download")
