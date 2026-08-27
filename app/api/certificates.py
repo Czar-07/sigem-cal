@@ -18,6 +18,8 @@ from flask import (
     current_app
 )
 
+import io
+
 from app.utils.r2_storage import (
     get_r2,
     content_type_for
@@ -52,15 +54,59 @@ certificate = Blueprint(
 )
 
 def normalizar_r2_key(valor: str | None) -> str | None:
+    """
+    Converte diferentes formatos de referência R2
+    para a chave real do objeto dentro do bucket.
+
+    Exemplos aceitos:
+
+    r2://sigem-certificados/Certificados/arquivo.xlsx
+    r2:/sigem-certificados/Certificados/arquivo.xlsx
+    /Certificados/arquivo.xlsx
+    Certificados/arquivo.xlsx
+
+    Resultado:
+
+    Certificados/arquivo.xlsx
+    """
     if not valor:
         return None
 
-    valor = str(valor).replace("\\", "/")
+    valor = str(valor).strip().replace("\\", "/")
 
+    # URI completa do R2:
+    # r2://bucket/key
+    if valor.lower().startswith("r2://"):
+        resto = valor[5:]  # remove "r2://"
+
+        # Remove o nome do bucket.
+        # Ex.: sigem-certificados/Certificados/arquivo.xlsx
+        partes = resto.split("/", 1)
+
+        if len(partes) == 2:
+            valor = partes[1]
+        else:
+            return None
+
+    # Formato quebrado r2:/bucket/key
+    elif valor.lower().startswith("r2:/"):
+        resto = valor[4:]  # remove "r2:/"
+
+        partes = resto.split("/", 1)
+
+        if len(partes) == 2:
+            valor = partes[1]
+        else:
+            return None
+
+    # Remove barras iniciais
+    valor = valor.lstrip("/")
+
+    # Normaliza barras duplicadas
     while "//" in valor:
         valor = valor.replace("//", "/")
 
-    return valor.lstrip("/")
+    return valor
 
 
 # ============================================================
@@ -1150,80 +1196,122 @@ def atualizar_certificado(
         }), 500
 
 
-def _xlsx_preview(data: bytes, title: str):
-    """Render an XLSX certificate as a safe, lightweight browser preview."""
-    try:
-        workbook = load_workbook(
-            io.BytesIO(data),
-            data_only=True,
-            read_only=True,
+def _xlsx_to_pdf(data: bytes, filename: str) -> bytes:
+    """
+    Converte XLSX/XLSM para PDF usando LibreOffice.
+
+    O arquivo original permanece no R2.
+    A conversão acontece somente em memória/arquivo temporário.
+    """
+
+    import shutil
+    import subprocess
+    import tempfile
+
+    # --------------------------------------------------------
+    # Localiza LibreOffice
+    # --------------------------------------------------------
+
+    soffice = (
+        shutil.which("soffice")
+        or shutil.which("libreoffice")
+    )
+
+    # Caminhos comuns do Windows
+    if not soffice and os.name == "nt":
+        caminhos_windows = [
+            r"C:\Program Files\LibreOffice\program\soffice.exe",
+            r"C:\Program Files (x86)\LibreOffice\program\soffice.exe",
+        ]
+
+        for caminho in caminhos_windows:
+            if os.path.exists(caminho):
+                soffice = caminho
+                break
+
+    if not soffice:
+        raise RuntimeError(
+            "LibreOffice não encontrado. "
+            "Instale o LibreOffice ou configure o caminho do soffice."
         )
-        sheet = workbook.active
 
-        rows_html = []
-        max_rows = 120
-        max_cols = 40
+    # --------------------------------------------------------
+    # Diretório temporário
+    # --------------------------------------------------------
 
-        for row_index, row in enumerate(
-            sheet.iter_rows(
-                min_row=1,
-                max_row=max_rows,
-                max_col=max_cols,
-                values_only=True,
-            ),
-            start=1,
+    with tempfile.TemporaryDirectory(
+        prefix="sigem_xlsx_"
+    ) as temp_dir:
+
+        nome_original = Path(filename).name
+
+        if not nome_original.lower().endswith(
+            (".xlsx", ".xlsm")
         ):
-            cells = []
-            has_value = False
-            for value in row:
-                if value is not None:
-                    has_value = True
-                cells.append(
-                    f"<td>{escape(str(value or ''))}</td>"
-                )
-            if has_value:
-                rows_html.append(
-                    f"<tr><th>{row_index}</th>{''.join(cells)}</tr>"
-                )
+            nome_original += ".xlsx"
 
-        workbook.close()
+        arquivo_xlsx = Path(temp_dir) / nome_original
 
-        html = f"""<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{escape(title)}</title>
-<style>
-body{{font-family:Arial,sans-serif;margin:20px;background:#f5f6f8;color:#222}}
-h1{{font-size:20px;margin:0 0 16px}}
-.container{{background:#fff;border-radius:10px;padding:18px;box-shadow:0 1px 4px #0001;overflow:auto}}
-table{{border-collapse:collapse;font-size:13px;min-width:900px}}
-td,th{{border:1px solid #d8dce2;padding:6px 8px;vertical-align:top;white-space:pre-wrap}}
-thead th{{background:#eef1f5}}
-tr th:first-child{{background:#f4f5f7;color:#666}}
-.notice{{margin-bottom:14px;color:#555}}
-</style>
-</head>
-<body>
-<h1>{escape(title)}</h1>
-<div class="notice">Visualização do arquivo Excel original armazenado no ZIP de certificados.</div>
-<div class="container">
-<table><tbody>{''.join(rows_html)}</tbody></table>
-</div>
-</body>
-</html>"""
-        return html
+        # ----------------------------------------------------
+        # Salva XLSX temporariamente
+        # ----------------------------------------------------
 
-    except Exception as exc:
-        current_app.logger.exception(
-            "SIGEM CAL — Erro ao visualizar XLSX"
-        )
-        return (
-            f"<h1>Não foi possível visualizar este Excel.</h1>"
-            f"<p>{escape(str(exc))}</p>"
+        arquivo_xlsx.write_bytes(data)
+
+        # ----------------------------------------------------
+        # Conversão XLSX → PDF
+        # ----------------------------------------------------
+
+        comando = [
+            soffice,
+            "--headless",
+            "--convert-to",
+            "pdf",
+            "--outdir",
+            temp_dir,
+            str(arquivo_xlsx),
+        ]
+
+        resultado = subprocess.run(
+            comando,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=120,
         )
 
+        if resultado.returncode != 0:
+            raise RuntimeError(
+                "Erro ao converter Excel para PDF: "
+                f"{resultado.stderr or resultado.stdout}"
+            )
+
+        # ----------------------------------------------------
+        # Nome esperado do PDF
+        # ----------------------------------------------------
+
+        arquivo_pdf = (
+            Path(temp_dir)
+            / f"{arquivo_xlsx.stem}.pdf"
+        )
+
+        if not arquivo_pdf.exists():
+            # Algumas versões podem retornar o nome no stdout.
+            pdfs = list(
+                Path(temp_dir).glob("*.pdf")
+            )
+
+            if not pdfs:
+                raise RuntimeError(
+                    "LibreOffice terminou a conversão, "
+                    "mas o PDF não foi encontrado. "
+                    f"stdout={resultado.stdout} "
+                    f"stderr={resultado.stderr}"
+                )
+
+            arquivo_pdf = pdfs[0]
+
+        return arquivo_pdf.read_bytes()
 
 # ============================================================
 # GET — VISUALIZAR PDF
@@ -1254,9 +1342,7 @@ def visualizar_certificado(certificate_id):
     try:
         r2 = get_r2()
 
-        key = normalizar_r2_key(
-            certificado.arquivo
-        )
+        key = normalizar_r2_key(certificado.arquivo)
 
         if not key:
             return jsonify({
@@ -1271,32 +1357,77 @@ def visualizar_certificado(certificate_id):
                 "key": key
             }), 404
 
-        url = r2.generate_download_url(
-            key,
-            expires=900
-        )
+        extensao = Path(key).suffix.lower()
 
-        return jsonify({
-            "success": True,
-            "url": url,
-            "expires": 900,
-            "filename": (
+        if extensao in {".xlsx", ".xlsm"}:
+
+            data = r2.read_object(key)
+
+            nome_arquivo = (
                 certificado.nome_arquivo
                 or Path(key).name
+                or f"Certificado-{certificado.numero_certificado}.xlsx"
             )
-        })
+
+            pdf_data = _xlsx_to_pdf(
+                data=data,
+                filename=nome_arquivo
+            )
+
+            nome_pdf = (
+                Path(nome_arquivo).stem
+                + ".pdf"
+            )
+
+            return send_file(
+                io.BytesIO(pdf_data),
+                mimetype="application/pdf",
+                download_name=nome_pdf,
+                as_attachment=False,
+            )
+
+
+        # ====================================================
+        # PDF → VISUALIZAÇÃO DIRETA NO NAVEGADOR
+        # ====================================================
+        if extensao == ".pdf":
+
+            data = r2.read_object(key)
+
+            return send_file(
+                io.BytesIO(data),
+                mimetype="application/pdf",
+                download_name=(
+                    certificado.nome_arquivo
+                    or Path(key).name
+                ),
+                as_attachment=False
+            )
+
+
+        # ====================================================
+        # FORMATO NÃO SUPORTADO
+        # ====================================================
+        return jsonify({
+            "success": False,
+            "message": (
+                f"Formato de certificado não suportado para "
+                f"visualização: {extensao}"
+            ),
+            "filename": Path(key).name
+        }), 415
 
     except Exception as erro:
 
         current_app.logger.exception(
-            "SIGEM CAL — Erro ao gerar URL R2"
+            "SIGEM CAL — Erro ao visualizar certificado"
         )
 
         return jsonify({
             "success": False,
             "message": (
-                "Não foi possível acessar "
-                "o certificado no Cloudflare R2."
+                "Não foi possível visualizar "
+                "o certificado."
             ),
             "error": str(erro)
         }), 500

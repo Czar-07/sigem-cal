@@ -348,7 +348,13 @@ function criarLinhaCertificado(certificado) {
             <td>${criarBadgeSituacao(situacao)}</td>
             <td>
                 <div class="certificate-actions">
-                    <button type="button" class="certificate-action" data-action="view" data-id="${certificado.id}" title="${certificado.source_type === "pdf" ? "Visualizar PDF" : "Somente download"}" ${certificado.source_type === "pdf" ? "" : "disabled"}>
+                    <button type="button"
+                            class="certificate-action"
+                            data-action="view"
+                            data-id="${certificado.id}"
+                            title="${certificado.source_type === "pdf"
+                                ? "Visualizar PDF"
+                                : "Converter Excel para PDF e visualizar"}">
                         <i class="bi bi-eye"></i>
                     </button>
                     <button type="button" class="certificate-action action-download" data-action="download" data-id="${certificado.id}" title="${certificado.arquivo ? `Baixar ${String(certificado.source_type || "arquivo").toUpperCase()}` : "Sem arquivo"}" ${certificado.arquivo ? "" : "disabled"}>
@@ -460,7 +466,12 @@ async function visualizarCertificado(id) {
             "viewerDownloadButton"
         );
 
-    if (!modalElement || !iframe) return;
+    if (!modalElement || !iframe) {
+        console.error(
+            "SIGEM CAL — elementos do visualizador não encontrados."
+        );
+        return;
+    }
 
     try {
 
@@ -469,85 +480,61 @@ async function visualizarCertificado(id) {
             "info"
         );
 
-        const resposta = await fetch(
-            `${CERTIFICATES_API}/${id}/view`,
-            {
-                headers: {
-                    Accept: "application/json"
-                }
-            }
-        );
+        // ------------------------------------------------
+        // URL do visualizador
+        // ------------------------------------------------
 
-        const dados = await resposta.json();
+        const viewUrl =
+            `${CERTIFICATES_API}/${id}/view`;
 
-        if (!resposta.ok || !dados.success) {
-            throw new Error(
-                dados.message ||
-                "Não foi possível abrir o certificado."
-            );
-        }
+        // ------------------------------------------------
+        // Limpa visualização anterior
+        // ------------------------------------------------
 
-        iframe.src = dados.url;
+        iframe.src = "about:blank";
 
-        if (download) {
-
-            download.onclick = async () => {
-
-                try {
-
-                    const respostaDownload =
-                        await fetch(
-                            `${CERTIFICATES_API}/${id}/download`,
-                            {
-                                headers: {
-                                    Accept: "application/json"
-                                }
-                            }
-                        );
-
-                    const dadosDownload =
-                        await respostaDownload.json();
-
-                    if (
-                        !respostaDownload.ok ||
-                        !dadosDownload.success
-                    ) {
-                        throw new Error(
-                            dadosDownload.message ||
-                            "Não foi possível baixar o certificado."
-                        );
-                    }
-
-                    window.open(
-                        dadosDownload.url,
-                        "_blank",
-                        "noopener,noreferrer"
-                    );
-
-                } catch (erro) {
-
-                    console.error(
-                        "SIGEM CAL — download:",
-                        erro
-                    );
-
-                    mostrarNotificacao(
-                        erro.message,
-                        "error"
-                    );
-                }
-            };
-        }
+        // ------------------------------------------------
+        // Atualiza título
+        // ------------------------------------------------
 
         atualizarTexto(
             "certificateViewerTitle",
+            certificado.nome_arquivo ||
             certificado.numero_certificado ||
             `Certificado ${certificado.ano || ""}`
         );
 
+        // ------------------------------------------------
+        // Configura download
+        // ------------------------------------------------
+
+        if (download) {
+
+            download.onclick = () => {
+
+                window.open(
+                    `${CERTIFICATES_API}/${id}/download`,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            };
+
+        }
+
+        // ------------------------------------------------
+        // Abre modal
+        // ------------------------------------------------
+
         abrirModal(
             "certificateViewerModal"
         );
+
+        // ------------------------------------------------
+        // Carrega PDF
+        // ------------------------------------------------
+
+        iframe.src = viewUrl;
 
     } catch (erro) {
 
