@@ -1449,3 +1449,1276 @@
     font-weight: 700;
 
 }
+
+/* ============================================================
+   RESPONSIVIDADE PROFISSIONAL — DEVICE PÚBLICO
+============================================================ */
+
+/* Evita qualquer rolagem horizontal */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* ============================================================
+   ESTRUTURA PÚBLICA
+============================================================ */
+
+.public-device-shell {
+    width: 100%;
+    min-height: 100vh;
+    padding: 26px;
+    overflow-x: hidden;
+}
+
+.public-device-header,
+.public-device-page,
+.public-device-footer {
+    width: min(1080px, 100%);
+    max-width: 100%;
+}
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.public-device-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 auto 18px;
+}
+
+.public-device-brand {
+    min-width: 0;
+}
+
+.public-device-brand span {
+    white-space: nowrap;
+}
+
+.public-device-admin {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+/* ============================================================
+   HERO
+============================================================ */
+
+.device-hero {
+    width: 100%;
+    min-width: 0;
+}
+
+.device-hero-main {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.device-hero-description {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.device-hero-status {
+    max-width: 100%;
+}
+
+.device-hero-status .status-badge {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+}
+
+/* ============================================================
+   CARDS
+============================================================ */
+
+.device-card {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.device-section-header {
+    min-width: 0;
+}
+
+.device-section-header > div:last-child {
+    min-width: 0;
+}
+
+.device-section-header h2,
+.device-section-header p {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* ============================================================
+   IDENTIFICAÇÃO
+============================================================ */
+
+.device-data-grid {
+    width: 100%;
+    min-width: 0;
+}
+
+.device-data-item {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.device-data-item strong {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* ============================================================
+   CALIBRAÇÃO
+============================================================ */
+
+.calibration-card {
+    width: 100%;
+    min-width: 0;
+}
+
+.calibration-summary {
+    width: 100%;
+    min-width: 0;
+}
+
+.calibration-date,
+.calibration-validity,
+.calibration-detail {
+    min-width: 0;
+}
+
+.calibration-date strong,
+.calibration-validity strong,
+.calibration-detail strong {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* ============================================================
+   CERTIFICADOS
+============================================================ */
+
+.certificates-card {
+    width: 100%;
+    min-width: 0;
+}
+
+.public-certificates-list {
+    width: 100%;
+    min-width: 0;
+}
+
+.public-certificate-card {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.public-certificate-main {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.public-certificate-title {
+    min-width: 0;
+}
+
+.public-certificate-title strong {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.public-certificate-meta {
+    min-width: 0;
+}
+
+.public-certificate-actions {
+    flex-shrink: 0;
+}
+
+.public-certificate-actions a {
+    white-space: nowrap;
+}
+
+/* ============================================================
+   HISTÓRICO
+============================================================ */
+
+.history-empty {
+    width: 100%;
+    min-width: 0;
+}
+
+.history-empty > div:last-child {
+    min-width: 0;
+}
+
+.history-empty strong,
+.history-empty span {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .public-device-shell {
+        padding: 20px;
+    }
+
+    .device-hero {
+        gap: 20px;
+    }
+
+    .device-card {
+        padding: 22px;
+    }
+
+    .calibration-summary {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .calibration-arrow {
+        display: none;
+    }
+
+    .calibration-details {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+/* ============================================================
+   TABLET PEQUENO
+============================================================ */
+
+@media (max-width: 700px) {
+
+    .public-device-shell {
+        padding: 16px;
+    }
+
+    .public-device-header {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+    }
+
+    .public-device-admin {
+        font-size: 10px;
+    }
+
+    .public-device-intro {
+        margin-bottom: 14px;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    /* Hero */
+
+    .device-hero {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 22px;
+        gap: 14px;
+    }
+
+    .device-hero-title h1 {
+        font-size: 27px;
+    }
+
+    .device-hero-description {
+        font-size: 13px;
+    }
+
+    .device-hero-status {
+        width: 100%;
+    }
+
+    /* Cards */
+
+    .device-card {
+        padding: 20px;
+        margin-bottom: 14px;
+        border-radius: 14px;
+    }
+
+    .device-section-header {
+        align-items: flex-start;
+        gap: 10px;
+        padding-bottom: 16px;
+        margin-bottom: 18px;
+    }
+
+    .device-card-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    .device-section-header h2 {
+        font-size: 14px;
+    }
+
+    .device-section-header p {
+        font-size: 11px;
+        line-height: 1.4;
+    }
+
+    /* Identificação */
+
+    .device-data-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* Calibração */
+
+    .calibration-summary {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .calibration-details {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .calibration-date,
+    .calibration-validity {
+        min-height: 70px;
+        padding: 14px 15px;
+    }
+
+    .calibration-date strong {
+        font-size: 16px;
+    }
+
+    .calibration-validity strong {
+        font-size: 14px;
+    }
+
+    /* Certificados */
+
+    .public-certificate-card {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 13px;
+    }
+
+    .public-certificate-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        font-size: 17px;
+    }
+
+    .public-certificate-main {
+        flex: 1 1 calc(100% - 52px);
+        width: calc(100% - 52px);
+    }
+
+    .public-certificate-title {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .public-certificate-title strong {
+        width: 100%;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        line-height: 1.4;
+    }
+
+    .public-certificate-status {
+        align-self: flex-start;
+    }
+
+    .public-certificate-meta {
+        gap: 5px 10px;
+        line-height: 1.4;
+    }
+
+    .public-certificate-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding-left: 0;
+        gap: 7px;
+    }
+
+    .public-certificate-actions a {
+        justify-content: center;
+        width: 100%;
+        min-height: 38px;
+        padding: 9px 8px;
+    }
+
+    /* Histórico */
+
+    .history-empty {
+        align-items: flex-start;
+        padding: 18px;
+    }
+
+    .history-empty-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+}
+
+/* ============================================================
+   CELULAR
+============================================================ */
+
+@media (max-width: 480px) {
+
+    .public-device-shell {
+        padding: 12px;
+    }
+
+    .public-device-header {
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .public-device-brand i {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+    }
+
+    .public-device-brand {
+        font-size: 13px;
+    }
+
+    .public-device-admin {
+        font-size: 9px;
+        gap: 5px;
+    }
+
+    .public-device-intro {
+        font-size: 10px;
+        margin-bottom: 12px;
+    }
+
+    /* Hero */
+
+    .device-hero {
+        padding: 18px;
+        margin-bottom: 12px;
+        border-radius: 13px;
+    }
+
+    .device-overline {
+        font-size: 9px;
+        margin-bottom: 6px;
+    }
+
+    .device-hero-title h1 {
+        font-size: 23px;
+        line-height: 1.15;
+    }
+
+    .device-hero-description {
+        margin-top: 7px;
+        font-size: 12px;
+        line-height: 1.45;
+    }
+
+    /* Cards */
+
+    .device-card {
+        padding: 17px;
+        margin-bottom: 12px;
+        border-radius: 13px;
+    }
+
+    .device-section-header {
+        gap: 9px;
+        padding-bottom: 13px;
+        margin-bottom: 15px;
+    }
+
+    .device-card-icon {
+        width: 35px;
+        height: 35px;
+        border-radius: 9px;
+        font-size: 15px;
+    }
+
+    .device-section-header h2 {
+        font-size: 13px;
+    }
+
+    .device-section-header p {
+        font-size: 10px;
+    }
+
+    /* Dados */
+
+    .device-data-grid {
+        gap: 14px;
+    }
+
+    .device-data-item span {
+        margin-bottom: 4px;
+        font-size: 10px;
+    }
+
+    .device-data-item strong {
+        font-size: 13px;
+        line-height: 1.45;
+    }
+
+    /* Calibração */
+
+    .calibration-summary {
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+
+    .calibration-date,
+    .calibration-validity {
+        min-height: 64px;
+        padding: 12px 13px;
+        border-radius: 9px;
+    }
+
+    .calibration-date span,
+    .calibration-validity span {
+        font-size: 9px;
+        margin-bottom: 5px;
+    }
+
+    .calibration-date strong {
+        font-size: 15px;
+    }
+
+    .calibration-validity strong {
+        font-size: 13px;
+    }
+
+    .calibration-details {
+        gap: 12px;
+        padding-top: 14px;
+    }
+
+    .calibration-detail > span {
+        font-size: 9px;
+    }
+
+    .calibration-detail > strong {
+        font-size: 12px;
+    }
+
+    #fieldSituacaoCalibracao {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    /* Certificados */
+
+    .public-certificate-card {
+        padding: 11px;
+        border-radius: 11px;
+    }
+
+    .public-certificate-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+    }
+
+    .public-certificate-main {
+        flex-basis: calc(100% - 48px);
+        width: calc(100% - 48px);
+    }
+
+    .public-certificate-title strong {
+        font-size: 12px;
+    }
+
+    .public-certificate-meta {
+        font-size: 10px;
+    }
+
+    .public-certificate-status {
+        font-size: 9px;
+        padding: 3px 6px;
+    }
+
+    .public-certificate-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .public-certificate-actions a {
+        min-height: 36px;
+        font-size: 10px;
+    }
+
+    /* Histórico */
+
+    .history-empty {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .history-empty-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+
+    .history-empty strong {
+        font-size: 12px;
+    }
+
+    .history-empty span {
+        font-size: 10px;
+        line-height: 1.4;
+    }
+
+    /* Footer */
+
+    .public-device-footer {
+        margin-top: 15px;
+        padding: 0 5px;
+        font-size: 9px;
+        text-align: center;
+    }
+
+}
+
+/* ============================================================
+   CELULARES MUITO PEQUENOS
+============================================================ */
+
+@media (max-width: 360px) {
+
+    .public-device-shell {
+        padding: 9px;
+    }
+
+    .public-device-header {
+        align-items: center;
+    }
+
+    .public-device-brand {
+        font-size: 12px;
+    }
+
+    .public-device-admin {
+        font-size: 8px;
+    }
+
+    .device-hero {
+        padding: 15px;
+    }
+
+    .device-hero-title h1 {
+        font-size: 21px;
+    }
+
+    .device-card {
+        padding: 14px;
+    }
+
+    .device-section-header h2 {
+        font-size: 12px;
+    }
+
+    .device-section-header p {
+        font-size: 9px;
+    }
+
+    .public-certificate-actions a {
+        min-height: 34px;
+        font-size: 9px;
+    }
+
+}
+
+/* ============================================================
+   ACESSIBILIDADE / TOUCH
+============================================================ */
+
+@media (hover: none) and (pointer: coarse) {
+
+    .public-certificate-actions a {
+        min-height: 42px;
+    }
+
+    .public-device-admin {
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+}
+
+/* ============================================================
+   LANDSCAPE EM CELULAR
+============================================================ */
+
+@media (max-width: 900px) and (orientation: landscape) {
+
+    .public-device-shell {
+        padding: 14px 20px;
+    }
+
+    .device-hero {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .device-hero-status {
+        width: auto;
+    }
+
+    .device-data-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .calibration-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .calibration-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+/* ============================================================
+   SIGEM CAL — RESPONSIVIDADE FINAL DA PÁGINA DEVICE
+   ============================================================ */
+
+.public-device-shell {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.public-device-shell *,
+.public-device-shell *::before,
+.public-device-shell *::after {
+    box-sizing: border-box;
+}
+
+.public-device-header,
+.public-device-page,
+.public-device-footer {
+    width: min(1080px, calc(100% - 40px));
+    max-width: 1080px;
+}
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .public-device-shell {
+        padding: 20px 0;
+    }
+
+    .public-device-header,
+    .public-device-page,
+    .public-device-footer {
+        width: min(100% - 32px, 760px);
+    }
+
+    .device-hero {
+        gap: 20px;
+        padding: 24px;
+    }
+
+    .device-card {
+        padding: 22px;
+    }
+
+    .calibration-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .calibration-arrow {
+        display: none;
+    }
+
+    .calibration-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .public-certificate-card {
+        align-items: flex-start;
+    }
+
+    .public-certificate-actions {
+        flex-wrap: wrap;
+    }
+}
+
+/* ============================================================
+   CELULAR
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .public-device-shell {
+        padding: 12px 0 20px;
+    }
+
+    .public-device-header,
+    .public-device-page,
+    .public-device-footer {
+        width: calc(100% - 24px);
+    }
+
+    /* --------------------------------------------------------
+       CABEÇALHO
+       -------------------------------------------------------- */
+
+    .public-device-header {
+        margin-bottom: 14px;
+        gap: 10px;
+    }
+
+    .public-device-brand {
+        gap: 8px;
+        font-size: 14px;
+    }
+
+    .public-device-brand i {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+    }
+
+    .public-device-admin {
+        font-size: 9px;
+        white-space: nowrap;
+    }
+
+    .public-device-intro {
+        margin-bottom: 14px;
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    /* --------------------------------------------------------
+       HERO
+       -------------------------------------------------------- */
+
+    .device-hero {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 20px;
+        margin-bottom: 14px;
+        border-radius: 14px;
+    }
+
+    .device-overline {
+        margin-bottom: 6px;
+        font-size: 9px;
+    }
+
+    .device-hero-title {
+        display: block;
+    }
+
+    .device-hero-title h1 {
+        max-width: 100%;
+        font-size: clamp(22px, 8vw, 30px);
+        line-height: 1.1;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .device-hero-description {
+        margin-top: 8px;
+        max-width: 100%;
+        font-size: 12px;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
+    }
+
+    .device-hero-status {
+        width: 100%;
+    }
+
+    .device-hero-status .status-badge {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    /* --------------------------------------------------------
+       CARDS
+       -------------------------------------------------------- */
+
+    .device-card {
+        width: 100%;
+        padding: 18px;
+        margin-bottom: 14px;
+        border-radius: 14px;
+    }
+
+    .device-section-header {
+        align-items: flex-start;
+        gap: 10px;
+        padding-bottom: 15px;
+        margin-bottom: 17px;
+    }
+
+    .device-card-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        font-size: 16px;
+    }
+
+    .device-section-header h2 {
+        font-size: 14px;
+        line-height: 1.3;
+    }
+
+    .device-section-header p {
+        max-width: 100%;
+        font-size: 10px;
+        line-height: 1.4;
+    }
+
+    /* --------------------------------------------------------
+       IDENTIFICAÇÃO
+       -------------------------------------------------------- */
+
+    .device-data-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .device-data-item {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .device-data-item span {
+        margin-bottom: 4px;
+        font-size: 9px;
+    }
+
+    .device-data-item strong {
+        max-width: 100%;
+        font-size: 13px;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    /* --------------------------------------------------------
+       CALIBRAÇÃO
+       -------------------------------------------------------- */
+
+    .calibration-card {
+        overflow: hidden;
+    }
+
+    .device-card-header {
+        gap: 10px;
+    }
+
+    .device-card-header h3 {
+        font-size: 14px;
+    }
+
+    .device-card-header span {
+        font-size: 10px;
+        line-height: 1.4;
+    }
+
+    .calibration-summary {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 9px;
+        margin-bottom: 15px;
+    }
+
+    .calibration-arrow {
+        display: none;
+    }
+
+    .calibration-date,
+    .calibration-validity {
+        width: 100%;
+        min-height: 0;
+        padding: 13px 14px;
+        border-radius: 9px;
+    }
+
+    .calibration-date span,
+    .calibration-validity span {
+        margin-bottom: 5px;
+        font-size: 8px;
+    }
+
+    .calibration-date strong {
+        font-size: 16px;
+    }
+
+    .calibration-validity strong {
+        font-size: 14px;
+    }
+
+    .calibration-details {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding-top: 15px;
+    }
+
+    .calibration-detail {
+        width: 100%;
+    }
+
+    .calibration-detail > span {
+        font-size: 8px;
+    }
+
+    .calibration-detail > strong {
+        max-width: 100%;
+        font-size: 12px;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    #fieldSituacaoCalibracao {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    /* --------------------------------------------------------
+       CERTIFICADOS
+       -------------------------------------------------------- */
+
+    .certificates-card {
+        overflow: hidden;
+    }
+
+    .public-certificates-list {
+        width: 100%;
+        gap: 9px;
+    }
+
+    .public-certificate-card {
+        display: grid;
+        grid-template-columns: 38px minmax(0, 1fr);
+        gap: 10px;
+        width: 100%;
+        padding: 12px;
+        border-radius: 11px;
+    }
+
+    .public-certificate-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        font-size: 17px;
+    }
+
+    .public-certificate-main {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .public-certificate-title {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .public-certificate-title strong {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        font-size: 11px;
+        line-height: 1.35;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .public-certificate-status {
+        max-width: 100%;
+        font-size: 8px;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .public-certificate-meta {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 4px;
+        margin-top: 7px;
+        font-size: 9px;
+        line-height: 1.4;
+    }
+
+    .public-certificate-meta span {
+        min-width: 0;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .public-certificate-actions {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .public-certificate-actions a {
+        justify-content: center;
+        width: 100%;
+        min-height: 38px;
+        padding: 8px 9px;
+        font-size: 10px;
+        border-radius: 8px;
+    }
+
+    /* --------------------------------------------------------
+       HISTÓRICO
+       -------------------------------------------------------- */
+
+    .history-empty {
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .history-empty-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        font-size: 15px;
+    }
+
+    .history-empty strong {
+        font-size: 11px;
+        line-height: 1.4;
+    }
+
+    .history-empty span {
+        font-size: 10px;
+        line-height: 1.4;
+    }
+
+    /* --------------------------------------------------------
+       ESTADOS
+       -------------------------------------------------------- */
+
+    .calibration-valid,
+    .calibration-overdue,
+    .calibration-today,
+    .calibration-development,
+    .calibration-inactive {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    /* --------------------------------------------------------
+       RODAPÉ
+       -------------------------------------------------------- */
+
+    .public-device-footer {
+        margin-top: 16px;
+        font-size: 8px;
+        text-align: center;
+        line-height: 1.4;
+    }
+}
+
+/* ============================================================
+   CELULARES MUITO PEQUENOS — 360px
+   ============================================================ */
+
+@media (max-width: 380px) {
+
+    .public-device-header,
+    .public-device-page,
+    .public-device-footer {
+        width: calc(100% - 18px);
+    }
+
+    .public-device-shell {
+        padding-top: 8px;
+    }
+
+    .public-device-brand {
+        font-size: 12px;
+    }
+
+    .public-device-admin {
+        font-size: 8px;
+    }
+
+    .public-device-brand i {
+        width: 30px;
+        height: 30px;
+    }
+
+    .device-hero {
+        padding: 16px;
+    }
+
+    .device-card {
+        padding: 15px;
+    }
+
+    .public-certificate-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .public-certificate-actions a {
+        min-height: 36px;
+    }
+}

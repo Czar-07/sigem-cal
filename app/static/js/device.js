@@ -1594,7 +1594,7 @@ async function carregarCertificadosPublicos() {
                     <div class="public-certificate-title"><strong title="${escapeHtmlPublico(nome)}">${escapeHtmlPublico(nome)}</strong><span class="public-certificate-status ${situacaoClass}">${escapeHtmlPublico(cert.situacao || "Sem informação")}</span></div>
                     <div class="public-certificate-meta"><span><b>Certificado:</b> ${escapeHtmlPublico(numero)}</span><span><b>Emissão:</b> ${emissao}</span><span><b>Validade:</b> ${validade}</span>${cert.laboratorio ? `<span><b>Laboratório:</b> ${escapeHtmlPublico(cert.laboratorio)}</span>` : ""}</div>
                 </div>
-                <div class="public-certificate-actions"><a class="public-certificate-view" href="${cert.view_url}" target="_blank" rel="noopener"><i class="bi bi-eye"></i> Visualizar</a><a class="public-certificate-download" href="${cert.download_url}"><i class="bi bi-download"></i> Baixar</a></div>
+                <div class="public-certificate-actions"><a class="public-certificate-view" href="${cert.view_url}" target="_blank" rel="noopener"><i class="bi bi-eye"></i> Visualizar</a><a class="public-certificate-download" href="${escapeHtmlPublico(cert.download_url)}"download><i class="bi bi-download"></i>Baixar</a></div>
             </article>`;
         }).join("");
         list.style.display = "grid";
