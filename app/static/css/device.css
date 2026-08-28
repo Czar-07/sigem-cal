@@ -1,1460 +1,12 @@
 /* ============================================================
-   DEVICE PAGE
-============================================================ */
-
-.device-page {
-
-    max-width: 1500px;
-
-    margin: 0 auto;
-
-}
-
+   SIGEM CAL — DEVICE
+   Design System Profissional de Metrologia
+   ============================================================ */
 
 /* ============================================================
-   NAVEGAÇÃO
-============================================================ */
+   BASE
+   ============================================================ */
 
-.device-navigation {
-
-    margin-bottom: 18px;
-
-}
-
-
-.back-link {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    color: #64748b;
-
-    text-decoration: none;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    transition: .2s ease;
-
-}
-
-
-.back-link:hover {
-
-    color: #2563eb;
-
-}
-
-
-/* ============================================================
-   HERO
-============================================================ */
-
-.device-hero {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 30px;
-
-    padding: 30px;
-
-    margin-bottom: 20px;
-
-    background: #ffffff;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 16px;
-
-}
-
-
-.device-hero-main {
-
-    min-width: 0;
-
-}
-
-
-.device-overline {
-
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: #64748b;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    letter-spacing: .12em;
-
-}
-
-
-.device-hero-title {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-}
-
-
-.device-hero-title h1 {
-
-    margin: 0;
-
-    color: #0f172a;
-
-    font-size: 30px;
-
-    line-height: 1.1;
-
-    font-weight: 750;
-
-    letter-spacing: -.02em;
-
-    overflow-wrap: anywhere;
-
-}
-
-
-.device-hero-description {
-
-    max-width: 850px;
-
-    margin: 8px 0 0;
-
-    color: #64748b;
-
-    font-size: 14px;
-
-    line-height: 1.5;
-
-}
-
-
-.device-hero-status {
-
-    flex-shrink: 0;
-
-}
-
-
-/* ============================================================
-   CARD
-============================================================ */
-
-.device-card {
-
-    padding: 26px;
-
-    margin-bottom: 20px;
-
-    background: #ffffff;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 16px;
-
-}
-
-
-/* ============================================================
-   SECTION HEADER
-============================================================ */
-
-.device-section-header {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 13px;
-
-    padding-bottom: 20px;
-
-    margin-bottom: 22px;
-
-    border-bottom: 1px solid #f1f5f9;
-
-}
-
-
-.device-section-header h2 {
-
-    margin: 0;
-
-    color: #0f172a;
-
-    font-size: 15px;
-
-    font-weight: 700;
-
-}
-
-
-.device-section-header p {
-
-    margin: 4px 0 0;
-
-    color: #94a3b8;
-
-    font-size: 12px;
-
-}
-
-
-/* ============================================================
-   CARD ICON
-============================================================ */
-
-.device-card-icon {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    width: 42px;
-
-    height: 42px;
-
-    flex-shrink: 0;
-
-    border-radius: 10px;
-
-    font-size: 18px;
-
-}
-
-
-.device-card-icon.blue {
-
-    color: #2563eb;
-
-    background: #eff6ff;
-
-}
-
-
-.device-card-icon.green {
-
-    color: #16a34a;
-
-    background: #f0fdf4;
-
-}
-
-
-.device-card-icon.purple {
-
-    color: #7c3aed;
-
-    background: #f5f3ff;
-
-}
-
-
-/* ============================================================
-   IDENTIFICAÇÃO
-============================================================ */
-
-.device-data-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 24px 40px;
-
-}
-
-
-.device-data-item {
-
-    min-width: 0;
-
-}
-
-
-.device-data-item span {
-
-    display: block;
-
-    margin-bottom: 6px;
-
-    color: #94a3b8;
-
-    font-size: 11px;
-
-    font-weight: 600;
-
-}
-
-
-.device-data-item strong {
-
-    display: block;
-
-    color: #334155;
-
-    font-size: 14px;
-
-    font-weight: 650;
-
-    line-height: 1.5;
-
-    overflow-wrap: anywhere;
-
-}
-
-
-.device-data-wide {
-
-    min-width: 0;
-
-}
-
-
-/* ============================================================
-   METROLOGIA
-============================================================ */
-
-.metrology-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, minmax(0, 1fr));
-
-    gap: 14px;
-
-}
-
-
-.metrology-item {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 13px;
-
-    min-width: 0;
-
-    padding: 18px;
-
-    background: #f8fafc;
-
-    border: 1px solid #f1f5f9;
-
-    border-radius: 12px;
-
-}
-
-
-.metrology-icon {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    width: 38px;
-
-    height: 38px;
-
-    flex-shrink: 0;
-
-    background: #ffffff;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 9px;
-
-    color: #2563eb;
-
-    font-size: 16px;
-
-}
-
-
-.metrology-item span {
-
-    display: block;
-
-    margin-bottom: 5px;
-
-    color: #94a3b8;
-
-    font-size: 10px;
-
-    font-weight: 600;
-
-}
-
-
-.metrology-item strong {
-
-    display: block;
-
-    color: #334155;
-
-    font-size: 13px;
-
-    font-weight: 700;
-
-    overflow-wrap: anywhere;
-
-}
-
-
-/* ============================================================
-   QR CODE
-============================================================ */
-
-.qr-card {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 40px;
-
-    padding: 28px 30px;
-
-    margin-bottom: 20px;
-
-    background: #0f172a;
-
-    border-radius: 16px;
-
-    overflow: hidden;
-
-}
-
-
-.qr-content {
-
-    min-width: 0;
-
-}
-
-
-.qr-overline {
-
-    color: #94a3b8;
-
-}
-
-
-.qr-content h2 {
-
-    margin: 0;
-
-    color: #ffffff;
-
-    font-size: 19px;
-
-    font-weight: 700;
-
-}
-
-
-.qr-content p {
-
-    max-width: 650px;
-
-    margin: 8px 0 16px;
-
-    color: #94a3b8;
-
-    font-size: 13px;
-
-    line-height: 1.6;
-
-}
-
-
-.qr-url {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    color: #cbd5e1;
-
-    font-size: 11px;
-
-    font-weight: 500;
-
-}
-
-
-.qr-url i {
-
-    font-size: 14px;
-
-}
-
-
-.qr-code-wrapper {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    width: 128px;
-
-    height: 128px;
-
-    flex-shrink: 0;
-
-    padding: 9px;
-
-    background: #ffffff;
-
-    border-radius: 12px;
-
-}
-
-
-.device-qr-code {
-
-    display: block;
-
-    width: 100%;
-
-    height: 100%;
-
-    object-fit: contain;
-
-}
-
-
-/* ============================================================
-   HISTÓRICO
-============================================================ */
-
-.history-card {
-
-    margin-bottom: 30px;
-
-}
-
-
-.history-empty {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 14px;
-
-    padding: 24px;
-
-    background: #f8fafc;
-
-    border: 1px dashed #cbd5e1;
-
-    border-radius: 12px;
-
-}
-
-
-.history-empty-icon {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    width: 42px;
-
-    height: 42px;
-
-    flex-shrink: 0;
-
-    background: #f5f3ff;
-
-    border-radius: 10px;
-
-    color: #7c3aed;
-
-    font-size: 17px;
-
-}
-
-
-.history-empty strong {
-
-    display: block;
-
-    margin-bottom: 4px;
-
-    color: #334155;
-
-    font-size: 13px;
-
-}
-
-
-.history-empty span {
-
-    display: block;
-
-    color: #94a3b8;
-
-    font-size: 12px;
-
-}
-
-
-/* ============================================================
-   RESPONSIVO
-============================================================ */
-
-@media (max-width: 1100px) {
-
-    .metrology-grid {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-    }
-
-}
-
-
-@media (max-width: 800px) {
-
-    .device-hero {
-
-        align-items: flex-start;
-
-        flex-direction: column;
-
-    }
-
-
-    .device-hero-status {
-
-        align-self: flex-start;
-
-    }
-
-
-    .qr-card {
-
-        align-items: flex-start;
-
-        flex-direction: column;
-
-    }
-
-
-    .qr-code-wrapper {
-
-        width: 120px;
-
-        height: 120px;
-
-    }
-
-}
-
-
-@media (max-width: 600px) {
-
-    .device-card {
-
-        padding: 20px;
-
-    }
-
-
-    .device-hero {
-
-        padding: 22px;
-
-    }
-
-
-    .device-hero-title h1 {
-
-        font-size: 24px;
-
-    }
-
-
-    .device-data-grid {
-
-        grid-template-columns: 1fr;
-
-        gap: 18px;
-
-    }
-
-
-    .metrology-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .qr-card {
-
-        padding: 22px;
-
-    }
-
-}
-
-/* ============================================================
-   CALIBRAÇÃO
-============================================================ */
-
-.calibration-card {
-
-    position: relative;
-
-    overflow: hidden;
-
-}
-
-
-/* ============================================================
-   RESUMO
-============================================================ */
-
-.calibration-summary {
-
-    display: grid;
-
-    grid-template-columns:
-        minmax(0, 1fr)
-        44px
-        minmax(0, 1fr)
-        minmax(180px, .8fr);
-
-    align-items: stretch;
-
-    gap: 14px;
-
-    margin-bottom: 20px;
-
-}
-
-
-/* ============================================================
-   DATA
-============================================================ */
-
-.calibration-date {
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    min-height: 82px;
-
-    padding: 16px 18px;
-
-    background: #f8fafc;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 10px;
-
-}
-
-
-.calibration-date span,
-.calibration-validity span {
-
-    margin-bottom: 7px;
-
-    color: #64748b;
-
-    font-size: 10px;
-
-    font-weight: 600;
-
-    letter-spacing: .05em;
-
-    text-transform: uppercase;
-
-}
-
-
-.calibration-date strong {
-
-    color: #0f172a;
-
-    font-size: 18px;
-
-    font-weight: 700;
-
-    line-height: 1.2;
-
-}
-
-
-/* ============================================================
-   SETA
-============================================================ */
-
-.calibration-arrow {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: #94a3b8;
-
-    font-size: 17px;
-
-}
-
-
-.calibration-arrow i {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    width: 32px;
-
-    height: 32px;
-
-    background: #f8fafc;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 50%;
-
-}
-
-
-/* ============================================================
-   VALIDADE
-============================================================ */
-
-.calibration-validity {
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    min-height: 82px;
-
-    padding: 16px 18px;
-
-    background: #f0fdf4;
-
-    border: 1px solid #bbf7d0;
-
-    border-radius: 10px;
-
-}
-
-
-.calibration-validity strong {
-
-    color: #15803d;
-
-    font-size: 16px;
-
-    font-weight: 700;
-
-}
-
-
-/* ============================================================
-   DETALHES
-============================================================ */
-
-.calibration-details {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 14px;
-
-    padding-top: 18px;
-
-    border-top: 1px solid #f1f5f9;
-
-}
-
-
-/* ============================================================
-   DETALHE
-============================================================ */
-
-.calibration-detail {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 6px;
-
-    min-width: 0;
-
-}
-
-
-.calibration-detail > span {
-
-    color: #94a3b8;
-
-    font-size: 10px;
-
-    font-weight: 600;
-
-    letter-spacing: .04em;
-
-    text-transform: uppercase;
-
-}
-
-
-.calibration-detail > strong {
-
-    overflow-wrap: anywhere;
-
-    color: #334155;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-}
-
-
-/* ============================================================
-   SITUAÇÃO
-============================================================ */
-
-.calibration-situation > strong {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    width: fit-content;
-
-    min-height: 28px;
-
-    padding: 5px 10px;
-
-    background: #f0fdf4;
-
-    border: 1px solid #bbf7d0;
-
-    border-radius: 7px;
-
-    color: #15803d;
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-}
-
-
-/* ============================================================
-   RESPONSIVO
-============================================================ */
-
-@media (max-width: 900px) {
-
-    .calibration-summary {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-    }
-
-
-    .calibration-arrow {
-
-        display: none;
-
-    }
-
-
-    .calibration-details {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-    }
-
-}
-
-
-@media (max-width: 600px) {
-
-    .calibration-summary {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .calibration-details {
-
-        grid-template-columns: 1fr;
-
-    }
-
-}
-
-/* ============================================================
-   CONDIÇÃO DO INSTRUMENTO
-============================================================ */
-
-#fieldCondicao {
-
-    font-weight: 700;
-
-    transition:
-        color .2s ease,
-        background-color .2s ease;
-
-}
-
-
-/* ============================================================
-   APROVADO
-============================================================ */
-
-#fieldCondicao.condition-aprovado {
-
-    color: #15803d;
-
-}
-
-
-/* ============================================================
-   REPROVADO
-============================================================ */
-
-#fieldCondicao.condition-reprovado {
-
-    color: #dc2626;
-
-}
-
-
-/* ============================================================
-   DESENVOLVIMENTO
-============================================================ */
-
-#fieldCondicao.condition-desenvolvimento {
-
-    color: #ca8a04;
-
-}
-
-
-/* ============================================================
-   INATIVO
-============================================================ */
-
-#fieldCondicao.condition-inativo {
-
-    color: #64748b;
-
-}
-
-/* ============================================================
-   SITUAÇÃO DA CALIBRAÇÃO
-============================================================ */
-
-#fieldSituacaoCalibracao {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    min-height: 30px;
-
-    padding: 6px 10px;
-
-    border-radius: 7px;
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-    line-height: 1.2;
-
-    transition:
-        color .2s ease,
-        background-color .2s ease,
-        border-color .2s ease;
-
-}
-
-
-/* ============================================================
-   CALIBRAÇÃO VÁLIDA
-============================================================ */
-
-#fieldSituacaoCalibracao.calibration-valid {
-
-    color: #15803d;
-
-    background: #ecfdf3;
-
-    border: 1px solid #bbf7d0;
-
-}
-
-
-/* ============================================================
-   CALIBRAÇÃO ATRASADA
-============================================================ */
-
-#fieldSituacaoCalibracao.calibration-overdue {
-
-    color: #b91c1c;
-
-    background: #fef2f2;
-
-    border: 1px solid #fecaca;
-
-}
-
-
-/* ============================================================
-   VENCE HOJE
-============================================================ */
-
-#fieldSituacaoCalibracao.calibration-today {
-
-    color: #a16207;
-
-    background: #fffbeb;
-
-    border: 1px solid #fde68a;
-
-}
-
-
-/* ============================================================
-   DESENVOLVIMENTO
-============================================================ */
-
-#fieldSituacaoCalibracao.calibration-development {
-
-    color: #a16207;
-
-    background: #fffbeb;
-
-    border: 1px solid #fde68a;
-
-}
-
-
-/* ============================================================
-   INATIVO
-============================================================ */
-
-#fieldSituacaoCalibracao.calibration-inactive {
-
-    color: #64748b;
-
-    background: #f8fafc;
-
-    border: 1px solid #e2e8f0;
-
-}
-
-/* ============================================================
-   DIAS PARA CALIBRAÇÃO
-============================================================ */
-
-#fieldDiasRestantes {
-
-    font-weight: 700;
-
-}
-
-
-/* ============================================================
-   ATRASO
-============================================================ */
-
-#fieldDiasRestantes.calibration-days-overdue {
-
-    color: #dc2626;
-
-}
-
-
-/* ============================================================
-   VÁLIDO
-============================================================ */
-
-#fieldDiasRestantes.calibration-days-valid {
-
-    color: #15803d;
-
-}
-
-
-/* ============================================================
-   HOJE
-============================================================ */
-
-#fieldDiasRestantes.calibration-days-today {
-
-    color: #ca8a04;
-
-}
-
-/* ============================================================
-   CONDIÇÃO DO INSTRUMENTO
-============================================================ */
-
-.condition-aprovado {
-
-    color: #15803d !important;
-
-    font-weight: 700;
-
-}
-
-
-.condition-reprovado {
-
-    color: #dc2626 !important;
-
-    font-weight: 800;
-
-}
-
-
-.condition-desenvolvimento {
-
-    color: #ca8a04 !important;
-
-    font-weight: 700;
-
-}
-
-
-.condition-inativo {
-
-    color: #64748b !important;
-
-    font-weight: 700;
-
-}
-
-
-/* ============================================================
-   DIAS DE CALIBRAÇÃO
-============================================================ */
-
-.calibration-days-overdue {
-
-    color: #dc2626 !important;
-
-    font-weight: 800;
-
-}
-
-
-.calibration-days-valid {
-
-    color: #15803d !important;
-
-    font-weight: 700;
-
-}
-
-
-.calibration-days-today {
-
-    color: #ca8a04 !important;
-
-    font-weight: 800;
-
-}
-
-
-/* ============================================================
-   SITUAÇÃO DA CALIBRAÇÃO
-============================================================ */
-
-.calibration-valid {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    width: fit-content;
-
-    padding: 5px 9px;
-
-    border: 1px solid #bbf7d0;
-
-    border-radius: 6px;
-
-    background: #f0fdf4;
-
-    color: #15803d !important;
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-}
-
-
-.calibration-overdue {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    width: fit-content;
-
-    padding: 5px 9px;
-
-    border: 1px solid #fecaca;
-
-    border-radius: 6px;
-
-    background: #fef2f2;
-
-    color: #dc2626 !important;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-}
-
-
-.calibration-today {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    width: fit-content;
-
-    padding: 5px 9px;
-
-    border: 1px solid #fde68a;
-
-    border-radius: 6px;
-
-    background: #fffbeb;
-
-    color: #a16207 !important;
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-}
-
-
-.calibration-development {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    width: fit-content;
-
-    padding: 5px 9px;
-
-    border: 1px solid #fde68a;
-
-    border-radius: 6px;
-
-    background: #fffbeb;
-
-    color: #a16207 !important;
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-}
-
-
-.calibration-inactive {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    width: fit-content;
-
-    padding: 5px 9px;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 6px;
-
-    background: #f8fafc;
-
-    color: #64748b !important;
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-}
-
-/* ============================================================
-   RESPONSIVIDADE PROFISSIONAL — DEVICE PÚBLICO
-============================================================ */
-
-/* Evita qualquer rolagem horizontal */
 html,
 body {
     max-width: 100%;
@@ -1467,154 +19,1025 @@ body {
     box-sizing: border-box;
 }
 
+:root {
+    --device-primary: #2563eb;
+    --device-primary-dark: #1d4ed8;
+    --device-primary-soft: #eff6ff;
+
+    --device-success: #16a34a;
+    --device-success-dark: #15803d;
+    --device-success-soft: #f0fdf4;
+
+    --device-warning: #d97706;
+    --device-warning-soft: #fffbeb;
+
+    --device-danger: #dc2626;
+    --device-danger-soft: #fef2f2;
+
+    --device-purple: #7c3aed;
+    --device-purple-soft: #f5f3ff;
+
+    --device-text: #0f172a;
+    --device-text-secondary: #334155;
+    --device-text-muted: #64748b;
+    --device-text-light: #94a3b8;
+
+    --device-border: #e2e8f0;
+    --device-border-light: #f1f5f9;
+
+    --device-surface: #ffffff;
+    --device-surface-soft: #f8fafc;
+
+    --device-radius-sm: 9px;
+    --device-radius: 14px;
+    --device-radius-lg: 18px;
+
+    --device-shadow:
+        0 1px 2px rgba(15, 23, 42, .03),
+        0 8px 24px rgba(15, 23, 42, .04);
+
+    --device-shadow-hover:
+        0 4px 8px rgba(15, 23, 42, .04),
+        0 14px 32px rgba(15, 23, 42, .07);
+
+    --device-transition: 180ms ease;
+}
+
+
 /* ============================================================
    ESTRUTURA PÚBLICA
-============================================================ */
+   ============================================================ */
 
 .public-device-shell {
     width: 100%;
     min-height: 100vh;
-    padding: 26px;
+    padding: 32px 20px 40px;
     overflow-x: hidden;
 }
 
 .public-device-header,
 .public-device-page,
 .public-device-footer {
-    width: min(1080px, 100%);
-    max-width: 100%;
+    width: min(1120px, 100%);
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
 
 /* ============================================================
    HEADER
-============================================================ */
+   ============================================================ */
 
 .public-device-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    margin: 0 auto 18px;
+    gap: 20px;
+    margin-bottom: 22px;
 }
 
 .public-device-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
     min-width: 0;
+
+    color: var(--device-text);
+    font-size: 14px;
+    font-weight: 750;
+    letter-spacing: -.01em;
+    text-decoration: none;
+}
+
+.public-device-brand i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border: 1px solid #dbeafe;
+    border-radius: 10px;
+
+    background: var(--device-primary-soft);
+    color: var(--device-primary);
+
+    font-size: 17px;
 }
 
 .public-device-brand span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .public-device-admin {
-    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    min-height: 34px;
+    padding: 7px 11px;
+
+    border: 1px solid var(--device-border);
+    border-radius: 9px;
+
+    background: var(--device-surface);
+    color: var(--device-text-muted);
+
+    font-size: 10px;
+    font-weight: 650;
+
     white-space: nowrap;
+    text-decoration: none;
 }
+
+
+/* ============================================================
+   INTRODUÇÃO
+   ============================================================ */
+
+.public-device-intro {
+    margin: 0 0 18px;
+
+    color: var(--device-text-muted);
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   NAVEGAÇÃO
+   ============================================================ */
+
+.device-navigation {
+    margin-bottom: 16px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    color: var(--device-text-muted);
+
+    font-size: 12px;
+    font-weight: 650;
+
+    text-decoration: none;
+
+    transition:
+        color var(--device-transition),
+        transform var(--device-transition);
+}
+
+.back-link:hover {
+    color: var(--device-primary);
+    transform: translateX(-2px);
+}
+
 
 /* ============================================================
    HERO
-============================================================ */
+   ============================================================ */
 
 .device-hero {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 32px;
+
     width: 100%;
     min-width: 0;
+
+    padding: 30px 32px;
+    margin-bottom: 18px;
+
+    overflow: hidden;
+
+    border: 1px solid var(--device-border);
+    border-radius: var(--device-radius-lg);
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #ffffff 65%,
+            #f8fbff 100%
+        );
+
+    box-shadow: var(--device-shadow);
+}
+
+.device-hero::after {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 4px;
+    height: 100%;
+
+    background: var(--device-primary);
 }
 
 .device-hero-main {
     min-width: 0;
-    max-width: 100%;
+    max-width: 850px;
+}
+
+.device-overline {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--device-primary);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.device-hero-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    min-width: 0;
+}
+
+.device-hero-title h1 {
+    margin: 0;
+
+    color: var(--device-text);
+
+    font-size: clamp(25px, 3vw, 34px);
+    line-height: 1.1;
+    font-weight: 780;
+
+    letter-spacing: -.035em;
+
+    overflow-wrap: anywhere;
 }
 
 .device-hero-description {
-    max-width: 100%;
+    max-width: 850px;
+
+    margin: 9px 0 0;
+
+    color: var(--device-text-muted);
+
+    font-size: 13px;
+    line-height: 1.6;
+
     overflow-wrap: anywhere;
-    word-break: break-word;
 }
 
 .device-hero-status {
-    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    flex-shrink: 0;
+    max-width: 260px;
 }
 
-.device-hero-status .status-badge {
-    max-width: 100%;
-    white-space: normal;
+
+/* ============================================================
+   STATUS GERAL
+   ============================================================ */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    min-height: 34px;
+    padding: 7px 12px;
+
+    border: 1px solid var(--device-border);
+    border-radius: 9px;
+
+    background: var(--device-surface-soft);
+    color: var(--device-text-secondary);
+
+    font-size: 10px;
+    font-weight: 750;
+
+    line-height: 1.3;
     text-align: center;
 }
 
+
 /* ============================================================
    CARDS
-============================================================ */
+   ============================================================ */
 
 .device-card {
     width: 100%;
     min-width: 0;
+
+    padding: 26px;
+    margin-bottom: 18px;
+
     overflow: hidden;
+
+    border: 1px solid var(--device-border);
+    border-radius: var(--device-radius);
+
+    background: var(--device-surface);
+
+    box-shadow: var(--device-shadow);
+
+    transition:
+        box-shadow var(--device-transition),
+        border-color var(--device-transition);
 }
 
+.device-card:hover {
+    border-color: #dbe3ef;
+    box-shadow: var(--device-shadow-hover);
+}
+
+
+/* ============================================================
+   SECTION HEADER
+   ============================================================ */
+
 .device-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
     min-width: 0;
+
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+
+    border-bottom: 1px solid var(--device-border-light);
 }
 
 .device-section-header > div:last-child {
     min-width: 0;
 }
 
+.device-section-header h2 {
+    margin: 0;
+
+    color: var(--device-text);
+
+    font-size: 15px;
+    line-height: 1.3;
+    font-weight: 750;
+}
+
+.device-section-header p {
+    margin: 4px 0 0;
+
+    color: var(--device-text-light);
+
+    font-size: 11px;
+    line-height: 1.45;
+}
+
 .device-section-header h2,
 .device-section-header p {
     overflow-wrap: anywhere;
-    word-break: break-word;
 }
+
+
+/* ============================================================
+   ÍCONES DOS CARDS
+   ============================================================ */
+
+.device-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border: 1px solid transparent;
+    border-radius: 11px;
+
+    font-size: 17px;
+}
+
+.device-card-icon.blue {
+    border-color: #dbeafe;
+    background: var(--device-primary-soft);
+    color: var(--device-primary);
+}
+
+.device-card-icon.green {
+    border-color: #dcfce7;
+    background: var(--device-success-soft);
+    color: var(--device-success);
+}
+
+.device-card-icon.purple {
+    border-color: #ede9fe;
+    background: var(--device-purple-soft);
+    color: var(--device-purple);
+}
+
 
 /* ============================================================
    IDENTIFICAÇÃO
-============================================================ */
+   ============================================================ */
 
 .device-data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 20px 36px;
+
     width: 100%;
     min-width: 0;
 }
 
 .device-data-item {
     min-width: 0;
-    max-width: 100%;
+}
+
+.device-data-item span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--device-text-light);
+
+    font-size: 9px;
+    font-weight: 750;
+
+    letter-spacing: .07em;
+    text-transform: uppercase;
 }
 
 .device-data-item strong {
-    max-width: 100%;
+    display: block;
+
+    color: var(--device-text-secondary);
+
+    font-size: 13px;
+    line-height: 1.55;
+    font-weight: 650;
+
     overflow-wrap: anywhere;
     word-break: break-word;
 }
+
+.device-data-wide {
+    min-width: 0;
+}
+
+
+/* ============================================================
+   METROLOGIA
+   ============================================================ */
+
+.metrology-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+.metrology-item {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+
+    padding: 16px;
+
+    border: 1px solid var(--device-border-light);
+    border-radius: 12px;
+
+    background: var(--device-surface-soft);
+
+    transition:
+        border-color var(--device-transition),
+        background var(--device-transition),
+        transform var(--device-transition);
+}
+
+.metrology-item:hover {
+    border-color: #dbeafe;
+    background: #fafdff;
+    transform: translateY(-1px);
+}
+
+.metrology-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border: 1px solid var(--device-border);
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: var(--device-primary);
+
+    font-size: 15px;
+}
+
+.metrology-item span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--device-text-light);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+.metrology-item strong {
+    display: block;
+
+    color: var(--device-text-secondary);
+
+    font-size: 12px;
+    font-weight: 750;
+
+    overflow-wrap: anywhere;
+}
+
 
 /* ============================================================
    CALIBRAÇÃO
-============================================================ */
+   ============================================================ */
 
 .calibration-card {
-    width: 100%;
-    min-width: 0;
+    position: relative;
+    overflow: hidden;
 }
 
 .calibration-summary {
-    width: 100%;
-    min-width: 0;
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        42px
+        minmax(0, 1fr)
+        minmax(170px, .8fr);
+
+    align-items: stretch;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
 }
 
 .calibration-date,
-.calibration-validity,
+.calibration-validity {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    min-height: 84px;
+
+    padding: 16px 18px;
+
+    border-radius: 11px;
+}
+
+.calibration-date {
+    border: 1px solid var(--device-border);
+
+    background: var(--device-surface-soft);
+}
+
+.calibration-validity {
+    border: 1px solid #bbf7d0;
+
+    background: var(--device-success-soft);
+}
+
+.calibration-date span,
+.calibration-validity span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--device-text-muted);
+
+    font-size: 9px;
+    font-weight: 750;
+
+    letter-spacing: .07em;
+    text-transform: uppercase;
+}
+
+.calibration-date strong {
+    color: var(--device-text);
+
+    font-size: 17px;
+    font-weight: 750;
+}
+
+.calibration-validity strong {
+    color: var(--device-success-dark);
+
+    font-size: 15px;
+    font-weight: 750;
+}
+
+.calibration-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--device-text-light);
+}
+
+.calibration-arrow i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    border: 1px solid var(--device-border);
+    border-radius: 50%;
+
+    background: var(--device-surface-soft);
+
+    font-size: 13px;
+}
+
+.calibration-details {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid var(--device-border-light);
+}
+
 .calibration-detail {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
     min-width: 0;
 }
 
-.calibration-date strong,
-.calibration-validity strong,
-.calibration-detail strong {
-    max-width: 100%;
+.calibration-detail > span {
+    color: var(--device-text-light);
+
+    font-size: 9px;
+    font-weight: 750;
+
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.calibration-detail > strong {
+    color: var(--device-text-secondary);
+
+    font-size: 12px;
+    line-height: 1.45;
+    font-weight: 650;
+
     overflow-wrap: anywhere;
     word-break: break-word;
 }
 
+
+/* ============================================================
+   SITUAÇÃO DA CALIBRAÇÃO
+   ============================================================ */
+
+#fieldSituacaoCalibracao {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+    max-width: 100%;
+
+    min-height: 29px;
+
+    padding: 5px 10px;
+
+    border-radius: 7px;
+
+    font-size: 10px;
+    font-weight: 750;
+    line-height: 1.25;
+
+    transition:
+        color var(--device-transition),
+        background var(--device-transition),
+        border-color var(--device-transition);
+}
+
+.calibration-valid {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+    max-width: 100%;
+
+    padding: 5px 9px;
+
+    border: 1px solid #bbf7d0;
+    border-radius: 7px;
+
+    background: var(--device-success-soft);
+    color: var(--device-success-dark) !important;
+
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.calibration-overdue {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+    max-width: 100%;
+
+    padding: 5px 9px;
+
+    border: 1px solid #fecaca;
+    border-radius: 7px;
+
+    background: var(--device-danger-soft);
+    color: var(--device-danger) !important;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.calibration-today,
+.calibration-development {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+    max-width: 100%;
+
+    padding: 5px 9px;
+
+    border: 1px solid #fde68a;
+    border-radius: 7px;
+
+    background: var(--device-warning-soft);
+    color: #a16207 !important;
+
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.calibration-inactive {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+    max-width: 100%;
+
+    padding: 5px 9px;
+
+    border: 1px solid var(--device-border);
+    border-radius: 7px;
+
+    background: var(--device-surface-soft);
+    color: var(--device-text-muted) !important;
+
+    font-size: 10px;
+    font-weight: 750;
+}
+
+
+/* ============================================================
+   DIAS PARA CALIBRAÇÃO
+   ============================================================ */
+
+#fieldDiasRestantes {
+    font-weight: 750;
+}
+
+.calibration-days-overdue {
+    color: var(--device-danger) !important;
+    font-weight: 800;
+}
+
+.calibration-days-valid {
+    color: var(--device-success-dark) !important;
+    font-weight: 750;
+}
+
+.calibration-days-today {
+    color: #ca8a04 !important;
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   CONDIÇÃO DO INSTRUMENTO
+   ============================================================ */
+
+#fieldCondicao {
+    font-weight: 750;
+
+    transition:
+        color var(--device-transition),
+        background var(--device-transition);
+}
+
+.condition-aprovado {
+    color: var(--device-success-dark) !important;
+    font-weight: 750;
+}
+
+.condition-reprovado {
+    color: var(--device-danger) !important;
+    font-weight: 800;
+}
+
+.condition-desenvolvimento {
+    color: #ca8a04 !important;
+    font-weight: 750;
+}
+
+.condition-inativo {
+    color: var(--device-text-muted) !important;
+    font-weight: 750;
+}
+
+
+/* ============================================================
+   QR CODE
+   ============================================================ */
+
+.qr-card {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 35px;
+
+    padding: 28px 30px;
+    margin-bottom: 18px;
+
+    overflow: hidden;
+
+    border: 1px solid #1e293b;
+    border-radius: var(--device-radius-lg);
+
+    background:
+        radial-gradient(
+            circle at 85% 50%,
+            rgba(37, 99, 235, .16),
+            transparent 35%
+        ),
+        #0f172a;
+
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, .12);
+}
+
+.qr-card::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 4px;
+    height: 100%;
+
+    background: var(--device-primary);
+}
+
+.qr-content {
+    min-width: 0;
+}
+
+.qr-overline {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #60a5fa;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.qr-content h2 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 19px;
+    line-height: 1.25;
+    font-weight: 750;
+}
+
+.qr-content p {
+    max-width: 650px;
+
+    margin: 8px 0 15px;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.qr-url {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    max-width: 100%;
+
+    color: #cbd5e1;
+
+    font-size: 10px;
+    font-weight: 550;
+
+    overflow-wrap: anywhere;
+}
+
+.qr-url i {
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.qr-code-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 138px;
+    height: 138px;
+
+    flex-shrink: 0;
+
+    padding: 10px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, .16);
+}
+
+.device-qr-code {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
 /* ============================================================
    CERTIFICADOS
-============================================================ */
+   ============================================================ */
 
 .certificates-card {
     width: 100%;
@@ -1622,76 +1045,304 @@ body {
 }
 
 .public-certificates-list {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
     width: 100%;
     min-width: 0;
 }
 
 .public-certificate-card {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
     width: 100%;
     min-width: 0;
-    overflow: hidden;
+
+    padding: 15px;
+
+    border: 1px solid var(--device-border);
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    transition:
+        border-color var(--device-transition),
+        box-shadow var(--device-transition),
+        transform var(--device-transition);
+}
+
+.public-certificate-card:hover {
+    border-color: #cbd5e1;
+
+    box-shadow:
+        0 5px 18px rgba(15, 23, 42, .06);
+
+    transform: translateY(-1px);
+}
+
+.public-certificate-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border: 1px solid #fee2e2;
+    border-radius: 10px;
+
+    background: #fff7f7;
+    color: #dc2626;
+
+    font-size: 17px;
 }
 
 .public-certificate-main {
+    flex: 1 1 auto;
+
     min-width: 0;
     max-width: 100%;
 }
 
 .public-certificate-title {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
     min-width: 0;
 }
 
 .public-certificate-title strong {
     min-width: 0;
     max-width: 100%;
+
+    color: var(--device-text-secondary);
+
+    font-size: 11px;
+    line-height: 1.4;
+    font-weight: 750;
+
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
+.public-certificate-status {
+    flex-shrink: 0;
+
+    padding: 4px 7px;
+
+    border-radius: 6px;
+
+    background: var(--device-success-soft);
+    color: var(--device-success-dark);
+
+    font-size: 8px;
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
 .public-certificate-meta {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 4px 12px;
+
+    margin-top: 7px;
+
+    color: var(--device-text-light);
+
+    font-size: 9px;
+    line-height: 1.4;
+}
+
+.public-certificate-meta span {
     min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .public-certificate-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
     flex-shrink: 0;
 }
 
 .public-certificate-actions a {
-    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-height: 34px;
+
+    padding: 7px 10px;
+
+    border: 1px solid var(--device-border);
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: var(--device-text-muted);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition:
+        color var(--device-transition),
+        background var(--device-transition),
+        border-color var(--device-transition),
+        transform var(--device-transition);
 }
+
+.public-certificate-actions a:hover {
+    border-color: #bfdbfe;
+
+    background: var(--device-primary-soft);
+    color: var(--device-primary);
+
+    transform: translateY(-1px);
+}
+
+.public-certificate-actions a i {
+    font-size: 12px;
+}
+
 
 /* ============================================================
    HISTÓRICO
-============================================================ */
+   ============================================================ */
+
+.history-card {
+    margin-bottom: 28px;
+}
 
 .history-empty {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
     width: 100%;
     min-width: 0;
+
+    padding: 20px;
+
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+
+    background: var(--device-surface-soft);
+}
+
+.history-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border: 1px solid #ede9fe;
+    border-radius: 10px;
+
+    background: var(--device-purple-soft);
+    color: var(--device-purple);
+
+    font-size: 16px;
 }
 
 .history-empty > div:last-child {
     min-width: 0;
 }
 
+.history-empty strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--device-text-secondary);
+
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.history-empty span {
+    display: block;
+
+    color: var(--device-text-light);
+
+    font-size: 10px;
+    line-height: 1.5;
+}
+
 .history-empty strong,
 .history-empty span {
     overflow-wrap: anywhere;
-    word-break: break-word;
 }
 
+
 /* ============================================================
-   TABLET
-============================================================ */
+   RODAPÉ
+   ============================================================ */
+
+.public-device-footer {
+    margin-top: 18px;
+    padding: 0 5px;
+
+    color: var(--device-text-light);
+
+    font-size: 9px;
+    line-height: 1.5;
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE — 1100px
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+    .metrology-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .public-certificates-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE — 900px
+   ============================================================ */
 
 @media (max-width: 900px) {
 
     .public-device-shell {
-        padding: 20px;
+        padding: 24px 16px 32px;
     }
 
     .device-hero {
-        gap: 20px;
+        gap: 22px;
+        padding: 26px;
     }
 
     .device-card {
@@ -1712,269 +1363,280 @@ body {
             repeat(2, minmax(0, 1fr));
     }
 
+    .public-certificate-card {
+        align-items: flex-start;
+    }
 }
 
+
 /* ============================================================
-   TABLET PEQUENO
-============================================================ */
+   RESPONSIVIDADE — 700px
+   ============================================================ */
 
 @media (max-width: 700px) {
 
     .public-device-shell {
-        padding: 16px;
+        padding: 18px 12px 28px;
     }
 
     .public-device-header {
         align-items: flex-start;
         flex-wrap: wrap;
-        margin-bottom: 14px;
+
+        gap: 10px;
+
+        margin-bottom: 16px;
     }
 
     .public-device-admin {
-        font-size: 10px;
+        font-size: 9px;
     }
-
-    .public-device-intro {
-        margin-bottom: 14px;
-        font-size: 11px;
-        line-height: 1.5;
-    }
-
-    /* Hero */
 
     .device-hero {
-        align-items: flex-start;
         flex-direction: column;
+        align-items: stretch;
+
+        gap: 16px;
+
         padding: 22px;
-        gap: 14px;
+
+        border-radius: 15px;
     }
 
     .device-hero-title h1 {
-        font-size: 27px;
+        font-size: clamp(23px, 7vw, 30px);
     }
 
     .device-hero-description {
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .device-hero-status {
-        width: 100%;
-    }
+        justify-content: flex-start;
 
-    /* Cards */
+        width: 100%;
+        max-width: none;
+    }
 
     .device-card {
         padding: 20px;
         margin-bottom: 14px;
+
         border-radius: 14px;
     }
 
     .device-section-header {
         align-items: flex-start;
+
         gap: 10px;
-        padding-bottom: 16px;
-        margin-bottom: 18px;
+
+        padding-bottom: 15px;
+        margin-bottom: 17px;
     }
 
     .device-card-icon {
         width: 38px;
         height: 38px;
-        font-size: 16px;
     }
-
-    .device-section-header h2 {
-        font-size: 14px;
-    }
-
-    .device-section-header p {
-        font-size: 11px;
-        line-height: 1.4;
-    }
-
-    /* Identificação */
 
     .device-data-grid {
         grid-template-columns: 1fr;
+
         gap: 16px;
     }
 
-    /* Calibração */
+    .metrology-grid {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 9px;
+    }
+
+    .metrology-item {
+        padding: 13px;
+    }
 
     .calibration-summary {
         grid-template-columns: 1fr;
-        gap: 10px;
-    }
 
-    .calibration-details {
-        grid-template-columns: 1fr;
-        gap: 14px;
+        gap: 9px;
     }
 
     .calibration-date,
     .calibration-validity {
         min-height: 70px;
-        padding: 14px 15px;
+
+        padding: 14px;
     }
 
-    .calibration-date strong {
-        font-size: 16px;
+    .calibration-details {
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+
+        padding-top: 15px;
     }
 
-    .calibration-validity strong {
-        font-size: 14px;
+    .qr-card {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 22px;
+
+        padding: 23px;
+
+        border-radius: 15px;
     }
 
-    /* Certificados */
+    .qr-code-wrapper {
+        width: 128px;
+        height: 128px;
+
+        align-self: center;
+    }
 
     .public-certificate-card {
-        align-items: flex-start;
-        flex-wrap: wrap;
-        gap: 12px;
+        display: grid;
+
+        grid-template-columns: 40px minmax(0, 1fr);
+
+        gap: 10px;
+
         padding: 13px;
     }
 
-    .public-certificate-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        font-size: 17px;
-    }
-
     .public-certificate-main {
-        flex: 1 1 calc(100% - 52px);
-        width: calc(100% - 52px);
+        width: 100%;
     }
 
     .public-certificate-title {
         align-items: flex-start;
         flex-direction: column;
-        gap: 6px;
+
+        gap: 5px;
     }
 
     .public-certificate-title strong {
         width: 100%;
+
         white-space: normal;
         overflow: visible;
         text-overflow: unset;
-        line-height: 1.4;
+
+        font-size: 11px;
     }
 
     .public-certificate-status {
         align-self: flex-start;
+
+        white-space: normal;
     }
 
     .public-certificate-meta {
-        gap: 5px 10px;
-        line-height: 1.4;
+        display: grid;
+        grid-template-columns: 1fr;
+
+        gap: 4px;
     }
 
     .public-certificate-actions {
-        width: 100%;
+        grid-column: 1 / -1;
+
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        padding-left: 0;
+        grid-template-columns: 1fr 1fr;
+
+        width: 100%;
+
         gap: 7px;
     }
 
     .public-certificate-actions a {
-        justify-content: center;
         width: 100%;
         min-height: 38px;
-        padding: 9px 8px;
-    }
 
-    /* Histórico */
+        justify-content: center;
+    }
 
     .history-empty {
         align-items: flex-start;
-        padding: 18px;
-    }
 
-    .history-empty-icon {
-        width: 38px;
-        height: 38px;
+        padding: 17px;
     }
-
 }
 
+
 /* ============================================================
-   CELULAR
-============================================================ */
+   RESPONSIVIDADE — 480px
+   ============================================================ */
 
 @media (max-width: 480px) {
 
     .public-device-shell {
-        padding: 12px;
+        padding: 12px 9px 22px;
     }
 
-    .public-device-header {
-        gap: 10px;
-        margin-bottom: 12px;
-    }
-
-    .public-device-brand i {
-        width: 34px;
-        height: 34px;
-        border-radius: 9px;
+    .public-device-header,
+    .public-device-page,
+    .public-device-footer {
+        width: 100%;
     }
 
     .public-device-brand {
         font-size: 13px;
     }
 
+    .public-device-brand i {
+        width: 34px;
+        height: 34px;
+
+        border-radius: 9px;
+    }
+
     .public-device-admin {
-        font-size: 9px;
-        gap: 5px;
+        min-height: 32px;
+
+        padding: 6px 9px;
+
+        font-size: 8px;
     }
 
     .public-device-intro {
-        font-size: 10px;
-        margin-bottom: 12px;
-    }
+        margin-bottom: 13px;
 
-    /* Hero */
+        font-size: 10px;
+    }
 
     .device-hero {
         padding: 18px;
-        margin-bottom: 12px;
+
         border-radius: 13px;
     }
 
     .device-overline {
-        font-size: 9px;
-        margin-bottom: 6px;
+        font-size: 8px;
     }
 
     .device-hero-title h1 {
-        font-size: 23px;
-        line-height: 1.15;
+        font-size: 22px;
     }
 
     .device-hero-description {
-        margin-top: 7px;
-        font-size: 12px;
-        line-height: 1.45;
+        font-size: 11px;
+        line-height: 1.5;
     }
-
-    /* Cards */
 
     .device-card {
-        padding: 17px;
-        margin-bottom: 12px;
-        border-radius: 13px;
-    }
+        padding: 16px;
 
-    .device-section-header {
-        gap: 9px;
-        padding-bottom: 13px;
-        margin-bottom: 15px;
+        border-radius: 12px;
     }
 
     .device-card-icon {
         width: 35px;
         height: 35px;
+
         border-radius: 9px;
-        font-size: 15px;
+
+        font-size: 14px;
     }
 
     .device-section-header h2 {
@@ -1982,43 +1644,32 @@ body {
     }
 
     .device-section-header p {
-        font-size: 10px;
-    }
-
-    /* Dados */
-
-    .device-data-grid {
-        gap: 14px;
+        font-size: 9px;
     }
 
     .device-data-item span {
-        margin-bottom: 4px;
-        font-size: 10px;
+        font-size: 8px;
     }
 
     .device-data-item strong {
-        font-size: 13px;
-        line-height: 1.45;
+        font-size: 12px;
     }
 
-    /* Calibração */
-
-    .calibration-summary {
-        gap: 8px;
-        margin-bottom: 15px;
+    .metrology-grid {
+        grid-template-columns: 1fr;
     }
 
-    .calibration-date,
-    .calibration-validity {
-        min-height: 64px;
-        padding: 12px 13px;
-        border-radius: 9px;
+    .metrology-item {
+        padding: 12px;
     }
 
-    .calibration-date span,
-    .calibration-validity span {
-        font-size: 9px;
-        margin-bottom: 5px;
+    .metrology-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .metrology-item strong {
+        font-size: 11px;
     }
 
     .calibration-date strong {
@@ -2029,54 +1680,46 @@ body {
         font-size: 13px;
     }
 
-    .calibration-details {
-        gap: 12px;
-        padding-top: 14px;
-    }
-
     .calibration-detail > span {
-        font-size: 9px;
+        font-size: 8px;
     }
 
     .calibration-detail > strong {
-        font-size: 12px;
+        font-size: 11px;
     }
 
-    #fieldSituacaoCalibracao {
-        max-width: 100%;
-        white-space: normal;
-        overflow-wrap: anywhere;
+    .qr-card {
+        padding: 19px;
     }
 
-    /* Certificados */
+    .qr-content h2 {
+        font-size: 17px;
+    }
+
+    .qr-content p {
+        font-size: 11px;
+    }
+
+    .qr-code-wrapper {
+        width: 116px;
+        height: 116px;
+    }
 
     .public-certificate-card {
         padding: 11px;
-        border-radius: 11px;
     }
 
     .public-certificate-icon {
         width: 36px;
         height: 36px;
-        font-size: 15px;
-    }
-
-    .public-certificate-main {
-        flex-basis: calc(100% - 48px);
-        width: calc(100% - 48px);
     }
 
     .public-certificate-title strong {
-        font-size: 12px;
-    }
-
-    .public-certificate-meta {
         font-size: 10px;
     }
 
-    .public-certificate-status {
-        font-size: 9px;
-        padding: 3px 6px;
+    .public-certificate-meta {
+        font-size: 8px;
     }
 
     .public-certificate-actions {
@@ -2085,62 +1728,38 @@ body {
 
     .public-certificate-actions a {
         min-height: 36px;
-        font-size: 10px;
-    }
 
-    /* Histórico */
-
-    .history-empty {
-        padding: 15px;
-        gap: 10px;
+        font-size: 9px;
     }
 
     .history-empty-icon {
         width: 35px;
         height: 35px;
-        font-size: 14px;
     }
 
     .history-empty strong {
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .history-empty span {
-        font-size: 10px;
-        line-height: 1.4;
+        font-size: 9px;
     }
-
-    /* Footer */
 
     .public-device-footer {
-        margin-top: 15px;
-        padding: 0 5px;
-        font-size: 9px;
-        text-align: center;
+        font-size: 8px;
     }
-
 }
 
+
 /* ============================================================
-   CELULARES MUITO PEQUENOS
-============================================================ */
+   RESPONSIVIDADE — 360px
+   ============================================================ */
 
 @media (max-width: 360px) {
 
     .public-device-shell {
-        padding: 9px;
-    }
-
-    .public-device-header {
-        align-items: center;
-    }
-
-    .public-device-brand {
-        font-size: 12px;
-    }
-
-    .public-device-admin {
-        font-size: 8px;
+        padding-left: 7px;
+        padding-right: 7px;
     }
 
     .device-hero {
@@ -2148,7 +1767,7 @@ body {
     }
 
     .device-hero-title h1 {
-        font-size: 21px;
+        font-size: 20px;
     }
 
     .device-card {
@@ -2159,20 +1778,17 @@ body {
         font-size: 12px;
     }
 
-    .device-section-header p {
-        font-size: 9px;
-    }
-
     .public-certificate-actions a {
         min-height: 34px;
-        font-size: 9px;
-    }
 
+        font-size: 8px;
+    }
 }
 
+
 /* ============================================================
-   ACESSIBILIDADE / TOUCH
-============================================================ */
+   TOUCH / ACESSIBILIDADE
+   ============================================================ */
 
 @media (hover: none) and (pointer: coarse) {
 
@@ -2180,22 +1796,27 @@ body {
         min-height: 42px;
     }
 
-    .public-device-admin {
+    .back-link {
         min-height: 36px;
-        display: inline-flex;
+
         align-items: center;
     }
 
+    .public-device-admin {
+        min-height: 36px;
+    }
 }
 
+
 /* ============================================================
-   LANDSCAPE EM CELULAR
-============================================================ */
+   LANDSCAPE MOBILE
+   ============================================================ */
 
 @media (max-width: 900px) and (orientation: landscape) {
 
     .public-device-shell {
-        padding: 14px 20px;
+        padding-top: 16px;
+        padding-bottom: 24px;
     }
 
     .device-hero {
@@ -2205,6 +1826,7 @@ body {
 
     .device-hero-status {
         width: auto;
+        max-width: 240px;
     }
 
     .device-data-grid {
@@ -2218,507 +1840,22 @@ body {
     .calibration-details {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
 }
+
 
 /* ============================================================
-   SIGEM CAL — RESPONSIVIDADE FINAL DA PÁGINA DEVICE
+   REDUÇÃO DE MOVIMENTO
    ============================================================ */
 
-.public-device-shell {
-    width: 100%;
-    min-height: 100vh;
-    overflow-x: hidden;
-    box-sizing: border-box;
-}
+@media (prefers-reduced-motion: reduce) {
 
-.public-device-shell *,
-.public-device-shell *::before,
-.public-device-shell *::after {
-    box-sizing: border-box;
-}
-
-.public-device-header,
-.public-device-page,
-.public-device-footer {
-    width: min(1080px, calc(100% - 40px));
-    max-width: 1080px;
-}
-
-/* ============================================================
-   TABLET
-   ============================================================ */
-
-@media (max-width: 900px) {
-
-    .public-device-shell {
-        padding: 20px 0;
-    }
-
-    .public-device-header,
-    .public-device-page,
-    .public-device-footer {
-        width: min(100% - 32px, 760px);
-    }
-
-    .device-hero {
-        gap: 20px;
-        padding: 24px;
-    }
-
-    .device-card {
-        padding: 22px;
-    }
-
-    .calibration-summary {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .calibration-arrow {
-        display: none;
-    }
-
-    .calibration-details {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .public-certificate-card {
-        align-items: flex-start;
-    }
-
-    .public-certificate-actions {
-        flex-wrap: wrap;
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
     }
 }
 
-/* ============================================================
-   CELULAR
-   ============================================================ */
-
-@media (max-width: 600px) {
-
-    .public-device-shell {
-        padding: 12px 0 20px;
-    }
-
-    .public-device-header,
-    .public-device-page,
-    .public-device-footer {
-        width: calc(100% - 24px);
-    }
-
-    /* --------------------------------------------------------
-       CABEÇALHO
-       -------------------------------------------------------- */
-
-    .public-device-header {
-        margin-bottom: 14px;
-        gap: 10px;
-    }
-
-    .public-device-brand {
-        gap: 8px;
-        font-size: 14px;
-    }
-
-    .public-device-brand i {
-        width: 34px;
-        height: 34px;
-        border-radius: 9px;
-    }
-
-    .public-device-admin {
-        font-size: 9px;
-        white-space: nowrap;
-    }
-
-    .public-device-intro {
-        margin-bottom: 14px;
-        font-size: 10px;
-        line-height: 1.5;
-    }
-
-    /* --------------------------------------------------------
-       HERO
-       -------------------------------------------------------- */
-
-    .device-hero {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 16px;
-        padding: 20px;
-        margin-bottom: 14px;
-        border-radius: 14px;
-    }
-
-    .device-overline {
-        margin-bottom: 6px;
-        font-size: 9px;
-    }
-
-    .device-hero-title {
-        display: block;
-    }
-
-    .device-hero-title h1 {
-        max-width: 100%;
-        font-size: clamp(22px, 8vw, 30px);
-        line-height: 1.1;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .device-hero-description {
-        margin-top: 8px;
-        max-width: 100%;
-        font-size: 12px;
-        line-height: 1.5;
-        overflow-wrap: anywhere;
-    }
-
-    .device-hero-status {
-        width: 100%;
-    }
-
-    .device-hero-status .status-badge {
-        max-width: 100%;
-        overflow-wrap: anywhere;
-    }
-
-    /* --------------------------------------------------------
-       CARDS
-       -------------------------------------------------------- */
-
-    .device-card {
-        width: 100%;
-        padding: 18px;
-        margin-bottom: 14px;
-        border-radius: 14px;
-    }
-
-    .device-section-header {
-        align-items: flex-start;
-        gap: 10px;
-        padding-bottom: 15px;
-        margin-bottom: 17px;
-    }
-
-    .device-card-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 9px;
-        font-size: 16px;
-    }
-
-    .device-section-header h2 {
-        font-size: 14px;
-        line-height: 1.3;
-    }
-
-    .device-section-header p {
-        max-width: 100%;
-        font-size: 10px;
-        line-height: 1.4;
-    }
-
-    /* --------------------------------------------------------
-       IDENTIFICAÇÃO
-       -------------------------------------------------------- */
-
-    .device-data-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    .device-data-item {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .device-data-item span {
-        margin-bottom: 4px;
-        font-size: 9px;
-    }
-
-    .device-data-item strong {
-        max-width: 100%;
-        font-size: 13px;
-        line-height: 1.45;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    /* --------------------------------------------------------
-       CALIBRAÇÃO
-       -------------------------------------------------------- */
-
-    .calibration-card {
-        overflow: hidden;
-    }
-
-    .device-card-header {
-        gap: 10px;
-    }
-
-    .device-card-header h3 {
-        font-size: 14px;
-    }
-
-    .device-card-header span {
-        font-size: 10px;
-        line-height: 1.4;
-    }
-
-    .calibration-summary {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 9px;
-        margin-bottom: 15px;
-    }
-
-    .calibration-arrow {
-        display: none;
-    }
-
-    .calibration-date,
-    .calibration-validity {
-        width: 100%;
-        min-height: 0;
-        padding: 13px 14px;
-        border-radius: 9px;
-    }
-
-    .calibration-date span,
-    .calibration-validity span {
-        margin-bottom: 5px;
-        font-size: 8px;
-    }
-
-    .calibration-date strong {
-        font-size: 16px;
-    }
-
-    .calibration-validity strong {
-        font-size: 14px;
-    }
-
-    .calibration-details {
-        grid-template-columns: 1fr;
-        gap: 14px;
-        padding-top: 15px;
-    }
-
-    .calibration-detail {
-        width: 100%;
-    }
-
-    .calibration-detail > span {
-        font-size: 8px;
-    }
-
-    .calibration-detail > strong {
-        max-width: 100%;
-        font-size: 12px;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    #fieldSituacaoCalibracao {
-        max-width: 100%;
-        white-space: normal;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    /* --------------------------------------------------------
-       CERTIFICADOS
-       -------------------------------------------------------- */
-
-    .certificates-card {
-        overflow: hidden;
-    }
-
-    .public-certificates-list {
-        width: 100%;
-        gap: 9px;
-    }
-
-    .public-certificate-card {
-        display: grid;
-        grid-template-columns: 38px minmax(0, 1fr);
-        gap: 10px;
-        width: 100%;
-        padding: 12px;
-        border-radius: 11px;
-    }
-
-    .public-certificate-icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 9px;
-        font-size: 17px;
-    }
-
-    .public-certificate-main {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .public-certificate-title {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-        width: 100%;
-    }
-
-    .public-certificate-title strong {
-        display: block;
-        width: 100%;
-        max-width: 100%;
-        font-size: 11px;
-        line-height: 1.35;
-        white-space: normal;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .public-certificate-status {
-        max-width: 100%;
-        font-size: 8px;
-        white-space: normal;
-        overflow-wrap: anywhere;
-    }
-
-    .public-certificate-meta {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 4px;
-        margin-top: 7px;
-        font-size: 9px;
-        line-height: 1.4;
-    }
-
-    .public-certificate-meta span {
-        min-width: 0;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .public-certificate-actions {
-        grid-column: 1 / -1;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 7px;
-        width: 100%;
-        padding-left: 0;
-    }
-
-    .public-certificate-actions a {
-        justify-content: center;
-        width: 100%;
-        min-height: 38px;
-        padding: 8px 9px;
-        font-size: 10px;
-        border-radius: 8px;
-    }
-
-    /* --------------------------------------------------------
-       HISTÓRICO
-       -------------------------------------------------------- */
-
-    .history-empty {
-        align-items: flex-start;
-        gap: 10px;
-        padding: 15px;
-    }
-
-    .history-empty-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 9px;
-        font-size: 15px;
-    }
-
-    .history-empty strong {
-        font-size: 11px;
-        line-height: 1.4;
-    }
-
-    .history-empty span {
-        font-size: 10px;
-        line-height: 1.4;
-    }
-
-    /* --------------------------------------------------------
-       ESTADOS
-       -------------------------------------------------------- */
-
-    .calibration-valid,
-    .calibration-overdue,
-    .calibration-today,
-    .calibration-development,
-    .calibration-inactive {
-        max-width: 100%;
-        white-space: normal;
-        overflow-wrap: anywhere;
-    }
-
-    /* --------------------------------------------------------
-       RODAPÉ
-       -------------------------------------------------------- */
-
-    .public-device-footer {
-        margin-top: 16px;
-        font-size: 8px;
-        text-align: center;
-        line-height: 1.4;
-    }
-}
-
-/* ============================================================
-   CELULARES MUITO PEQUENOS — 360px
-   ============================================================ */
-
-@media (max-width: 380px) {
-
-    .public-device-header,
-    .public-device-page,
-    .public-device-footer {
-        width: calc(100% - 18px);
-    }
-
-    .public-device-shell {
-        padding-top: 8px;
-    }
-
-    .public-device-brand {
-        font-size: 12px;
-    }
-
-    .public-device-admin {
-        font-size: 8px;
-    }
-
-    .public-device-brand i {
-        width: 30px;
-        height: 30px;
-    }
-
-    .device-hero {
-        padding: 16px;
-    }
-
-    .device-card {
-        padding: 15px;
-    }
-
-    .public-certificate-actions {
-        grid-template-columns: 1fr;
-    }
-
-    .public-certificate-actions a {
-        min-height: 36px;
-    }
-}
