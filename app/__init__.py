@@ -1,12 +1,13 @@
 import os
 from flask import (
     Flask,
-    current_app,
     render_template,
     send_file,
     jsonify,
     request,
     send_from_directory,
+    current_app,
+    redirect,
 )
 
 from config import Config
@@ -516,52 +517,70 @@ def create_app():
         """
         Download público de certificado.
 
-        O arquivo é obtido através de uma URL assinada
-        do Cloudflare R2, mantendo o bucket privado.
+        O arquivo é obtido diretamente do Cloudflare R2.
+        A rota valida o dispositivo e o certificado e então
+        redireciona para uma URL temporária assinada.
         """
 
         from app.models.device import Device
         from app.models.certificate import Certificate
         from app.utils.r2_storage import get_r2
+        from flask import redirect
         from pathlib import Path
 
-        dispositivo = (
-            Device.query
-            .filter_by(numero=numero)
-            .first()
-        )
-
-        if not dispositivo:
-            return (
-                "Dispositivo não encontrado.",
-                404
-            )
-
-        certificado = (
-            Certificate.query
-            .filter_by(id=certificate_id)
-            .first()
-        )
-
-        if not certificado:
-            return (
-                "Certificado não encontrado.",
-                404
-            )
-
-        if certificado.device_id != dispositivo.id:
-            return (
-                "Certificado não pertence a este dispositivo.",
-                404
-            )
-
-        if not certificado.arquivo:
-            return (
-                "Este certificado não possui arquivo.",
-                404
-            )
-
         try:
+            # ========================================================
+            # DISPOSITIVO
+            # ========================================================
+
+            dispositivo = (
+                Device.query
+                .filter_by(numero=numero)
+                .first()
+            )
+
+            if not dispositivo:
+                return (
+                    "Dispositivo não encontrado.",
+                    404
+                )
+
+            # ========================================================
+            # CERTIFICADO
+            # ========================================================
+
+            certificado = (
+                Certificate.query
+                .filter_by(id=certificate_id)
+                .first()
+            )
+
+            if not certificado:
+                return (
+                    "Certificado não encontrado.",
+                    404
+                )
+
+            # ========================================================
+            # SEGURANÇA
+            # ========================================================
+
+            if certificado.device_id != dispositivo.id:
+                return (
+                    "Certificado não pertence a este dispositivo.",
+                    404
+                )
+
+            if not certificado.arquivo:
+                return (
+                    "Este certificado não possui arquivo.",
+                    404
+                )
+
+            # ========================================================
+            # R2
+            # ========================================================
+
             r2 = get_r2()
 
             arquivo = (
@@ -570,9 +589,15 @@ def create_app():
                 .replace("\\", "/")
             )
 
-            # ----------------------------------------------------
-            # Converte r2://bucket/key para apenas key
-            # ----------------------------------------------------
+            # --------------------------------------------------------
+            # Converte:
+            #
+            # r2://sigem-certificados/Certificados/arquivo.pdf
+            #
+            # para:
+            #
+            # Certificados/arquivo.pdf
+            # --------------------------------------------------------
 
             if arquivo.lower().startswith("r2://"):
 
@@ -603,22 +628,27 @@ def create_app():
                 key = partes[1]
 
             else:
+
                 key = arquivo.lstrip("/")
+
+            # --------------------------------------------------------
+            # Normalização
+            # --------------------------------------------------------
 
             while "//" in key:
                 key = key.replace("//", "/")
 
             current_app.logger.info(
                 "SIGEM CAL PUBLIC DOWNLOAD | "
-                "device=%s | cert=%s | key=%s",
+                "device=%s | certificate=%s | key=%s",
                 numero,
                 certificate_id,
                 key
             )
 
-            # ----------------------------------------------------
-            # Verifica existência
-            # ----------------------------------------------------
+            # ========================================================
+            # VERIFICAÇÃO
+            # ========================================================
 
             if not r2.exists(key):
 
@@ -632,23 +662,50 @@ def create_app():
                     404
                 )
 
-            # ----------------------------------------------------
-            # Gera URL temporária para download
-            # ----------------------------------------------------
+            # ========================================================
+            # NOME E CONTENT TYPE
+            # ========================================================
+
+            filename = (
+                certificado.nome_arquivo
+                or Path(key).name
+            )
+
+            extension = Path(key).suffix.lower()
+
+            content_type = {
+                ".pdf": "application/pdf",
+                ".xlsx": (
+                    "application/vnd.openxmlformats-officedocument."
+                    "spreadsheetml.sheet"
+                ),
+                ".xls": "application/vnd.ms-excel",
+            }.get(
+                extension,
+                "application/octet-stream"
+            )
+
+            # ========================================================
+            # URL TEMPORÁRIA
+            # ========================================================
 
             url = r2.generate_download_url(
                 key,
                 expires=900,
                 response_content_disposition=(
-                    f'attachment; filename="{certificado.nome_arquivo or Path(key).name}"'
+                    f'attachment; filename="{filename}"'
                 ),
+                response_content_type=content_type,
             )
 
-            # ----------------------------------------------------
-            # Redireciona diretamente para o R2
-            # ----------------------------------------------------
+            # ========================================================
+            # REDIRECIONAMENTO
+            # ========================================================
 
-            return redirect(url)
+            return redirect(
+                url,
+                code=302
+            )
 
         except Exception as erro:
 
