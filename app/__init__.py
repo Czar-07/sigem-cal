@@ -511,38 +511,156 @@ def create_app():
                 500
             )
 
-
     @app.route("/device/<path:numero>/certificate/<int:certificate_id>/download")
     def public_certificate_download(numero, certificate_id):
+        """
+        Download público de certificado.
+
+        O arquivo é obtido através de uma URL assinada
+        do Cloudflare R2, mantendo o bucket privado.
+        """
+
         from app.models.device import Device
         from app.models.certificate import Certificate
-        from app.services.certificate_sync_service import read_source_member
+        from app.utils.r2_storage import get_r2
         from pathlib import Path
-        import io
 
-        dispositivo = Device.query.filter_by(numero=numero).first()
-        cert = Certificate.query.filter_by(id=certificate_id).first()
-        if not dispositivo or not cert or cert.device_id != dispositivo.id:
-            return ("Certificado não encontrado.", 404)
-        if not cert.arquivo:
-            return ("Este certificado não possui arquivo.", 404)
+        dispositivo = (
+            Device.query
+            .filter_by(numero=numero)
+            .first()
+        )
 
-        partes = cert.arquivo.replace("\\", "/").split("/")
-        upload_root = Path(app.config["UPLOAD_FOLDER"]).resolve()
-        arquivo_local = upload_root / Path(*partes)
-        mime_map = {".pdf": "application/pdf", ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
-        extensao = Path(partes[-1]).suffix.lower()
-        nome = cert.nome_arquivo or partes[-1]
-        if arquivo_local.is_file():
-            return send_from_directory(str(arquivo_local.parent), arquivo_local.name, mimetype=mime_map.get(extensao, "application/octet-stream"), as_attachment=True, download_name=nome)
+        if not dispositivo:
+            return (
+                "Dispositivo não encontrado.",
+                404
+            )
 
-        recuperado = read_source_member(cert.source_path, cert.source_key)
-        if recuperado:
-            data, source_ext = recuperado
-            return send_file(io.BytesIO(data), mimetype=mime_map.get(source_ext, "application/octet-stream"), as_attachment=True, download_name=nome)
-        return ("Arquivo do certificado não encontrado.", 404)
+        certificado = (
+            Certificate.query
+            .filter_by(id=certificate_id)
+            .first()
+        )
 
+        if not certificado:
+            return (
+                "Certificado não encontrado.",
+                404
+            )
 
+        if certificado.device_id != dispositivo.id:
+            return (
+                "Certificado não pertence a este dispositivo.",
+                404
+            )
+
+        if not certificado.arquivo:
+            return (
+                "Este certificado não possui arquivo.",
+                404
+            )
+
+        try:
+            r2 = get_r2()
+
+            arquivo = (
+                str(certificado.arquivo)
+                .strip()
+                .replace("\\", "/")
+            )
+
+            # ----------------------------------------------------
+            # Converte r2://bucket/key para apenas key
+            # ----------------------------------------------------
+
+            if arquivo.lower().startswith("r2://"):
+
+                resto = arquivo[5:]
+
+                partes = resto.split("/", 1)
+
+                if len(partes) != 2:
+                    return (
+                        "Chave R2 inválida.",
+                        500
+                    )
+
+                key = partes[1]
+
+            elif arquivo.lower().startswith("r2:/"):
+
+                resto = arquivo[4:]
+
+                partes = resto.split("/", 1)
+
+                if len(partes) != 2:
+                    return (
+                        "Chave R2 inválida.",
+                        500
+                    )
+
+                key = partes[1]
+
+            else:
+                key = arquivo.lstrip("/")
+
+            while "//" in key:
+                key = key.replace("//", "/")
+
+            current_app.logger.info(
+                "SIGEM CAL PUBLIC DOWNLOAD | "
+                "device=%s | cert=%s | key=%s",
+                numero,
+                certificate_id,
+                key
+            )
+
+            # ----------------------------------------------------
+            # Verifica existência
+            # ----------------------------------------------------
+
+            if not r2.exists(key):
+
+                current_app.logger.warning(
+                    "Certificado não encontrado no R2: %s",
+                    key
+                )
+
+                return (
+                    "Arquivo do certificado não encontrado no Cloudflare R2.",
+                    404
+                )
+
+            # ----------------------------------------------------
+            # Gera URL temporária para download
+            # ----------------------------------------------------
+
+            url = r2.generate_download_url(
+                key,
+                expires=900,
+                response_content_disposition=(
+                    f'attachment; filename="{certificado.nome_arquivo or Path(key).name}"'
+                ),
+            )
+
+            # ----------------------------------------------------
+            # Redireciona diretamente para o R2
+            # ----------------------------------------------------
+
+            return redirect(url)
+
+        except Exception as erro:
+
+            current_app.logger.exception(
+                "SIGEM CAL — Erro no download público do certificado"
+            )
+
+            return (
+                "Não foi possível baixar o certificado.",
+                500
+            )
+    
     # ========================================================
     # INSTRUMENTOS
     # ========================================================
