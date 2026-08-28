@@ -25,19 +25,55 @@
       </div>
     </section>
     <section class="device-card calibration-card">
-      <div class="device-card-header"><div class="device-card-icon green"><i class="bi bi-rulers"></i></div><div><h3>Calibração</h3><span>Controle metrológico do instrumento</span></div></div>
-      <div class="calibration-summary">
-        <div class="calibration-date"><span>Última calibração</span><strong id="fieldUltimaCalibracao">-</strong></div>
-        <div class="calibration-arrow"><i class="bi bi-arrow-right"></i></div>
-        <div class="calibration-date"><span>Próxima calibração</span><strong id="fieldProximaCalibracao">-</strong></div>
-        <div class="calibration-validity"><span>Validade</span><strong id="fieldDiasRestantes">-</strong></div>
-      </div>
+      <div class="device-section-header"><div class="device-card-icon green"><i class="bi bi-rulers"></i></div><div><h2>Calibração</h2><p>Controle metrológico e situação do instrumento</p></div></div>
+
       <div class="calibration-details">
-        <div class="calibration-detail"><span>Condição</span><strong id="fieldCondicao">-</strong></div>
-        <div class="calibration-detail"><span>Status</span><strong id="fieldStatus">-</strong></div>
-        <div class="calibration-detail calibration-situation"><span>Situação da calibração</span><strong id="fieldSituacaoCalibracao">-</strong></div>
+
+          <!-- Última calibração -->
+          <div class="calibration-detail">
+              <span>Última calibração</span>
+              <strong
+                  id="fieldUltimaCalibracao"
+                  class="calibration-date-value"
+              >-</strong>
+          </div>
+
+          <!-- Próxima calibração -->
+          <div class="calibration-detail">
+              <span>Próxima calibração</span>
+              <strong
+                  id="fieldProximaCalibracao"
+                  class="calibration-expiration-value"
+              >-</strong>
+          </div>
+
+          <!-- Situação -->
+          <div class="calibration-detail">
+              <span>Situação da calibração</span>
+              <strong id="fieldSituacaoCalibracao">-</strong>
+          </div>
+
+          <!-- Dias restantes -->
+          <div class="calibration-detail">
+              <span>Prazo para calibração</span>
+              <strong id="fieldDiasRestantes">-</strong>
+          </div>
+
+          <!-- Condição -->
+          <div class="calibration-detail">
+              <span>Condição do instrumento</span>
+              <strong id="fieldCondicao">-</strong>
+          </div>
+
+          <!-- Status -->
+          <div class="calibration-detail">
+              <span>Status</span>
+              <strong id="fieldStatus">-</strong>
+          </div>
+
       </div>
-    </section>
+      </section>
+
     <section class="device-card certificates-card">
       <div class="device-section-header"><div class="device-card-icon blue"><i class="bi bi-file-earmark-pdf"></i></div><div><h2>Certificados</h2><p>Certificados de calibração vinculados a este dispositivo</p></div></div>
       <div id="publicCertificatesLoading" class="public-certificates-empty"><i class="bi bi-arrow-repeat"></i><strong>Carregando certificados...</strong></div>

@@ -590,9 +590,8 @@ body {
     overflow-wrap: anywhere;
 }
 
-
 /* ============================================================
-   CALIBRAÇÃO
+   CALIBRAÇÃO — PADRÃO IDENTIFICAÇÃO
    ============================================================ */
 
 .calibration-card {
@@ -600,140 +599,311 @@ body {
     overflow: hidden;
 }
 
+/* ------------------------------------------------------------
+   RESUMO PRINCIPAL
+   ------------------------------------------------------------ */
+
 .calibration-summary {
     display: grid;
-
-    grid-template-columns:
-        minmax(0, 1fr)
-        42px
-        minmax(0, 1fr)
-        minmax(170px, .8fr);
-
-    align-items: stretch;
-
-    gap: 12px;
-
-    margin-bottom: 20px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px 36px;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
 }
+
+/* Remove o visual antigo da seta */
+.calibration-arrow {
+    display: none;
+}
+
+/* ------------------------------------------------------------
+   CAMPOS DE DATA
+   ------------------------------------------------------------ */
 
 .calibration-date,
 .calibration-validity {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    min-height: 84px;
-
-    padding: 16px 18px;
-
-    border-radius: 11px;
-}
-
-.calibration-date {
-    border: 1px solid var(--device-border);
-
-    background: var(--device-surface-soft);
-}
-
-.calibration-validity {
-    border: 1px solid #bbf7d0;
-
-    background: var(--device-success-soft);
+    display: block;
+    min-height: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
 }
 
 .calibration-date span,
 .calibration-validity span {
     display: block;
-
     margin-bottom: 6px;
 
-    color: var(--device-text-muted);
-
+    color: var(--device-text-light);
     font-size: 9px;
     font-weight: 750;
+    line-height: 1.3;
 
     letter-spacing: .07em;
     text-transform: uppercase;
 }
 
-.calibration-date strong {
-    color: var(--device-text);
+.calibration-date strong,
+.calibration-validity strong {
+    display: block;
 
-    font-size: 17px;
-    font-weight: 750;
+    color: var(--device-text-secondary);
+    font-size: 13px;
+    line-height: 1.55;
+    font-weight: 650;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
+
+/* ------------------------------------------------------------
+   VALIDADE
+   ------------------------------------------------------------ */
 
 .calibration-validity strong {
     color: var(--device-success-dark);
-
-    font-size: 15px;
-    font-weight: 750;
 }
 
-.calibration-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--device-text-light);
-}
-
-.calibration-arrow i {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 30px;
-    height: 30px;
-
-    border: 1px solid var(--device-border);
-    border-radius: 50%;
-
-    background: var(--device-surface-soft);
-
-    font-size: 13px;
-}
+/* ------------------------------------------------------------
+   DIVISOR ENTRE RESUMO E DETALHES
+   ------------------------------------------------------------ */
 
 .calibration-details {
     display: grid;
-
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px 36px;
 
-    gap: 14px;
+    width: 100%;
+    min-width: 0;
 
-    padding-top: 18px;
+    padding-top: 20px;
+    margin-top: 20px;
 
     border-top: 1px solid var(--device-border-light);
 }
 
+/* ------------------------------------------------------------
+   CAMPOS DE CALIBRAÇÃO
+   ------------------------------------------------------------ */
+
 .calibration-detail {
     display: flex;
     flex-direction: column;
-
     gap: 6px;
 
     min-width: 0;
 }
 
 .calibration-detail > span {
-    color: var(--device-text-light);
+    display: block;
 
+    color: var(--device-text-light);
     font-size: 9px;
     font-weight: 750;
+    line-height: 1.3;
 
     letter-spacing: .06em;
     text-transform: uppercase;
 }
 
 .calibration-detail > strong {
-    color: var(--device-text-secondary);
+    display: block;
 
-    font-size: 12px;
-    line-height: 1.45;
+    color: var(--device-text-secondary);
+    font-size: 13px;
+    line-height: 1.55;
     font-weight: 650;
 
     overflow-wrap: anywhere;
     word-break: break-word;
+}
+
+/* ============================================================
+   SITUAÇÃO DA CALIBRAÇÃO
+   ============================================================ */
+
+.calibration-situation > strong {
+    width: fit-content;
+    max-width: 100%;
+}
+
+#fieldSituacaoCalibracao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    max-width: 100%;
+    min-height: 28px;
+
+    padding: 5px 10px;
+
+    border: 1px solid var(--device-border);
+    border-radius: 7px;
+
+    background: var(--device-surface-soft);
+    color: var(--device-text-muted);
+
+    font-size: 10px;
+    font-weight: 750;
+    line-height: 1.25;
+
+    white-space: normal;
+
+    transition:
+        color var(--device-transition),
+        background var(--device-transition),
+        border-color var(--device-transition);
+}
+
+/* ------------------------------------------------------------
+   SITUAÇÃO — VÁLIDA
+   ------------------------------------------------------------ */
+
+.calibration-valid {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+    max-width: 100%;
+
+    padding: 5px 9px;
+
+    border: 1px solid #bbf7d0;
+    border-radius: 7px;
+
+    background: var(--device-success-soft);
+    color: var(--device-success-dark) !important;
+
+    font-size: 10px;
+    font-weight: 750;
+}
+
+/* ------------------------------------------------------------
+   SITUAÇÃO — VENCIDA
+   ------------------------------------------------------------ */
+
+.calibration-overdue {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+    max-width: 100%;
+
+    padding: 5px 9px;
+
+    border: 1px solid #fecaca;
+    border-radius: 7px;
+
+    background: var(--device-danger-soft);
+    color: var(--device-danger) !important;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* ------------------------------------------------------------
+   SITUAÇÃO — HOJE / EM DESENVOLVIMENTO
+   ------------------------------------------------------------ */
+
+.calibration-today,
+.calibration-development {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+    max-width: 100%;
+
+    padding: 5px 9px;
+
+    border: 1px solid #fde68a;
+    border-radius: 7px;
+
+    background: var(--device-warning-soft);
+    color: #a16207 !important;
+
+    font-size: 10px;
+    font-weight: 750;
+}
+
+/* ------------------------------------------------------------
+   SITUAÇÃO — SEM DATA / INATIVA
+   ------------------------------------------------------------ */
+
+.calibration-inactive {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+    max-width: 100%;
+
+    padding: 5px 9px;
+
+    border: 1px solid var(--device-border);
+    border-radius: 7px;
+
+    background: var(--device-surface-soft);
+    color: var(--device-text-muted) !important;
+
+    font-size: 10px;
+    font-weight: 750;
+}
+
+/* ============================================================
+   DIAS PARA CALIBRAÇÃO
+   ============================================================ */
+
+#fieldDiasRestantes {
+    font-weight: 750;
+}
+
+.calibration-days-overdue {
+    color: var(--device-danger) !important;
+    font-weight: 800;
+}
+
+.calibration-days-valid {
+    color: var(--device-success-dark) !important;
+    font-weight: 750;
+}
+
+.calibration-days-today {
+    color: #ca8a04 !important;
+    font-weight: 800;
+}
+
+/* ============================================================
+   CONDIÇÃO DO INSTRUMENTO
+   ============================================================ */
+
+#fieldCondicao {
+    font-weight: 750;
+
+    transition:
+        color var(--device-transition),
+        background var(--device-transition);
+}
+
+.condition-aprovado {
+    color: var(--device-success-dark) !important;
+    font-weight: 750;
+}
+
+.condition-reprovado {
+    color: var(--device-danger) !important;
+    font-weight: 800;
+}
+
+.condition-desenvolvimento {
+    color: #ca8a04 !important;
+    font-weight: 750;
+}
+
+.condition-inativo {
+    color: var(--device-text-muted) !important;
+    font-weight: 750;
 }
 
 
