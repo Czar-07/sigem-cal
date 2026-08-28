@@ -15,7 +15,8 @@ from flask import (
     jsonify,
     request,
     send_file,
-    current_app
+    current_app,
+    redirect
 )
 
 import io
@@ -1472,26 +1473,38 @@ def baixar_certificado(certificate_id):
                 "message": "Chave R2 inválida."
             }), 500
 
-        if not r2.exists(key):
-            return jsonify({
-                "success": False,
-                "message": "Arquivo não encontrado no Cloudflare R2."
-            }), 404
+        filename = (
+            certificado.nome_arquivo
+            or Path(key).name
+        )
+
+        extension = Path(key).suffix.lower()
+
+        content_type = {
+            ".pdf": "application/pdf",
+            ".xlsx": (
+                "application/vnd.openxmlformats-officedocument."
+                "spreadsheetml.sheet"
+            ),
+            ".xls": "application/vnd.ms-excel",
+            ".xlsm": (
+                "application/vnd.ms-excel.sheet.macroEnabled.12"
+            ),
+        }.get(
+            extension,
+            "application/octet-stream"
+        )
 
         url = r2.generate_download_url(
             key,
-            expires=900
+            expires=900,
+            response_content_disposition=(
+                f'attachment; filename="{filename}"'
+            ),
+            response_content_type=content_type,
         )
 
-        return jsonify({
-            "success": True,
-            "url": url,
-            "expires": 900,
-            "filename": (
-                certificado.nome_arquivo
-                or Path(key).name
-            )
-        })
+        return redirect(url, code=302)
 
     except Exception as erro:
 

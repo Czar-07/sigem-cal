@@ -525,7 +525,6 @@ def create_app():
         from app.models.device import Device
         from app.models.certificate import Certificate
         from app.utils.r2_storage import get_r2
-        from flask import redirect
         from pathlib import Path
 
         try:
@@ -650,17 +649,38 @@ def create_app():
             # VERIFICAÇÃO
             # ========================================================
 
-            if not r2.exists(key):
+            filename = (
+                certificado.nome_arquivo
+                or Path(key).name
+            )
 
-                current_app.logger.warning(
-                    "Certificado não encontrado no R2: %s",
-                    key
-                )
+            extension = Path(key).suffix.lower()
 
-                return (
-                    "Arquivo do certificado não encontrado no Cloudflare R2.",
-                    404
-                )
+            content_type = {
+                ".pdf": "application/pdf",
+                ".xlsx": (
+                    "application/vnd.openxmlformats-officedocument."
+                    "spreadsheetml.sheet"
+                ),
+                ".xls": "application/vnd.ms-excel",
+                ".xlsm": (
+                    "application/vnd.ms-excel.sheet.macroEnabled.12"
+                ),
+            }.get(
+                extension,
+                "application/octet-stream"
+            )
+
+            url = r2.generate_download_url(
+                key,
+                expires=900,
+                response_content_disposition=(
+                    f'attachment; filename="{filename}"'
+                ),
+                response_content_type=content_type,
+            )
+
+            return redirect(url, code=302)
 
             # ========================================================
             # NOME E CONTENT TYPE
