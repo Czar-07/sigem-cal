@@ -1,5 +1,13 @@
 import os
-from flask import Flask, render_template, send_file, jsonify, request, send_from_directory
+from flask import (
+    Flask,
+    current_app,
+    render_template,
+    send_file,
+    jsonify,
+    request,
+    send_from_directory,
+)
 
 from config import Config
 
